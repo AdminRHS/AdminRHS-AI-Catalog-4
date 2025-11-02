@@ -1,11 +1,18 @@
 // ==================== SVG ICONS ====================
+
 const icons = {
   moon: '<img src="icons/moon.svg" alt="Moon Icon" width="24" height="24" />',
   sun: '<img src="icons/sun.svg" alt="Sun Icon" width="24" height="24" />',
-  x: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>',
-  filter: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>',
-  download: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>'
+  filter: '<img src="icons/filter.svg" alt="Filter Icon" width="24" height="24" />',
+  search: '<img src="icons/search.svg" alt="Search Icon" width="24" height="24" />',
+  edit: '<img src="icons/edit.svg" alt="Edit Icon" width="24" height="24" />',
+  
+  // 👇 ВСТАВЬТЕ ЭТУ СТРОКУ
+  x: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>',
+  
+  // остальные иконки оставь как есть
 };
+
 
     // ==================== DEPARTMENT ICONS ====================
     const departmentIcons = {
@@ -549,7 +556,7 @@ const departmentLogos = {
       }
     ];
 
-    // ==================== STATE MANAGEMENT ====================
+// ==================== STATE MANAGEMENT ====================
     let state = {
       theme: 'light',
       activeTab: 'catalog',
@@ -564,7 +571,8 @@ const departmentLogos = {
       isPanelOpen: false,
       openDropdown: null,
       selectedTool: null,
-      isModalOpen: false
+      isModalOpen: false,
+      isSearchOpen: false // 👈 ДОБАВЬТЕ ЭТУ СТРОКУ
     };
 
     // ==================== HELPER FUNCTIONS ====================
@@ -594,7 +602,7 @@ const departmentLogos = {
       }
       
       localStorage.setItem('theme', state.theme);
-      render();
+      render(); // <-- Эта строка всё исправляет
     }
 
     function getAvailableFilters() {
@@ -759,7 +767,6 @@ function renderNavigation() {
     <nav class="navigation">
       <div class="nav-content">
 
-        <!-- Левая часть: иконки -->
         <div class="nav-left">
           <button 
             class="nav-tab ${state.activeTab === 'catalog' ? 'active' : ''}"
@@ -791,28 +798,30 @@ function renderNavigation() {
           </button>
         </div>
 
- <!-- Правая часть: поиск + фильтр -->
-<div class="nav-right">
-  <div class="nav-search">
-    <span class="search-icon">🔍</span>
-    <input 
-      type="text" 
-      class="nav-search-input"
-      placeholder="Search by name..."
-      value="${escapeHtml(state.searchQuery)}"
-      oninput="state.searchQuery = this.value.toLowerCase(); render();"
-    />
-  </div>
+        <div class="nav-right">
+          <button 
+            class="nav-tab ${state.isSearchOpen ? 'active' : ''}"
+            onclick="state.isSearchOpen = !state.isSearchOpen; render();"
+            title="Search"
+          >
+            <span class="nav-icon">${icons.search}</span>
+          </button>
 
-  <!-- 👇 Фильтр рядом с поиском, отдельной кнопкой -->
-  <button 
-    class="filter-toggle-btn nav-tab"
-    onclick="state.isPanelOpen = !state.isPanelOpen; render();"
-    title="Toggle Filters"
-  >
-    <span class="nav-icon">${icons.filter}</span>
-  </button>
-</div>
+          <button 
+            class="nav-tab ${state.isPanelOpen ? 'active' : ''}"
+            onclick="state.isPanelOpen = !state.isPanelOpen; render();"
+            title="Toggle Filters"
+          >
+            <span class="nav-icon">${icons.filter}</span>
+          </button>
+
+          <button 
+            class="nav-tab"
+            title="Edit"
+          >
+            <span class="nav-icon">${icons.edit}</span>
+          </button>
+        </div>
 
       </div>
     </nav>
@@ -854,7 +863,24 @@ function renderSearchAndFilter() {
   };
 
   return `
-      <!-- 🔹 Панель с фильтрами (открывается при клике на иконку сверху) -->
+    <div class="search-filter">
+      
+      ${state.isSearchOpen ? `
+      <div class="search-controls">
+        <div class="search-wrapper">
+          <span class="search-icon">${icons.search}</span>
+          <input 
+            type="text" 
+            class="search-input" 
+            placeholder="Search by name, description, features..."
+            value="${escapeHtml(state.searchQuery)}"
+            oninput="state.searchQuery = this.value; render();"
+            autofocus
+          >
+        </div>
+      </div>
+      ` : ''}
+
       <div class="filter-panel ${state.isPanelOpen ? 'open' : ''}">
         <div class="filter-panel-header">
           <h3 class="filter-panel-title">Filter Options</h3>
@@ -911,7 +937,6 @@ function renderSearchAndFilter() {
         </div>
       </div>
 
-      <!-- 🔹 Активные фильтры -->
       <div class="active-filters ${totalSelected === 0 ? 'hidden' : ''}">
         <div class="active-filters-header">
           <h4 class="active-filters-title">Active Filters</h4>
@@ -934,7 +959,6 @@ function renderSearchAndFilter() {
     </div>
   `;
 }
-
 // ==================== FIX: ORDER OF TAGS FOR NOTION ====================
 tools.forEach(tool => {
   if (tool.name === "Notion") {
@@ -1484,12 +1508,3 @@ if (tool.name === "Notion") {
     initTheme();
     render();
 
-function toggleTheme() {
-  document.body.classList.toggle("dark");
-  const themeIcon = document.getElementById("themeIcon");
-  if (document.body.classList.contains("dark")) {
-    themeIcon.src = "icons/sun.svg"; // ☀️ темная тема
-  } else {
-    themeIcon.src = "icons/moon.svg"; // 🌙 светлая тема
-  }
-}
