@@ -18,6 +18,9 @@
   --accent-blue: #428eb4;
   --accent-blue-hover: #28749b;
   --accent-blue-light: #83CBFF;
+  --badge-freemium-icon: #F59E0B; /* Ярко-желтый */
+  --badge-paid-icon: #DC2626;     /* Темно-красный */
+  --badge-free-icon: #16A34A;     /* Ярко-зеленый */
 }
 
 
@@ -30,6 +33,9 @@
   --card-foreground: #e0e0e0;
   --border: rgba(248, 62, 62, 0.1);
   --muted-foreground: #b0b0b0; /* ← вот эту строку меняем */
+  --badge-freemium-icon: #FCD34D; /* Светло-желтый */
+  --badge-paid-icon: #F87171;     /* Светло-красный */
+  --badge-free-icon: #86EFAC;     /* Светло-зеленыый */
 }
 .dark .filter-button {
   color: var(--muted-foreground);
@@ -79,7 +85,7 @@
     /* ==================== HEADER ==================== */
     .header {
   width: 100%;
-  height: 180px;
+  height: 90px;
   position: relative;
   overflow: hidden;
   display: flex;
@@ -166,11 +172,10 @@
 
 
     .header-logo {
-  position: absolute;
   right: 48px;
-  top: 26px;
-  width: 92px;   /* было 109px */
-  height: 112px; /* было 134px */
+  top: 10px;      /* 👈 (80px - 60px) / 2 = 10px */
+  width: 41px;      /* 👈 НОВАЯ ШИРИНА */
+  height: 50px;
   transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
@@ -186,9 +191,6 @@
 
 
     /* ==================== SEARCH & FILTER ==================== */
-    .search-filter {
-      margin-bottom: 1.5rem;
-    }
 
     .search-controls {
       display: flex;
@@ -694,59 +696,6 @@
 }
 
 
-    .subscription-badge {
-      position: absolute;
-      top: 17px;
-      right: 17px;
-      z-index: 10;
-      padding: 7px 13px;
-      border-radius: 15px;
-      font-size: 13.6px;
-      font-weight: 500;
-      border: 1px solid;
-      height: 30px;
-      display: inline-flex;
-      align-items: center;
-      letter-spacing: -0.1195px;
-      line-height: 20.4px;
-    }
-
-    .subscription-free {
-      background: #d4edda;
-      color: #155724;
-      border-color: #c3e6cb;
-    }
-
-    .dark .subscription-free {
-      background: rgba(74, 222, 128, 0.1);
-      color: #4ade80;
-      border-color: #22543d;
-    }
-
-    .subscription-freemium {
-      background: #fff3cd;
-      color: #856404;
-      border-color: #ffeaa7;
-    }
-
-    .dark .subscription-freemium {
-      background: rgba(251, 191, 36, 0.1);
-      color: #fbbf24;
-      border-color: rgba(146, 64, 14, 0.5);
-    }
-
-    .subscription-paid {
-      background: #f8d7da;
-      color: #721c24;
-      border-color: #f5c6cb;
-    }
-
-    .dark .subscription-paid {
-      background: rgba(248, 113, 113, 0.1);
-      color: #f87171;
-      border-color: rgba(127, 29, 29, 0.5);
-    }
-
     .tool-header {
       display: flex;
       align-items: center;
@@ -974,7 +923,7 @@
     }
 
     .modal-title {
-      font-size: 36px;
+      font-size: 32px;
       line-height: 40px;
       font-weight: 500;
       color: var(--foreground);
@@ -1308,14 +1257,14 @@
       }
 
       .header-logo {
-        position: static;
-        margin-top: 1rem;
-        width: 80px;
-        height: 100px;
+  right: 48px;
+  top: 10px;      /* 👈 (80px - 60px) / 2 = 10px */
+  width: 41px;      /* 👈 НОВАЯ ШИРИНА */
+  height: 50px;
       }
 
       .header-title h1 {
-        font-size: 36px;
+        font-size: 32px;
         line-height: 40px;
       }
 
@@ -1893,7 +1842,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
   gap: 1.5rem;
-  align-items: start; /* карточки выравниваются по верху */
+  align-items: stretch; /* 👈 ЗАМЕНИТЕ НА ЭТО */
 }
 
 /* Все карточки одинаковой высоты, но без растянутых блоков */
@@ -1910,8 +1859,6 @@
   text-align: left;
   transition: all 0.3s ease;
   height: 100%; /* одинаковая визуальная высота */
-  min-height: 400px; /* выставляем как у dev */
-  max-height: 400px; /* чтобы не растягивались */
   box-sizing: border-box;
   overflow: hidden;
 }
@@ -1980,19 +1927,7 @@
   transform: translateY(-1px);
 }
 
-/* Адаптивность */
-@media (max-width: 1100px) {
-  .account-card {
-    min-height: 380px;
-    max-height: 380px;
-  }
-}
-@media (max-width: 800px) {
-  .account-card {
-    min-height: auto;
-    max-height: none;
-  }
-}
+
 /* ==================== ACCOUNT MANAGEMENT ICONS ==================== */
 .account-tools {
   display: flex;
@@ -2504,7 +2439,7 @@
     /* ==================== HEADER ==================== */
     .header {
   width: 100%;
-  height: 180px;
+  height: 90px;
   position: relative;
   overflow: hidden;
   display: flex;
@@ -2576,12 +2511,11 @@
 
 
 
-    .header-logo {
-  position: absolute;
+.header-logo {
   right: 48px;
-  top: 26px;
-  width: 92px;   /* было 109px */
-  height: 112px; /* было 134px */
+  top: 10px;      /* 👈 (80px - 60px) / 2 = 10px */
+  width: 41px;      /* 👈 НОВАЯ ШИРИНА */
+  height: 50px;
   transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
@@ -2596,9 +2530,6 @@
 
 
     /* ==================== SEARCH & FILTER ==================== */
-    .search-filter {
-      margin-bottom: 1.5rem;
-    }
 
     .search-controls {
       display: flex;
@@ -3036,9 +2967,7 @@
     /* Добавляем отступ для сетки "Account Management" (которая является прямым потомком .container),
       чтобы она совпала по высоте с сеткой "AI Catalog" (которая идет после .search-filter)
     */
-    .container > .tool-grid {
-      margin-top: 1.5rem; /* 24px */
-    }
+
 
     @media (max-width: 768px) {
       .tool-grid {
@@ -3107,28 +3036,6 @@
 
 
 
-    .subscription-badge {
-      position: absolute;
-      top: 17px;
-      right: 17px;
-      z-index: 10;
-      padding: 7px 13px;
-      border-radius: 15px;
-      font-size: 13.6px;
-      font-weight: 500;
-      border: 1px solid;
-      height: 30px;
-      display: inline-flex;
-      align-items: center;
-      letter-spacing: -0.1195px;
-      line-height: 20.4px;
-    }
-
-    .subscription-free {
-      background: #d4edda;
-      color: #155724;
-      border-color: #c3e6cb;
-    }
 
     .dark .subscription-free {
       background: rgba(74, 222, 128, 0.1);
@@ -3404,7 +3311,7 @@
     }
 
     .modal-title {
-      font-size: 36px;
+      font-size: 32px;
       line-height: 40px;
       font-weight: 500;
       color: var(--foreground);
@@ -3740,15 +3647,15 @@
         align-items: flex-start;
       }
 
-      .header-logo {
-        position: static;
-        margin-top: 1rem;
-        width: 80px;
-        height: 100px;
+      ..header-logo {
+  right: 48px;
+  top: 10px;      /* 👈 (80px - 60px) / 2 = 10px */
+  width: 41px;      /* 👈 НОВАЯ ШИРИНА */
+  height: 50px;
       }
 
       .header-title h1 {
-        font-size: 36px;
+        font-size: 32px;
         line-height: 40px;
       }
 
@@ -4356,8 +4263,6 @@
   text-align: left;
   transition: all 0.3s ease;
   height: 100%; /* одинаковая визуальная высота */
-  min-height: 400px; /* выставляем как у dev */
-  max-height: 400px; /* чтобы не растягивались */
   box-sizing: border-box;
   overflow: hidden;
 }
@@ -4946,9 +4851,8 @@
     #a7c9ff,
     #c5b5ff,
     #b5dcff,
-    #e0b8ff,
+    #7486BA
     #b7f0ff,
-    #a7c9ff
   );
   background-size: 400% 400%;
   animation: moveGradient 18s ease-in-out infinite;
@@ -5055,7 +4959,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 6px 24px;
-  background: var(--rhs-bg-page, #fff);
+ background: var(--card);
   border-radius: 0 0 12px 12px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
   position: sticky;
@@ -5076,17 +4980,6 @@
   gap: 8px; /* 👈 чуть плотнее иконки между собой */
 }
 
-
-
-
-
-/* Размер иконок */
-.nav-icon {
-  width: 30px;
-  height: 30px;
-  opacity: 0.85;
-  transition: opacity 0.25s ease, transform 0.25s ease;
-}
 
 /* ==================== ДОБАВЛЕННЫЙ ПОИСК И ФИЛЬТР ==================== */
 .nav-actions {
@@ -5136,10 +5029,6 @@
 .filter-panel {
   margin-bottom: 48px !important; /* 🧩 отступ под самим фильтром */
 }
-
-.search-filter {
-  padding-bottom: 24px; /* 💡 дополнительный воздух, если margin не сработает */
-}
 /* === СТИЛЬ ДЛЯ ИКОНКИ ФИЛЬТРА === */
 .filter-toggle-btn svg {
   width: 26px;          /* 📏 тот же размер, что у луны */
@@ -5158,7 +5047,7 @@
   width: 100%;
   display: flex;
   justify-content: center;
-  background: var(--rhs-bg-card, #fff);
+ background: var(--card);
   border-bottom: 1px solid var(--rhs-border, #ddd);
   box-shadow: 0 1px 3px rgba(0,0,0,0.05);
   padding: 10px 20px;
@@ -5331,6 +5220,9 @@
   filter: brightness(0) saturate(100%) invert(43%) sepia(17%) saturate(532%) hue-rotate(167deg) brightness(93%) contrast(87%);
   /* 💡 тот же оттенок, что у луны и фильтра */
 }
+
+
+
 /* ==================== ЕДИНЫЙ СТИЛЬ НАВИГАЦИИ ==================== */
 
 /* 1. Базовый стиль для ВСЕХ кнопок (левых и правых) */
@@ -5343,63 +5235,282 @@
   width: 46px;   /* Одинаковая ширина */
   height: 46px;  /* Одинаковая высота */
   border-radius: 10px;
-  /* Цвет иконки по умолчанию (серый) */
-  color: var(--muted-foreground); 
+  color: var(--muted-foreground); /* Цвет по умолчанию (серый) */
   transition: all 0.2s ease;
 }
 
 /* 2. ЕДИНЫЙ ЭФФЕКТ для :hover (наведение) и .active (нажатие) */
 .nav-tab:hover,
 .nav-tab.active {
-  /* Легкий голубой фон */
   background-color: rgba(0, 150, 225, 0.08); 
-  /* Легкое увеличение */
   transform: scale(1.05); 
-  /* Ярко-голубой цвет иконки */
-  color: #0096E1; 
+  color: #0096E1; /* Все иконки станут синими */
 }
 
-/* 3. Иконки ВНУТРИ кнопок (для <img ...> и <svg ...>) */
-.nav-tab img,
-.nav-tab .nav-icon svg {
+/* 3. ОБЩИЙ КОНТЕЙНЕР ИКОНКИ (<span>) */
+.nav-icon {
   width: 26px;  /* Единый размер иконки */
   height: 26px;
-  opacity: 0.85;
   transition: all 0.2s ease;
+  flex-shrink: 0; 
+  display: flex; 
+  align-items: center;
+  justify-content: center;
+  opacity: 0.85;
 }
 
-/* 4. Иконки (SVG) наследуют цвет от кнопки */
-.nav-tab .nav-icon svg {
-    stroke: currentColor; 
+/* 4. Стили для SVG (внутри .nav-icon) */
+.nav-icon svg {
+  width: 100%;
+  height: 100%;
+  stroke: currentColor; /* Наследует цвет от .nav-tab */
 }
 
-/* 5. Иконки ВНУТРИ кнопок при наведении/активности */
-.nav-tab:hover img,
-.nav-tab:hover .nav-icon svg,
-.nav-tab.active img,
-.nav-tab.active .nav-icon svg {
+/* 5. Эффекты при наведении/активности */
+.nav-tab:hover .nav-icon,
+.nav-tab.active .nav-icon {
   opacity: 1;
-  transform: scale(1.1); /* Иконка тоже увеличивается */
+  transform: scale(1.1);
 }
 
 /* 6. Исправляем цвета для ТЕМНОЙ ТЕМЫ */
 .dark .nav-tab {
-   color: var(--muted-foreground); /* Светло-серый в темной теме */
+   color: var(--muted-foreground); 
 }
-
 .dark .nav-tab:hover,
 .dark .nav-tab.active {
-   /* Светло-голубой в темной теме */
    color: #83CBFF; 
-   /* Фон в темной теме */
    background-color: rgba(131, 203, 255, 0.1); 
 }
-/* ==================== НАВИГАЦИЯ (ТЕМНАЯ ТЕМА) ==================== */
-.dark .navigation {
-  background: var(--card); /* 👈 Берет цвет темной "карточки" (#2d2d2d) */
-  border-bottom: 1px solid var(--border); /* 👈 Берет цвет темной рамки */
+/* =================================================================== */
+
+/* ==================== EDIT MENU (VERTICAL) ==================== */
+
+/* 1. Делаем .nav-right контейнером для позиционирования */
+.nav-right {
+  position: relative;
 }
-/* ================================================================ */
+
+/* 2. Стилизуем само выпадающее меню */
+.edit-menu {
+  position: absolute;
+  top: calc(100% + 8px); /* 8px под панелью навигации */
+  right: 0; /* Выравнивание по правому краю */
+  background: var(--card);
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--border);
+  padding: 6px;
+  display: flex;
+  flex-direction: column; /* 👈 ВЕРТИКАЛЬНО */
+  gap: 4px; 
+  z-index: 1000;
+  
+  /* Анимация появления */
+  opacity: 0;
+  transform: translateY(-10px) scale(0.95); /* Анимация "выпадания" сверху */
+  animation: menuFadeIn 0.2s ease-out forwards;
+}
+
+/* 3. Ключевые кадры для анимации */
+@keyframes menuFadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* 4. Стилизуем кнопки внутри меню */
+.edit-menu-btn {
+  all: unset;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center; 
+  width: 38px; 
+  height: 38px;
+  border-radius: 8px;
+  color: var(--muted-foreground);
+  transition: all 0.2s ease;
+}
+
+.edit-menu-btn:hover {
+  background-color: rgba(0, 150, 225, 0.08);
+  color: #0096E1;
+}
+
+/* 5. Иконки внутри кнопок */
+.edit-menu-btn .nav-icon {
+  width: 22px;
+  height: 22px;
+  opacity: 0.8;
+  transition: all 0.2s ease;
+}
+
+.edit-menu-btn:hover .nav-icon {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+/* 6. Адаптация иконок для темной темы (если они черные) */
+.dark .edit-menu-btn img {
+  /* filter: invert(1) brightness(1.5); */
+}
+/* ======================================================== */
+
+
+/* ==================== JIGGLE EDIT MODE ==================== */
+
+/* 0. Карточки должны быть 'position: relative', чтобы крестик был над ними */
+.tool-card, .account-card {
+  position: relative;
+}
+
+/* 1. Анимация дрожания */
+@keyframes jiggle {
+  0% { transform: rotate(-0.5deg); }
+  50% { transform: rotate(0.5deg); }
+  100% { transform: rotate(-0.5deg); }
+}
+
+/* 2. Применяем анимацию к карточкам в режиме редактирования */
+.tool-grid.edit-mode .tool-card,
+.tool-grid.edit-mode .account-card {
+  animation: jiggle 0.3s ease-in-out infinite !important;
+}
+
+/* 3. Отключаем hover-эффект "подъема" в режиме редактирования */
+.tool-grid.edit-mode .tool-card:hover,
+.tool-grid.edit-mode .account-card:hover {
+  transform: none !important;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* 4. Стилизуем кнопку "X" (крестик) */
+.card-delete-btn {
+  all: unset;
+  position: absolute; /* 👈 ЭТО ГЛАВНОЕ: не меняет размер карточки */
+  top: -8px;
+  left: -8px; /* 👈 Можете поменять на right: -8px; */
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--destructive);
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+  line-height: 28px;
+  text-align: center;
+  cursor: pointer;
+  z-index: 100;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  transform: scale(0);
+  animation: growIn 0.2s ease-out forwards;
+}
+
+/* 5. Анимация появления крестика */
+@keyframes growIn {
+  to {
+    transform: scale(1);
+  }
+}
+
+.card-delete-btn:hover {
+  transform: scale(1.1) !important;
+  background: #a1132e;
+}
+/* 4. Стилизуем кнопку "X" (крестик) */
+.card-delete-btn {
+  all: unset;
+  position: absolute; /* 👈 Убедитесь, что эта строка есть */
+  top: -8px;
+  left: -8px; /* 👈 Можете поменять на right: -8px; */
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--destructive);
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+  line-height: 28px;
+  text-align: center;
+  cursor: pointer;
+  z-index: 100;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  transform: scale(0);
+  animation: growIn 0.2s ease-out forwards;
+}
+
+/* ==================== SUBSCRIPTION BADGE ICONS (FIX 4.0 - Variables) ==================== */
+
+/* 1. Стилизуем бейдж-контейнер */
+.subscription-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 28px;
+  width: 28px;
+  transition: all 0.2s ease;
+  
+  /* Фон бейджа теперь нейтральный */
+  background: var(--background); 
+  border: 1px solid var(--border);
+}
+
+/* 2. Стилизуем саму иконку (SVG) */
+.subscription-badge .subscription-icon {
+  width: 17px;  /* Оптимальный размер для иконки 24x24 */
+  height: 17px;
+  opacity: 0.9;
+  transition: all 0.2s ease;
+  /* `currentColor` будет унаследован от родителя (.subscription-badge) */
+}
+
+/* 3. Цвета иконок (берем из переменных) */
+.subscription-freemium {
+  color: var(--badge-freemium-icon);
+}
+.subscription-paid {
+  color: var(--badge-paid-icon);
+}
+.subscription-free {
+  color: var(--badge-free-icon);
+}
+
+/* 4. Фон для темной темы */
+.dark .subscription-badge {
+   background: var(--card); /* Фон бейджа в темной теме */
+   border-color: rgba(255,255,255,0.1);
+}
+/* =================================================================== */
+
+/* ==================== СТИЛИ ДЛЯ ИКОНОК ВЫПАДАЮЩЕГО МЕНЮ ==================== */
+
+/* 5. Иконки внутри кнопок */
+.edit-menu-btn .nav-icon {
+  width: 22px;
+  height: 22px;
+  opacity: 0.8;
+  transition: all 0.2s ease;
+}
+
+.edit-menu-btn:hover .nav-icon {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+/* 6. Адаптация иконок для темной темы */
+.dark .edit-menu-btn .nav-icon {
+   /* Ничего не нужно, цвет наследуется */
+}
+.dark .edit-menu-btn:hover .nav-icon {
+    /* Ничего не нужно, цвет наследуется */
+}
+/* =================================================================== */
   </style>
 </head>
 <body>

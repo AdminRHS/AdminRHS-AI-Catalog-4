@@ -1,19 +1,27 @@
-// ==================== SVG ICONS ====================
+// ==================== ICONS ====================
+  const icons = {
+    // Правые иконки (уже были SVG)
+    search: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>`,
+    filter: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-filter"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>`,
+    edit: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pencil"><path d="M17 3a2.85 2.85 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg>`,
+    x: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>`,
+    
+    // Иконки подписки
+    lightning: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="subscription-icon"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`,
+    
+    // 👇 ВОТ НОВЫЙ БРИЛЛИАНТ 👇
+    diamond: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="subscription-icon"><path d="M6 3h12l4 6-10 12L2 9l4-6Z"/><path d="M2 9h20"/><path d="m12 3-4 6 4 12 4-12-4-6Z"/></svg>`,
+    
+    lock: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="subscription-icon"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>`,
 
-const icons = {
-  moon: '<img src="icons/moon.svg" alt="Moon Icon" width="24" height="24" />',
-  sun: '<img src="icons/sun.svg" alt="Sun Icon" width="24" height="24" />',
-  filter: '<img src="icons/filter.svg" alt="Filter Icon" width="24" height="24" />',
-  search: '<img src="icons/search.svg" alt="Search Icon" width="24" height="24" />',
-  edit: '<img src="icons/edit.svg" alt="Edit Icon" width="24" height="24" />',
-  
-  // 👇 ВСТАВЬТЕ ЭТУ СТРОКУ
-  x: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>',
-  
-  // остальные иконки оставь как есть
-};
-
-
+    // Иконки навигации (уже SVG, все в порядке)
+    ai: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3L8 8l-5 2 5 2 2 5 2-5 5-2-5-2-2-5Z"/><path d="m18 13 2 3 3 1-3 1-2 3-2-3-3-1 3-1 2-3Z"/></svg>`,
+    account: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`,
+    moon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>`,
+    sun: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>`,
+    create: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>`,
+    upload: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>`
+  };
     // ==================== DEPARTMENT ICONS ====================
     const departmentIcons = {
       'Developers': '🦗',
@@ -550,10 +558,6 @@ const departmentLogos = {
         email: "sales@rh-s.com",
         toolNames: ["Gamma"]
       },
-      {
-        email: "it-support@rh-s.com",
-        toolNames: ["Dropbox Dash"]
-      }
     ];
 
 // ==================== STATE MANAGEMENT ====================
@@ -572,7 +576,9 @@ const departmentLogos = {
       openDropdown: null,
       selectedTool: null,
       isModalOpen: false,
-      isSearchOpen: false // 👈 ДОБАВЬТЕ ЭТУ СТРОКУ
+      isSearchOpen: false,
+      isEditMode: false,      // 👈 Для "режима дрожания"
+      isEditMenuOpen: false // 👈 Для выпадающего меню
     };
 
     // ==================== HELPER FUNCTIONS ====================
@@ -726,16 +732,32 @@ const departmentLogos = {
       }
     }
 
-    // Close dropdown when clicking outside
-    document.addEventListener('click', (e) => {
-      if (!e.target.closest('.filter-dropdown')) {
-        if (state.openDropdown) {
-          state.openDropdown = null;
-          render();
-        }
-      }
-    });
+   // Close dropdowns/menus when clicking outside
+document.addEventListener('click', (e) => {
+  
+  // Логика для фильтров
+  if (!e.target.closest('.filter-dropdown')) {
+    if (state.openDropdown) {
+      state.openDropdown = null;
+      render();
+    }
+  }
 
+  // Логика для выпадающего Edit-меню
+  if (!e.target.closest('.edit-toggle-btn') && !e.target.closest('.edit-menu')) {
+    if (state.isEditMenuOpen) {
+      state.isEditMenuOpen = false;
+      render();
+    }
+  }
+  
+  // Логика для режима редактирования (jiggle mode)
+  // Выключаем, если клик был НЕ по кнопке "Edit" И НЕ по кнопке "X" на карточке
+  if (state.isEditMode && !e.target.closest('.edit-toggle-btn') && !e.target.closest('.card-delete-btn')) {
+    state.isEditMode = false;
+    render();
+  }
+});
     // Close modal on escape
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && state.isModalOpen) {
@@ -761,7 +783,33 @@ const departmentLogos = {
     }
 
 function renderNavigation() {
-  const themeIcon = state.theme === 'dark' ? 'icons/sun.svg' : 'icons/moon.svg';
+  const themeIcon = state.theme === 'dark' ? icons.sun : icons.moon; // Используем SVG из объекта icons
+  
+  // Определяем, что должна делать главная кнопка "Edit"
+  let mainEditAction = '';
+  let mainEditTitle = '';
+  let mainEditIcon = icons.edit;
+  let mainEditClass = '';
+
+  if (state.isEditMode) {
+    // 1. Если мы в "режиме дрожания" (jiggle mode)
+    mainEditAction = "state.isEditMode = false; render();"; // Кнопка "X" выключает режим
+    mainEditTitle = "Done";
+    mainEditIcon = icons.x;
+    mainEditClass = 'active'; // Кнопка "X" будет "активной"
+  } else if (state.isEditMenuOpen) {
+    // 2. Если открыто выпадающее меню
+    mainEditAction = "event.stopPropagation(); state.isEditMenuOpen = false; render();"; // Кнопка "X" закрывает меню
+    mainEditTitle = "Close";
+    mainEditIcon = icons.x;
+    mainEditClass = 'active';
+  } else {
+    // 3. Если всё закрыто
+    mainEditAction = "event.stopPropagation(); state.isEditMenuOpen = true; render();"; // Кнопка "Edit" открывает меню
+    mainEditTitle = "Edit";
+    mainEditIcon = icons.edit;
+    mainEditClass = '';
+  }
 
   return `
     <nav class="navigation">
@@ -773,28 +821,21 @@ function renderNavigation() {
             onclick="state.activeTab = 'catalog'; render();"
             title="AI Catalog"
           >
-            <img src="icons/ai.svg" alt="AI Catalog" class="nav-icon" />
+            <span class="nav-icon">${icons.ai}</span>
           </button>
-
           <button 
             class="nav-tab ${state.activeTab === 'accounts' ? 'active' : ''}"
             onclick="state.activeTab = 'accounts'; render();"
             title="Account Management"
           >
-            <img src="icons/acc.svg" alt="Account Management" class="nav-icon" />
+            <span class="nav-icon">${icons.account}</span>
           </button>
-
           <button 
             class="nav-tab"
             onclick="toggleTheme()"
             title="Toggle theme"
           >
-            <img 
-              src="${themeIcon}" 
-              alt="Toggle Theme"
-              id="themeIcon"
-              class="nav-icon"
-            />
+            <span class="nav-icon" id="themeIcon">${themeIcon}</span>
           </button>
         </div>
 
@@ -806,7 +847,6 @@ function renderNavigation() {
           >
             <span class="nav-icon">${icons.search}</span>
           </button>
-
           <button 
             class="nav-tab ${state.isPanelOpen ? 'active' : ''}"
             onclick="state.isPanelOpen = !state.isPanelOpen; render();"
@@ -816,18 +856,36 @@ function renderNavigation() {
           </button>
 
           <button 
-            class="nav-tab"
-            title="Edit"
+            class="nav-tab edit-toggle-btn ${mainEditClass}"
+            title="${mainEditTitle}"
+            onclick="${mainEditAction}"
           >
-            <span class="nav-icon">${icons.edit}</span>
+            <span class="nav-icon">
+              ${mainEditIcon}
+            </span>
           </button>
-        </div>
 
+          ${state.isEditMenuOpen ? `
+          <div class="edit-menu" onclick="event.stopPropagation();">
+            
+            <button class="edit-menu-btn" title="Edit Item" 
+              onclick="state.isEditMode = true; state.isEditMenuOpen = false; render();">
+              <span class="nav-icon">${icons.edit}</span>
+            </button>
+            
+            <button class="edit-menu-btn" title="Create New">
+              <span class="nav-icon">${icons.create}</span>
+            </button>
+            <button class="edit-menu-btn" title="Upload">
+              <span class="nav-icon">${icons.upload}</span>
+            </button>
+          </div>
+          ` : ''}
+          </div>
       </div>
     </nav>
   `;
 }
-
 
 
 
@@ -979,8 +1037,8 @@ tools.forEach(tool => {
   }
 });
 
-   function renderToolCard(tool, index) {
-  const subscriptionClass = `subscription-${tool.subscription[0].toLowerCase()}`;
+function renderToolCard(tool, index) {
+  // const subscriptionClass = `subscription-${tool.subscription[0].toLowerCase()}`; // ЭТА СТРОКА УДАЛЕНА
   const logoUrl =
   state.theme === 'dark'
     ? (toolLogos[tool.name]?.dark || toolLogos[tool.name]?.light)
@@ -1063,12 +1121,31 @@ const moreBtnHTML = hiddenCount > 0
   ? `<button class="more-disabled-btn" onclick="toggleTags(this.closest('.tool-card'))">+${hiddenCount} more</button>`
   : '';
 
+  // ==================== NEW: SUBSCRIPTION BADGE WITH ICONS ====================
+  // Эта функция теперь просто выбирает класс, который задаст ЦВЕТ иконке
+  let subscriptionBadgeHTML = '';
+  switch (tool.subscription[0].toLowerCase()) {
+    case 'freemium':
+      subscriptionBadgeHTML = `<div class="subscription-badge subscription-freemium" title="Freemium">${icons.lightning}</div>`;
+      break;
+    case 'paid':
+      subscriptionBadgeHTML = `<div class="subscription-badge subscription-paid" title="Paid">${icons.diamond}</div>`;
+      break;
+    case 'free':
+      subscriptionBadgeHTML = `<div class="subscription-badge subscription-free" title="Free">${icons.lock}</div>`;
+      break;
+    default:
+      // Запасной вариант, если подписка не 'freemium', 'paid' или 'free'
+      subscriptionBadgeHTML = `<div class="subscription-badge">${escapeHtml(tool.subscription[0])}</div>`;
+  }
+
   // ==================== CARD TEMPLATE ====================
   return `
     <div class="tool-card" style="border-color: ${tool.borderColor}; animation-delay: ${index * 50}ms">
-      <div class="subscription-badge ${subscriptionClass}">
-        ${escapeHtml(tool.subscription[0])}
-      </div>
+      
+      ${state.isEditMode ? `<button class="card-delete-btn" onclick="event.stopPropagation(); alert('Delete ${escapeHtml(tool.name)}?');">&times;</button>` : ''}
+
+      ${subscriptionBadgeHTML}
 
       <div class="tool-card-content">
         <div class="tool-header">
@@ -1099,6 +1176,8 @@ const moreBtnHTML = hiddenCount > 0
     </div>
   `;
 }
+
+
 // ==================== APPLY HOVER COLOR TO CARD ====================
 function applyCardHoverColors() {
   document.querySelectorAll('.tool-card').forEach(card => {
@@ -1242,7 +1321,7 @@ function toggleTags(cardElement) {
       }
 
       return `
-        <div class="tool-grid">
+        <div class="tool-grid ${state.isEditMode ? 'edit-mode' : ''}">
           ${filteredTools.map((tool, index) => renderToolCard(tool, index)).join('')}
         </div>
       `;
@@ -1380,7 +1459,7 @@ function renderAccountsView() {
 
   // 🔹 Отрисовка карточек
   return `
-    <div class="tool-grid">
+    <div class="tool-grid ${state.isEditMode ? 'edit-mode' : ''}">
       ${sortedAccounts.map((account, index) => {
         const freemiumTools = (account.toolNames || []).filter(name =>
           groupedBySubscription.Freemium.some(f => f.toLowerCase() === name.toLowerCase())
@@ -1408,12 +1487,11 @@ function renderAccountsView() {
               title="${escapeHtml(tool.name)}"
             >
               <img 
-                src="${logoUrl}" 
-                alt="${escapeHtml(tool.name)} logo" 
-                class="account-tool-icon"
-              />
-              <span class="account-tool-name">${escapeHtml(tool.name)}</span>
-            </button>
+            src="${logoUrl}" 
+            alt="${escapeHtml(tool.name)} logo" 
+            class="account-tool-icon"
+          />
+          </button>
           `;
         };
 
@@ -1433,6 +1511,9 @@ function renderAccountsView() {
         // 🔹 возвращаем разметку карточки
         return `
           <div class="account-card" style="animation-delay:${index * 60}ms">
+            
+            ${state.isEditMode ? `<button class="card-delete-btn" onclick="alert('Delete ${escapeHtml(account.email)}?');">&times;</button>` : ''}
+
             <div class="account-card-header">
               <h3>${escapeHtml(account.email)}</h3>
             </div>
@@ -1449,60 +1530,40 @@ function renderAccountsView() {
 }
 
 
-    // ==================== MAIN RENDER FUNCTION ====================
-    function render() {
-  // Проверяем, есть ли контейнер (если нет — создаём структуру)
-  let container = document.querySelector('.container');
-  if (!container) {
-    const app = document.getElementById('app');
-app.innerHTML = `
-  ${renderHeader()}
-  ${renderNavigation()}
-  <div class="container"><!-- full width -->
-    <div class="inner"></div>  <!-- выравнивающий блок -->
-  </div>
-`;
+// ==================== MAIN RENDER FUNCTION ====================
+function render() {
+  const app = document.getElementById('app');
+  let viewHtml = '';
 
-
-    container = document.querySelector('.container');
-  }
-
+  // 1. Определяем, какой контент показать (Catalog или Accounts)
   if (state.activeTab === 'catalog') {
-    container.innerHTML = `
+    viewHtml = `
       ${renderSearchAndFilter()}
       ${renderToolGrid()}
     `;
   } else {
-    container.innerHTML = renderAccountsView();
+    viewHtml = renderAccountsView();
   }
 
-  // Модальное окно создаём отдельно, чтобы не мигало
+  // 2. Полностью перерисовываем ВСЮ структуру приложения
+  //    (Это заставит renderNavigation() запуститься заново и 
+  //     правильно выставить класс .active)
+  app.innerHTML = `
+    ${renderHeader()}
+    ${renderNavigation()} 
+    <div class="container">
+      ${viewHtml}
+    </div>
+  `;
+
+  // 3. Отдельно рендерим модальное окно (оно вне #app)
   const oldModal = document.querySelector('.modal-overlay');
   if (oldModal) oldModal.remove();
   document.body.insertAdjacentHTML('beforeend', renderModal());
+
+  // 4. Заново применяем JS-эффекты для карточек
   applyCardHoverColors();
-
 }
-document.addEventListener("DOMContentLoaded", () => {
-  const card = document.createElement("div");
-card.classList.add("tool-card");
-
-// 🎯 Добавляем уникальный класс только карточке Notion
-if (tool.name === "Notion") {
-  card.classList.add("notion-card");
-}
-
-
-  cards.forEach(card => {
-    const title = card.querySelector(".tool-title");
-    if (title && title.textContent.trim().toLowerCase() === "notion") {
-      const tagsContainer = card.querySelector(".tool-tags");
-      if (tagsContainer) {
-        tagsContainer.classList.add("tool-tags--wrap");
-      }
-    }
-  });
-});
 
     // ==================== INITIALIZE ====================
     initTheme();
