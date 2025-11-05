@@ -619,6 +619,7 @@ const departmentLogos = {
         responsibility: new Set(),
         subscription: new Set()
       };
+      
 
       tools.forEach(tool => {
         tool.category.forEach(c => filters.category.add(c));
@@ -699,22 +700,40 @@ const departmentLogos = {
       render();
     }
 
-    function openModal(tool) {
-      state.selectedTool = tool;
-      state.isModalOpen = true;
-      document.body.style.overflow = 'hidden';
-      render();
-    }
+  function openModal(tool) {
+  // если создаём новый тул — не выключаем edit mode
+  if (tool === 'createTool') {
+    state.selectedTool = 'createTool';
+    state.isModalOpen = true;
+    document.body.style.overflow = 'hidden';
+    
+    // 👉 добавляем модалку вручную, без полного render()
+    document.body.insertAdjacentHTML('beforeend', renderModal());
+    return;
+  }
 
-    function closeModal() {
-      state.isModalOpen = false;
-      document.body.style.overflow = '';
-      setTimeout(() => {
-        state.selectedTool = null;
-        render();
-      }, 300);
-      render();
-    }
+  // обычный режим (просмотр существующего)
+  state.selectedTool = tool;
+  state.isModalOpen = true;
+  document.body.style.overflow = 'hidden';
+  render();
+}
+
+
+
+function closeModal() {
+  state.isModalOpen = false;
+  document.body.style.overflow = '';
+
+  setTimeout(() => {
+    state.selectedTool = null;
+    // ✅ не выключаем edit mode при закрытии
+    render();
+  }, 300);
+}
+
+
+
 
     function handleToolClickFromAccount(toolName) {
       const tool = tools.find(t => 
@@ -864,6 +883,22 @@ function renderNavigation() {
               ${mainEditIcon}
             </span>
           </button>
+${state.isEditMode ? `
+  <button 
+    class="nav-tab confirm-edit-btn"
+    title="Confirm all changes"
+    onclick="confirmAllChanges()"
+  >
+    <span class="nav-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="20 6 9 17 4 12"/>
+      </svg>
+    </span>
+  </button>
+` : ''}
+
 
           ${state.isEditMenuOpen ? `
           <div class="edit-menu" onclick="event.stopPropagation();">
@@ -1017,6 +1052,7 @@ function renderSearchAndFilter() {
     </div>
   `;
 }
+
 // ==================== FIX: ORDER OF TAGS FOR NOTION ====================
 tools.forEach(tool => {
   if (tool.name === "Notion") {
@@ -1182,35 +1218,6 @@ const moreBtnHTML = hiddenCount > 0
 function applyCardHoverColors() {
   document.querySelectorAll('.tool-card').forEach(card => {
     const borderColor = getComputedStyle(card).borderColor;
-    card.style.setProperty('--hover-shadow-color', `${borderColor}80`); // 50% прозрачности
-    card.addEventListener('mouseenter', () => {
-      card.style.setProperty('--hover-shadow-color', `${borderColor}80`);
-      card.style.setProperty('--before-bg', borderColor);
-      card.querySelector('::before');
-      card.style.setProperty('color', borderColor);
-      card.style.setProperty('--hover-color', borderColor);
-      card.style.setProperty('--hover-bg', borderColor + '4D'); // 30% яркости
-      card.style.setProperty('--hover-border', borderColor);
-      card.style.setProperty('--hover-overlay', borderColor + '4D');
-      card.style.setProperty('--hover-shadow-color', borderColor + '55');
-      card.style.setProperty('--hover-tint', borderColor + '4D');
-      card.style.setProperty('--hover-highlight', borderColor + '44');
-      card.style.setProperty('--hover-light', borderColor + '33');
-    });
-    // красим ::before при помощи встроенного фильтра
-    card.addEventListener('mouseover', () => {
-      card.style.setProperty('--before-bg', borderColor);
-      card.style.setProperty('--hover-shadow-color', borderColor + '55');
-      card.querySelector('style')?.remove();
-      const sheet = document.createElement('style');
-      sheet.innerHTML = `.tool-card[style*="${borderColor}"]:hover::before{background:${borderColor}}`;
-      document.head.appendChild(sheet);
-    });
-  });
-}
-function applyCardHoverColors() {
-  document.querySelectorAll('.tool-card').forEach(card => {
-    const borderColor = getComputedStyle(card).borderColor;
     // 40% прозрачности (0.4)
     const overlayColor = borderColor.replace('rgb', 'rgba').replace(')', ', 0.4)');
     card.style.setProperty('--hover-overlay-color', overlayColor);
@@ -1305,29 +1312,248 @@ function toggleTags(cardElement) {
   }
 }
 
+// === СОХРАНЕНИЕ НОВОГО ТУЛА ===
+function saveNewTool() {
+  // читаем значения
+  const name = document.getElementById('newToolName')?.value.trim();
+  const url = document.getElementById('newToolUrl')?.value.trim();
+  const description = document.getElementById('newToolDescription')?.value.trim();
+  const keyFeatures = document.getElementById('newToolKeyFeatures')?.value?.split(',').map(v => v.trim()).filter(Boolean) || [];
+  const category = document.getElementById('newToolCategory')?.value?.split(',').map(v => v.trim()).filter(Boolean) || [];
+  const department = document.getElementById('newToolDepartment')?.value?.split(',').map(v => v.trim()).filter(Boolean) || [];
+  const profession = document.getElementById('newToolProfession')?.value?.split(',').map(v => v.trim()).filter(Boolean) || [];
+  const responsibility = document.getElementById('newToolResponsibility')?.value?.split(',').map(v => v.trim()).filter(Boolean) || [];
+  const subscription = document.getElementById('newToolSubscription')?.value || 'Freemium';
+  const account = document.getElementById('newToolAccount')?.value.trim() || 'unknown@rh-s.com';
+  const logoUrl = document.getElementById('newToolLogo')?.value?.trim();
+  const modalImageUrl = document.getElementById('newToolModalImage')?.value?.trim();
 
+  if (!name || !url || !description) {
+    alert('Please fill out at least Name, URL, and Description.');
+    return;
+  }
+
+  const newTool = {
+    id: `tool-${String(tools.length + 1).padStart(3, '0')}`,
+    name,
+    url,
+    category,
+    description,
+    keyFeatures,
+    subscription: [subscription],
+    account,
+    lastUpdated: new Date().toISOString().split('T')[0],
+    whatsNew: 'Newly added tool!',
+    profession,
+    responsibility,
+    department,
+    borderColor: '#808080'
+  };
+
+  if (logoUrl) {
+    toolLogos[newTool.name] = {
+      light: logoUrl,
+      dark: logoUrl,
+      modalImageUrl: modalImageUrl || ''
+    };
+  }
+
+  tools.unshift(newTool);
+
+  // очистка локального состояния тегов
+  Object.keys(selectedTags).forEach(k => (selectedTags[k] = []));
+
+  closeModal();
+  render();
+  alert(`✅ Tool "${newTool.name}" has been created!`);
+}
+
+// === ПОДТВЕРЖДЕНИЕ ВСЕХ ИЗМЕНЕНИЙ ===
+function confirmAllChanges() {
+  const confirmOverlay = document.createElement('div');
+  confirmOverlay.className = 'confirm-overlay';
+  confirmOverlay.innerHTML = `
+    <div class="confirm-modal">
+      <h3>Confirm changes?</h3>
+      <p>Are you sure you want to apply all edits and exit editing mode?</p>
+      <div class="confirm-buttons">
+        <button class="confirm-btn cancel" onclick="closeConfirm()">Cancel</button>
+        <button class="confirm-btn ok" onclick="applyChanges()">OK</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(confirmOverlay);
+}
+
+function closeConfirm() {
+  const modal = document.querySelector('.confirm-overlay');
+  if (modal) modal.remove();
+}
+
+function applyChanges() {
+  closeConfirm();
+  state.isEditMode = false;
+  state.isEditMenuOpen = false;
+  render();
+  alert("✅ All changes have been applied!");
+}
 
 
     function renderToolGrid() {
-      const filteredTools = getFilteredTools();
+  const filteredTools = getFilteredTools();
 
-      if (filteredTools.length === 0) {
-        return `
-          <div class="empty-state">
-            <p>No tools found matching your criteria.</p>
-            <p>Try adjusting your search or filters.</p>
-          </div>
-        `;
-      }
+  // Если нет инструментов
+  if (filteredTools.length === 0) {
+    return `
+      <div class="empty-state">
+        <p>No tools found matching your criteria.</p>
+        <p>Try adjusting your search or filters.</p>
+      </div>
+    `;
+  }
 
-      return `
-        <div class="tool-grid ${state.isEditMode ? 'edit-mode' : ''}">
-          ${filteredTools.map((tool, index) => renderToolCard(tool, index)).join('')}
-        </div>
-      `;
-    }
+  // === 🔹 Если включён режим редактирования — добавляем карточку с плюсом ===
+  const addNewToolCard = state.isEditMode ? `
+    <div class="tool-card add-tool-card" onclick="openModal('createTool')">
+      <div class="add-tool-content">
+        <div class="add-tool-icon">+</div>
+        <div class="add-tool-text">Add New Tool</div>
+      </div>
+    </div>
+  ` : '';
+
+  // === 🔹 Рендерим сетку карточек ===
+  return `
+    <div class="tool-grid ${state.isEditMode ? 'edit-mode' : ''}">
+      ${addNewToolCard}
+      ${filteredTools.map((tool, index) => renderToolCard(tool, index)).join('')}
+    </div>
+  `;
+}
+
 
     function renderModal() {
+      if (state.selectedTool === 'createTool') {
+  return `
+    <div class="modal-overlay open" onclick="if(event.target === this) closeModal();">
+      <div class="modal">
+        <button class="modal-close" onclick="closeModal()">${icons.x}</button>
+        <h2 class="modal-title">Add New Tool</h2>
+
+        <!-- === LOGO UPLOAD === -->
+        <div class="modal-section">
+          <h3 class="modal-section-title">Card Logo</h3>
+          <div id="logo-upload" class="upload-box" 
+               ondragover="handleDragOver(event)" 
+               ondragleave="handleDragLeave(event)"
+               ondrop="handleFileDrop(event, 'logo')" 
+               onclick="document.getElementById('logoFileInput').click()">
+            <div id="logo-preview" class="upload-placeholder">+</div>
+            <input type="file" id="logoFileInput" accept="image/*" style="display:none;" onchange="handleFileSelect(event, 'logo')">
+          </div>
+        </div>
+
+        <!-- === MODAL BACKGROUND UPLOAD === -->
+        <div class="modal-section">
+          <h3 class="modal-section-title">Modal Background Image</h3>
+          <div id="modal-upload" class="upload-box" 
+               ondragover="handleDragOver(event)" 
+               ondragleave="handleDragLeave(event)"
+               ondrop="handleFileDrop(event, 'modal')" 
+               onclick="document.getElementById('modalFileInput').click()">
+            <div id="modal-preview" class="upload-placeholder">+</div>
+            <input type="file" id="modalFileInput" accept="image/*" style="display:none;" onchange="handleFileSelect(event, 'modal')">
+          </div>
+        </div>
+<!-- Скрытые input для выбора изображений -->
+<input type="file" id="card-input" accept="image/*" style="display:none" onchange="previewImage(this.files[0], 'card')" />
+<input type="file" id="modal-input" accept="image/*" style="display:none" onchange="previewImage(this.files[0], 'modal')" />
+
+        <!-- === TOOL DETAILS === -->
+        <div class="modal-section">
+          <h3 class="modal-section-title">Tool Details</h3>
+          <input id="newToolName" class="modal-input" placeholder="Tool Name" />
+          <input id="newToolUrl" class="modal-input" placeholder="Website URL (e.g., https://example.com)" />
+          <textarea id="newToolDescription" class="modal-textarea" placeholder="Description..."></textarea>
+        </div>
+
+        <!-- === TAGS === -->
+        <div class="modal-section">
+          <h3 class="modal-section-title">Tags</h3>
+
+          <div class="tag-input-wrapper" data-field="keyFeatures">
+            <label class="tag-label">Key Features</label>
+            <div class="tag-container" id="keyFeatures-tags"></div>
+            <input 
+              type="text" id="keyFeatures-input" class="tag-input" placeholder="Add key feature..."
+              oninput="handleTagInput(event, 'keyFeatures')"
+              onkeydown="handleTagKeyDown(event, 'keyFeatures')" />
+            <ul class="tag-suggestions" id="keyFeatures-suggestions"></ul>
+          </div>
+
+          <div class="tag-input-wrapper" data-field="category">
+            <label class="tag-label">Category</label>
+            <div class="tag-container" id="category-tags"></div>
+            <input 
+              type="text" id="category-input" class="tag-input" placeholder="Add category..."
+              oninput="handleTagInput(event, 'category')"
+              onkeydown="handleTagKeyDown(event, 'category')" />
+            <ul class="tag-suggestions" id="category-suggestions"></ul>
+          </div>
+
+          <div class="tag-input-wrapper" data-field="department">
+            <label class="tag-label">Department</label>
+            <div class="tag-container" id="department-tags"></div>
+            <input 
+              type="text" id="department-input" class="tag-input" placeholder="Add department..."
+              oninput="handleTagInput(event, 'department')"
+              onkeydown="handleTagKeyDown(event, 'department')" />
+            <ul class="tag-suggestions" id="department-suggestions"></ul>
+          </div>
+
+          <div class="tag-input-wrapper" data-field="profession">
+            <label class="tag-label">Profession</label>
+            <div class="tag-container" id="profession-tags"></div>
+            <input 
+              type="text" id="profession-input" class="tag-input" placeholder="Add profession..."
+              oninput="handleTagInput(event, 'profession')"
+              onkeydown="handleTagKeyDown(event, 'profession')" />
+            <ul class="tag-suggestions" id="profession-suggestions"></ul>
+          </div>
+
+          <div class="tag-input-wrapper" data-field="responsibility">
+            <label class="tag-label">Responsibility</label>
+            <div class="tag-container" id="responsibility-tags"></div>
+            <input 
+              type="text" id="responsibility-input" class="tag-input" placeholder="Add responsibility..."
+              oninput="handleTagInput(event, 'responsibility')"
+              onkeydown="handleTagKeyDown(event, 'responsibility')" />
+            <ul class="tag-suggestions" id="responsibility-suggestions"></ul>
+          </div>
+        </div>
+
+        <!-- === ACCESS INFO === -->
+        <div class="modal-section">
+          <h3 class="modal-section-title">Access Information</h3>
+          <input id="newToolAccount" class="modal-input" placeholder="Shared Account (e.g., dev@rh-s.com)" />
+          <select id="newToolSubscription" class="modal-select">
+            <option value="Freemium">Freemium</option>
+            <option value="Paid">Paid</option>
+            <option value="Free">Free</option>
+          </select>
+        </div>
+
+        <!-- === ACTION BUTTONS === -->
+        <div class="modal-actions">
+          <button class="modal-button cancel" onclick="closeModal()">Cancel</button>
+          <button class="modal-button primary" onclick="saveNewTool()">+ Create Tool</button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+
       if (!state.selectedTool) return '';
 
       const tool = state.selectedTool;
@@ -1564,8 +1790,331 @@ function render() {
   // 4. Заново применяем JS-эффекты для карточек
   applyCardHoverColors();
 }
+// === ДАННЫЕ ДЛЯ ПОДСКАЗОК ===
+const tagSuggestionsData = {
+  category: ["Automation", "Design", "Coding", "AI Assistant", "Web Design", "Tools"],
+  department: ["Developers", "Designers", "Managers", "Marketers", "Videograph"],
+  profession: ["UI/UX Designer", "Front-end Developer", "Project Manager", "Copywriter"],
+  responsibility: ["Write Code", "Generate Images", "Manage Information", "Research Topics"],
+  keyFeatures: ["AI Integration", "Collaboration", "Multi-format Export", "Fast Performance"]
+};
 
-    // ==================== INITIALIZE ====================
+// === СОСТОЯНИЕ ВВЕДЁННЫХ ТЕГОВ ===
+const selectedTags = {
+  category: [],
+  department: [],
+  profession: [],
+  responsibility: [],
+  keyFeatures: []
+};
+
+// === ФУНКЦИЯ: ОБРАБОТКА ВВОДА ===
+function handleTagInput(e, field) {
+  const input = e.target.value.toLowerCase();
+  const suggestionBox = document.getElementById(`${field}-suggestions`);
+  suggestionBox.innerHTML = "";
+
+  if (!input) {
+    suggestionBox.style.display = "none";
+    return;
+  }
+
+  const available = tagSuggestionsData[field]
+    .filter(tag => tag.toLowerCase().includes(input))
+    .slice(0, 6);
+
+  available.forEach(tag => {
+    const li = document.createElement("li");
+    li.textContent = tag;
+    li.onclick = () => addTag(tag, field);
+    suggestionBox.appendChild(li);
+  });
+
+  // если ничего не найдено — предложить создать новый тег
+  if (available.length === 0) {
+    const li = document.createElement("li");
+    li.innerHTML = `➕ Create <b>${input}</b>`;
+    li.onclick = () => addTag(input, field);
+    suggestionBox.appendChild(li);
+  }
+
+  suggestionBox.style.display = "block";
+}
+
+// === ДОБАВЛЕНИЕ ТЕГА ===
+function addTag(tag, field) {
+  if (!selectedTags[field].includes(tag)) {
+    selectedTags[field].push(tag);
+    renderTags(field);
+  }
+
+  document.getElementById(`${field}-input`).value = "";
+  document.getElementById(`${field}-suggestions`).style.display = "none";
+}
+
+// === УДАЛЕНИЕ ТЕГА ===
+function removeTag(tag, field) {
+  selectedTags[field] = selectedTags[field].filter(t => t !== tag);
+  renderTags(field);
+}
+
+// === ОТОБРАЖЕНИЕ ТЕГОВ ===
+function renderTags(field) {
+  const container = document.getElementById(`${field}-tags`);
+  container.innerHTML = selectedTags[field]
+    .map(tag => `
+      <span class="tag-chip">
+        ${tag}
+        <button class="tag-remove" onclick="removeTag('${tag}', '${field}')">×</button>
+      </span>
+    `)
+    .join("");
+}
+
+// === ENTER: добавление нового тега ===
+function handleTagKeyDown(e, field) {
+  if (e.key === "Enter") {
+    e.preventDefault();
+    const value = e.target.value.trim();
+    if (value) addTag(value, field);
+  }
+}
+// === Image Upload Handling ===
+const selectedImages = { logo: null, modal: null };
+
+function handleDragOver(e) {
+  e.preventDefault();
+  e.currentTarget.classList.add('dragover');
+}
+
+function handleDragLeave(e) {
+  e.preventDefault();
+  e.currentTarget.classList.remove('dragover');
+}
+
+function handleFileDrop(e, type) {
+  e.preventDefault();
+  e.currentTarget.classList.remove('dragover');
+  const file = e.dataTransfer.files[0];
+  if (file) previewImage(file, type);
+}
+
+function handleFileSelect(e, type) {
+  const file = e.target.files[0];
+  if (file) previewImage(file, type);
+}
+// === ПРЕДПРОСМОТР ИЗОБРАЖЕНИЯ ===
+function previewImage(file, type) {
+  const reader = new FileReader();
+  reader.onload = function (e) {
+    const preview = document.getElementById(type === 'logo' ? 'logo-preview' : 'modal-preview');
+    preview.innerHTML = `
+      <div class="frame-row">
+        <div class="image-frame">
+          <img id="${type}-img" src="${e.target.result}" alt="Preview" class="preview-img" />
+        </div>
+        <div class="frame-actions">
+          <button class="frame-btn" title="Crop" onclick="openCropModal('${type}')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 2v14a2 2 0 0 0 2 2h14" />
+              <path d="M18 22V8a2 2 0 0 0-2-2H2" />
+            </svg>
+          </button>
+          <button class="frame-btn delete" title="Delete" onclick="deleteImage('${type}')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="3 6 5 6 21 6" />
+              <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+              <path d="M10 11v6" />
+              <path d="M14 11v6" />
+              <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    `;
+    selectedImages[type] = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+
+
+
+function deleteImage(type) {
+  const preview = document.getElementById(type === 'logo' ? 'logo-preview' : 'modal-preview');
+  preview.innerHTML = `<div class="upload-placeholder">+</div>`;
+  selectedImages[type] = null;
+}
+
+function replaceImage(type) {
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = 'image/*';
+  input.onchange = (e) => handleFileSelect(e, type);
+  input.click();
+}
+
+// ============ IMAGE CROP MODAL (Fill / Crop, как в Figma) ============
+let currentCropper = null;
+let cropMode = "fill";
+
+function openCropModal(type) {
+  const img = document.getElementById(`${type}-img`);
+  const cropModal = document.getElementById("cropModal");
+  const cropImage = document.getElementById("cropImage");
+  cropImage.src = img.src;
+  cropModal.style.display = "flex";
+  cropModal.dataset.type = type;
+
+  if (currentCropper) currentCropper.destroy();
+ currentCropper = new Cropper(cropImage, {
+  viewMode: 1,
+  dragMode: "move",
+  background: false,
+  autoCropArea: 1,
+  responsive: true,
+  movable: true,
+  zoomable: true,
+  cropBoxResizable: true,
+  cropBoxMovable: true,
+  guides: false,
+});
+
+
+  setActiveMode("fill");
+}
+
+function setActiveMode(mode) {
+  cropMode = mode;
+  document.querySelectorAll(".modeBtn").forEach(b => b.classList.remove("active"));
+  document.querySelector(`.modeBtn[data-mode="${mode}"]`).classList.add("active");
+
+  if (!currentCropper) return;
+
+  if (mode === "fill") {
+    currentCropper.clear();
+    currentCropper.setDragMode("move");
+  } 
+  else if (mode === "crop") {
+    // Включаем crop-режим с небольшой задержкой, чтобы DOM успел обновиться
+    setTimeout(() => {
+      currentCropper.setDragMode("crop");
+      currentCropper.crop();
+      const container = currentCropper.getContainerData();
+      const image = currentCropper.getImageData();
+
+      const padding = 24;
+      const cropWidth = Math.min(image.width, container.width) - padding * 2;
+      const cropHeight = Math.min(image.height, container.height) - padding * 2;
+
+      currentCropper.setCropBoxData({
+        left: (container.width - cropWidth) / 2,
+        top: (container.height - cropHeight) / 2,
+        width: cropWidth,
+        height: cropHeight
+      });
+
+      // Активируем видимую рамку и ручки
+      const box = document.querySelector(".cropper-crop-box");
+      const face = document.querySelector(".cropper-face");
+      if (box && face) {
+        box.style.border = "2px solid rgba(255,255,255,0.8)";
+        face.style.background = "rgba(0,0,0,0.4)";
+      }
+    }, 80);
+  }
+}
+
+
+function closeCropModal() {
+  document.getElementById("cropModal").style.display = "none";
+  if (currentCropper) {
+    currentCropper.destroy();
+    currentCropper = null;
+  }
+}
+
+function applyCrop() {
+  const type = document.getElementById("cropModal").dataset.type;
+  const canvas = currentCropper.getCroppedCanvas({ width: 800, height: 400 });
+  document.getElementById(`${type}-img`).src = canvas.toDataURL();
+  closeCropModal();
+}
+
+// Добавляем модалку при загрузке страницы
+document.addEventListener("DOMContentLoaded", () => {
+  const cropModalHTML = `
+  <div id="cropModal" class="crop-modal">
+    <div class="crop-dialog">
+      <button class="crop-close" onclick="closeCropModal()">&times;</button>
+      <h3 class="crop-title">Crop Image</h3>
+
+      <div class="crop-toolbar">
+        <button class="modeBtn active" data-mode="fill" onclick="setActiveMode('fill')">Fill</button>
+        <button class="modeBtn" data-mode="crop" onclick="setActiveMode('crop')">Crop</button>
+      </div>
+
+      <div class="crop-area">
+        <img id="cropImage" alt="Crop Area" />
+      </div>
+
+      <div class="crop-actions">
+        <button class="btn-secondary" onclick="closeCropModal()">Cancel</button>
+        <button class="btn-primary" onclick="applyCrop()">Apply</button>
+      </div>
+    </div>
+  </div>`;
+  document.body.insertAdjacentHTML("beforeend", cropModalHTML);
+});
+// ====================== ACCOUNTS EDIT MODE ======================
+let accEditMode = false;
+
+const accEditBtn = document.getElementById("accEditBtn");
+const accConfirmBtn = document.getElementById("accConfirmBtn");
+const accCancelBtn = document.getElementById("accCancelBtn");
+
+if (accEditBtn) {
+  accEditBtn.addEventListener("click", () => {
+    accEditMode = true;
+    document.body.classList.add("acc-editing");
+    console.log("🟡 ACC edit mode ON");
+
+    // Включаем визуальное редактирование карточек
+    document.querySelectorAll(".account-card").forEach(card => {
+      card.classList.add("editable");
+    });
+  });
+}
+
+if (accConfirmBtn) {
+  accConfirmBtn.addEventListener("click", () => {
+    accEditMode = false;
+    document.body.classList.remove("acc-editing");
+    console.log("🟢 ACC edit mode confirmed");
+
+    // Снимаем подсветку
+    document.querySelectorAll(".account-card").forEach(card => {
+      card.classList.remove("editable");
+    });
+  });
+}
+
+if (accCancelBtn) {
+  accCancelBtn.addEventListener("click", () => {
+    accEditMode = false;
+    document.body.classList.remove("acc-editing");
+    console.log("🔴 ACC edit mode canceled");
+
+    // Снимаем подсветку
+    document.querySelectorAll(".account-card").forEach(card => {
+      card.classList.remove("editable");
+    });
+  });
+}
+
+
     initTheme();
     render();
 

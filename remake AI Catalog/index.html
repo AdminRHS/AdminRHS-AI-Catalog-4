@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AI Catalog - Remote Helpers</title>
+  <link rel="stylesheet" href="https://unpkg.com/cropperjs/dist/cropper.min.css">
+
   <style>
         /* ==================== CSS VARIABLES ==================== */
     :root {
@@ -621,12 +623,6 @@
       grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
       gap: 1.5rem;
       margin-bottom: 2rem;
-    }
-
-    @media (max-width: 768px) {
-      .tool-grid {
-        grid-template-columns: 1fr;
-      }
     }
 
 
@@ -2969,11 +2965,11 @@
     */
 
 
-    @media (max-width: 768px) {
+  
       .tool-grid {
         grid-template-columns: 1fr;
       }
-    }
+    
 
    /* ==================== TOOL CARD ==================== */
 .tool-card {
@@ -4941,30 +4937,31 @@
 /* ==================== LAYOUT ==================== */
 .container {
   max-width: 1200px;
-  margin:  auto;
+  margin: auto;
   padding-left: 32px;
   padding-right: 32px;
-  padding-top: 32px; /* 👈 ЗАМЕНИЛИ НА 32PX */
+  padding-top: 32px;
 }
-/* === Внешний контейнер для сетки === */
 .layout {
   display: flex;
   flex-direction: column;
-  align-items: flex-start; /* всё выравнивается по одной линии слева */
-  padding-left: 40px; /* ← вот эта цифра регулирует линию выравнивания */
+  align-items: flex-start;
+  padding-left: 40px;
 }
-/* ==================== NAVIGATION (AI / ACC / MOON) ==================== */
+
+/* ==================== NAVIGATION (STICKY & STRUCTURE) ==================== */
 .navigation {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 6px 24px;
- background: var(--card);
-  border-radius: 0 0 12px 12px;
+  background: var(--card);
+  border-radius: 0 0 12px 12px; /* Скругление только снизу */
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
   position: sticky;
   top: 0;
   z-index: 950;
+  width: 100%; /* Добавлено для полной ширины */
 }
 
 .nav-content {
@@ -4974,175 +4971,75 @@
   width: 100%;
 }
 
-.nav-left, .nav-right {
+.nav-left,
+.nav-right {
   display: flex;
   align-items: center;
-  gap: 8px; /* 👈 чуть плотнее иконки между собой */
+  gap: 8px; /* Расстояние между иконками */
 }
 
-
-/* ==================== ДОБАВЛЕННЫЙ ПОИСК И ФИЛЬТР ==================== */
-.nav-actions {
-  margin-left: auto; /* выталкиваем вправо */
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.nav-search {
-  position: relative;
-}
-
-.nav-search-input {
-  width: 180px;
-  height: 38px;
-  border-radius: 10px;
-  border: 1px solid #dcdcdc;
-  padding: 0 36px 0 12px;
-  font-size: 15px;
-  color: var(--rhs-foreground, #2d465d);
-  transition: border 0.2s ease;
-}
-
-.nav-search-input:focus {
-  outline: none;
-  border-color: var(--accent-blue, #0096E1);
-}
-
-.nav-filter-btn {
+/* ==================== UNIFIED NAVIGATION BUTTONS (.nav-tab) ==================== */
+/* 1. Базовый стиль для ВСЕХ кнопок (AI, Moon, Filter, Edit) */
+.nav-tab {
   all: unset;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 42px;
-  height: 42px;
+  width: 46px;
+  height: 46px;
   border-radius: 10px;
-  transition: background 0.25s ease, transform 0.25s ease;
+  color: var(--muted-foreground);
+  transition: all 0.2s ease;
 }
 
-.nav-filter-btn:hover {
-  background: rgba(0, 150, 225, 0.08);
+/* 2. ЕДИНЫЙ ЭФФЕКТ для :hover и .active */
+.nav-tab:hover,
+.nav-tab.active {
+  background-color: rgba(0, 150, 225, 0.08);
   transform: scale(1.05);
+  color: #0096E1;
 }
-/* === ОТСТУП МЕЖДУ ФИЛЬТРОМ И КАРТОЧКАМИ === */
-.filter-panel {
-  margin-bottom: 48px !important; /* 🧩 отступ под самим фильтром */
-}
-/* === СТИЛЬ ДЛЯ ИКОНКИ ФИЛЬТРА === */
-.filter-toggle-btn svg {
-  width: 26px;          /* 📏 тот же размер, что у луны */
+
+/* 3. ОБЩИЙ КОНТЕЙНЕР ИКОНКИ */
+.nav-icon {
+  width: 26px;
   height: 26px;
-  stroke: #5c6b82;      /* 🌙 цвет луны */
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   opacity: 0.85;
-  transition: opacity 0.25s ease, transform 0.25s ease;
 }
 
-/* === Эффект при наведении — как у луны === */
-.filter-toggle-btn:hover svg {
+/* 4. Стили для SVG */
+.nav-icon svg {
+  width: 100%;
+  height: 100%;
+  stroke: currentColor;
+}
+
+/* 5. Эффекты иконки при наведении/активности */
+.nav-tab:hover .nav-icon,
+.nav-tab.active .nav-icon {
   opacity: 1;
-  transform: scale(1.12);
-}
-.navigation {
-  width: 100%;
-  display: flex;
-  justify-content: center;
- background: var(--card);
-  border-bottom: 1px solid var(--rhs-border, #ddd);
-  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-  padding: 10px 20px;
-  box-sizing: border-box;
+  transform: scale(1.1);
 }
 
-.nav-content {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  max-width: 1300px;
+/* 6. Исправляем цвета для ТЕМНОЙ ТЕМЫ */
+.dark .nav-tab {
+  color: var(--muted-foreground);
 }
-
-.nav-row {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 20px;
+.dark .nav-tab:hover,
+.dark .nav-tab.active {
+  color: #83CBFF;
+  background-color: rgba(131, 203, 255, 0.1);
 }
-
-.nav-search {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background: var(--rhs-bg-card, #fff);
-  border: 1px solid var(--rhs-border, #ccc);
-  border-radius: 10px;
-  padding: 8px 12px;
-}
-
-.nav-search-input {
-  border: none;
-  outline: none;
-  background: transparent;
-  font-size: 15px;
-  color: var(--rhs-foreground, #222);
-}
+/* =================================================================== */
 
 
-
-
-
-.nav-right {
-  display: flex;
-  align-items: center;
-  gap: 12px; /* расстояние между поиском и иконкой фильтра */
-}
-
-.nav-search {
-  display: flex;
-  align-items: center;
-  background: #fff;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 6px 10px;
-}
-
-.nav-search-input {
-  border: none;
-  outline: none;
-  background: transparent;
-  flex: 1;
-  font-size: 14px;
-}
-
-.filter-toggle-btn {
-  background: none;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: opacity 0.2s ease;
-}
-.nav-right {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-/* Кнопки (поиск и фильтр) */
-.nav-icon-btn,
-.filter-toggle-btn {
-  background: none;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: opacity 0.2s ease, transform 0.2s ease;
-}
-
-
-/* Поиск */
+/* ==================== TOGGLE SEARCH & WRAPPER ==================== */
 .nav-search-wrapper {
   position: relative;
   display: flex;
@@ -5162,6 +5059,7 @@
   visibility: hidden;
   pointer-events: none;
   transition: all 0.25s ease;
+  z-index: 99; /* Чтобы было поверх других элементов nav */
 }
 
 .nav-search.open {
@@ -5177,142 +5075,31 @@
   background: transparent;
   font-size: 14px;
   width: 160px;
+  color: var(--foreground);
 }
-.nav-icon-btn .nav-icon svg,
-.filter-toggle-btn .nav-icon svg {
-  stroke: var(--muted-foreground); /* тот же цвет, что у луны */
-  transition: stroke 0.2s ease, opacity 0.2s ease;
-}
-
-.nav-icon-btn:hover .nav-icon svg,
-.filter-toggle-btn:hover .nav-icon svg {
-  stroke: var(--accent-blue-hover); /* слегка ярче при наведении */
-  opacity: 0.9;
-}
-
-.nav-icon-btn,
-.filter-toggle-btn {
-  background: none;
-  border: none;
-  padding: 4px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.filter-panel {
-  margin-top: 32px;   /* одинаковый отступ сверху */
-  margin-bottom: 32px; /* и снизу до карточек */
-}
-.edit-btn {
-  background: none;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: opacity 0.2s ease, transform 0.2s ease;
-}
-
-.edit-btn .nav-icon img {
-  width: 24px;
-  height: 24px;
-  filter: brightness(0) saturate(100%) invert(43%) sepia(17%) saturate(532%) hue-rotate(167deg) brightness(93%) contrast(87%);
-  /* 💡 тот же оттенок, что у луны и фильтра */
-}
-
-
-
-/* ==================== ЕДИНЫЙ СТИЛЬ НАВИГАЦИИ ==================== */
-
-/* 1. Базовый стиль для ВСЕХ кнопок (левых и правых) */
-.nav-tab {
-  all: unset;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 46px;   /* Одинаковая ширина */
-  height: 46px;  /* Одинаковая высота */
-  border-radius: 10px;
-  color: var(--muted-foreground); /* Цвет по умолчанию (серый) */
-  transition: all 0.2s ease;
-}
-
-/* 2. ЕДИНЫЙ ЭФФЕКТ для :hover (наведение) и .active (нажатие) */
-.nav-tab:hover,
-.nav-tab.active {
-  background-color: rgba(0, 150, 225, 0.08); 
-  transform: scale(1.05); 
-  color: #0096E1; /* Все иконки станут синими */
-}
-
-/* 3. ОБЩИЙ КОНТЕЙНЕР ИКОНКИ (<span>) */
-.nav-icon {
-  width: 26px;  /* Единый размер иконки */
-  height: 26px;
-  transition: all 0.2s ease;
-  flex-shrink: 0; 
-  display: flex; 
-  align-items: center;
-  justify-content: center;
-  opacity: 0.85;
-}
-
-/* 4. Стили для SVG (внутри .nav-icon) */
-.nav-icon svg {
-  width: 100%;
-  height: 100%;
-  stroke: currentColor; /* Наследует цвет от .nav-tab */
-}
-
-/* 5. Эффекты при наведении/активности */
-.nav-tab:hover .nav-icon,
-.nav-tab.active .nav-icon {
-  opacity: 1;
-  transform: scale(1.1);
-}
-
-/* 6. Исправляем цвета для ТЕМНОЙ ТЕМЫ */
-.dark .nav-tab {
-   color: var(--muted-foreground); 
-}
-.dark .nav-tab:hover,
-.dark .nav-tab.active {
-   color: #83CBFF; 
-   background-color: rgba(131, 203, 255, 0.1); 
-}
-/* =================================================================== */
 
 /* ==================== EDIT MENU (VERTICAL) ==================== */
-
-/* 1. Делаем .nav-right контейнером для позиционирования */
 .nav-right {
   position: relative;
 }
 
-/* 2. Стилизуем само выпадающее меню */
 .edit-menu {
   position: absolute;
-  top: calc(100% + 8px); /* 8px под панелью навигации */
-  right: 0; /* Выравнивание по правому краю */
+  top: calc(100% + 8px);
+  right: 0;
   background: var(--card);
   border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   border: 1px solid var(--border);
   padding: 6px;
   display: flex;
-  flex-direction: column; /* 👈 ВЕРТИКАЛЬНО */
-  gap: 4px; 
+  flex-direction: column;
+  gap: 4px;
   z-index: 1000;
-  
-  /* Анимация появления */
   opacity: 0;
-  transform: translateY(-10px) scale(0.95); /* Анимация "выпадания" сверху */
+  transform: translateY(-10px) scale(0.95);
   animation: menuFadeIn 0.2s ease-out forwards;
 }
-
-/* 3. Ключевые кадры для анимации */
 @keyframes menuFadeIn {
   to {
     opacity: 1;
@@ -5320,14 +5107,13 @@
   }
 }
 
-/* 4. Стилизуем кнопки внутри меню */
 .edit-menu-btn {
   all: unset;
   cursor: pointer;
   display: flex;
   align-items: center;
-  justify-content: center; 
-  width: 38px; 
+  justify-content: center;
+  width: 38px;
   height: 38px;
   border-radius: 8px;
   color: var(--muted-foreground);
@@ -5339,7 +5125,6 @@
   color: #0096E1;
 }
 
-/* 5. Иконки внутри кнопок */
 .edit-menu-btn .nav-icon {
   width: 22px;
   height: 22px;
@@ -5352,51 +5137,46 @@
   transform: scale(1.1);
 }
 
-/* 6. Адаптация иконок для темной темы (если они черные) */
-.dark .edit-menu-btn img {
-  /* filter: invert(1) brightness(1.5); */
+/* ==================== FILTER PANEL MARGINS ==================== */
+.filter-panel {
+  margin-top: 32px;
+  margin-bottom: 32px;
 }
-/* ======================================================== */
-
 
 /* ==================== JIGGLE EDIT MODE ==================== */
-
-/* 0. Карточки должны быть 'position: relative', чтобы крестик был над ними */
-.tool-card, .account-card {
+.tool-card,
+.account-card {
   position: relative;
 }
 
-/* 1. Анимация дрожания */
 @keyframes jiggle {
   0% { transform: rotate(-0.5deg); }
   50% { transform: rotate(0.5deg); }
   100% { transform: rotate(-0.5deg); }
 }
 
-/* 2. Применяем анимацию к карточкам в режиме редактирования */
 .tool-grid.edit-mode .tool-card,
 .tool-grid.edit-mode .account-card {
   animation: jiggle 0.3s ease-in-out infinite !important;
 }
 
-/* 3. Отключаем hover-эффект "подъема" в режиме редактирования */
 .tool-grid.edit-mode .tool-card:hover,
 .tool-grid.edit-mode .account-card:hover {
   transform: none !important;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
 }
 
-/* 4. Стилизуем кнопку "X" (крестик) */
+/* === DELETE BUTTON (КРЕСТИК) === */
 .card-delete-btn {
   all: unset;
-  position: absolute; /* 👈 ЭТО ГЛАВНОЕ: не меняет размер карточки */
+  position: absolute;
   top: -8px;
-  left: -8px; /* 👈 Можете поменять на right: -8px; */
+  left: -8px;
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  background: var(--destructive);
-  color: white;
+  background: #808080;
+  color: #ffffff;
   font-size: 24px;
   font-weight: bold;
   line-height: 28px;
@@ -5406,9 +5186,9 @@
   box-shadow: 0 2px 5px rgba(0,0,0,0.2);
   transform: scale(0);
   animation: growIn 0.2s ease-out forwards;
+  transition: background 0.25s ease, transform 0.25s ease;
 }
 
-/* 5. Анимация появления крестика */
 @keyframes growIn {
   to {
     transform: scale(1);
@@ -5416,34 +5196,11 @@
 }
 
 .card-delete-btn:hover {
-  transform: scale(1.1) !important;
-  background: #a1132e;
+  background: #666666;
+  transform: scale(1.1);
 }
-/* 4. Стилизуем кнопку "X" (крестик) */
-.card-delete-btn {
-  all: unset;
-  position: absolute; /* 👈 Убедитесь, что эта строка есть */
-  top: -8px;
-  left: -8px; /* 👈 Можете поменять на right: -8px; */
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  background: var(--destructive);
-  color: white;
-  font-size: 24px;
-  font-weight: bold;
-  line-height: 28px;
-  text-align: center;
-  cursor: pointer;
-  z-index: 100;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-  transform: scale(0);
-  animation: growIn 0.2s ease-out forwards;
-}
+/* ==================== SUBSCRIPTION BADGE ICONS ==================== */
 
-/* ==================== SUBSCRIPTION BADGE ICONS (FIX 4.0 - Variables) ==================== */
-
-/* 1. Стилизуем бейдж-контейнер */
 .subscription-badge {
   position: absolute;
   top: 12px;
@@ -5455,22 +5212,17 @@
   height: 28px;
   width: 28px;
   transition: all 0.2s ease;
-  
-  /* Фон бейджа теперь нейтральный */
-  background: var(--background); 
+  background: var(--background);
   border: 1px solid var(--border);
 }
 
-/* 2. Стилизуем саму иконку (SVG) */
 .subscription-badge .subscription-icon {
-  width: 17px;  /* Оптимальный размер для иконки 24x24 */
+  width: 17px;
   height: 17px;
   opacity: 0.9;
   transition: all 0.2s ease;
-  /* `currentColor` будет унаследован от родителя (.subscription-badge) */
 }
 
-/* 3. Цвета иконок (берем из переменных) */
 .subscription-freemium {
   color: var(--badge-freemium-icon);
 }
@@ -5481,16 +5233,13 @@
   color: var(--badge-free-icon);
 }
 
-/* 4. Фон для темной темы */
 .dark .subscription-badge {
-   background: var(--card); /* Фон бейджа в темной теме */
-   border-color: rgba(255,255,255,0.1);
+  background: var(--card);
+  border-color: rgba(255, 255, 255, 0.1);
 }
-/* =================================================================== */
 
-/* ==================== СТИЛИ ДЛЯ ИКОНОК ВЫПАДАЮЩЕГО МЕНЮ ==================== */
+/* ==================== EDIT MENU ICONS ==================== */
 
-/* 5. Иконки внутри кнопок */
 .edit-menu-btn .nav-icon {
   width: 22px;
   height: 22px;
@@ -5503,19 +5252,764 @@
   transform: scale(1.1);
 }
 
-/* 6. Адаптация иконок для темной темы */
-.dark .edit-menu-btn .nav-icon {
-   /* Ничего не нужно, цвет наследуется */
+/* ==================== ADD NEW TOOL CARD (ORANGE VERSION) ==================== */
+.add-tool-card {
+  background: var(--card);
+  border: 2px dashed #F59E0B;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #F59E0B;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-height: 230px;
 }
-.dark .edit-menu-btn:hover .nav-icon {
-    /* Ничего не нужно, цвет наследуется */
+
+.add-tool-card:hover {
+  background: rgba(245, 158, 11, 0.05);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(245, 158, 11, 0.25);
 }
-/* =================================================================== */
+
+.add-tool-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.add-tool-icon {
+  font-size: 48px;
+  line-height: 1;
+  font-weight: 300;
+}
+
+.add-tool-text {
+  font-size: 18px;
+  font-weight: 500;
+  color: #F59E0B;
+}
+
+/* ==================== MODAL FORM ELEMENTS ==================== */
+.modal-input,
+.modal-textarea,
+.modal-select {
+  width: 100%;
+  padding: 0.6rem 0.8rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 15px;
+  margin-bottom: 0.8rem;
+  background: var(--background);
+  color: var(--foreground);
+}
+
+.modal-textarea {
+  height: 80px;
+  resize: vertical;
+}
+
+.modal-button.primary {
+  background: #28a745;
+  color: white;
+}
+
+.modal-button.cancel {
+  background: #007BFF;
+  color: white;
+}
+
+/* ==================== TAG INPUT & CHIP ==================== */
+.tag-input-wrapper {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 6px 8px;
+  background: var(--card);
+  gap: 4px;
+  margin-bottom: 10px;
+}
+
+.tag-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tag-chip {
+  display: flex;
+  align-items: center;
+  background: #0096E133;
+  color: var(--foreground);
+  border-radius: 6px;
+  padding: 4px 8px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background 0.2s ease;
+}
+
+.tag-chip:hover {
+  background: #0096E166;
+}
+
+.tag-remove {
+  all: unset;
+  font-size: 14px;
+  margin-left: 6px;
+  cursor: pointer;
+  color: var(--foreground);
+}
+
+.tag-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  background: transparent;
+  color: var(--foreground);
+  min-width: 80px;
+}
+
+.tag-suggestions {
+  position: absolute;
+  top: calc(100% + 2px);
+  left: 0;
+  width: 100%;
+  background: var(--background);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  list-style: none;
+  padding: 4px 0;
+  margin: 4px 0 0;
+  max-height: 180px;
+  overflow-y: auto;
+  z-index: 999;
+  display: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.tag-suggestions li {
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--foreground);
+}
+
+.tag-suggestions li:hover {
+  background: #0096E110;
+  color: var(--accent-blue);
+}
+
+/* ==================== CONFIRM MODAL ==================== */
+.confirm-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.confirm-modal {
+  background: var(--background, #fff);
+  color: var(--foreground, #000);
+  border-radius: 16px;
+  padding: 24px 28px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  text-align: center;
+  max-width: 320px;
+  width: 90%;
+}
+
+.confirm-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 16px;
+}
+
+.confirm-btn {
+  flex: 1;
+  margin: 0 6px;
+  padding: 10px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: background 0.2s;
+}
+
+.confirm-btn.ok {
+  background: var(--accent-blue, #0096E1);
+  color: #fff;
+}
+
+.confirm-btn.cancel {
+  background: #ccc;
+}
+
+/* ==================== IMAGE UPLOAD/PREVIEW (Image Wrapper) ==================== */
+/* Блок для превью с кнопками при наведении */
+.image-wrapper {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #f4f6f8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px dashed #c7d3e0;
+  transition: border 0.2s ease;
+}
+
+.image-wrapper:hover {
+  border-color: #007aff;
+}
+
+.preview-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Заполняет рамку, обрезая по высоте */
+  transition: all 0.3s ease;
+  display: block;
+}
+
+.upload-placeholder {
+  font-size: 48px;
+  color: #83cbff;
+  opacity: 0.5;
+  user-select: none;
+}
+
+/* Панель кнопок под фото (появляется при :hover) */
+.image-actions {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 20px;
+  padding: 6px 10px;
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.3s ease;
+  z-index: 10;
+}
+
+.image-wrapper:hover .image-actions {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* Кнопки (иконки) внутри панели */
+.action-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #333;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.action-btn:hover {
+  color: #007aff;
+  transform: scale(1.2);
+}
+
+.action-btn.delete:hover {
+  color: #e63946;
+}
+
+/* ==================== IMAGE FRAME (For small static image) ==================== */
+.image-frame {
+  width: 180px;
+  height: 180px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 2px dashed #c7d3e0;
+  background: #f4f6f8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: border 0.3s ease;
+}
+
+.image-frame:hover {
+  border-color: #007aff;
+}
+
+/* ==================== GENERIC MODAL BUTTONS ==================== */
+
+.modal-section-title {
+  font-size: 20.8px;
+  line-height: 31.2px;
+  font-weight: bold;
+  color: #2577D6;
+  margin-bottom: 1rem;
+  letter-spacing: -0.378px;
+}
+
+/* Кнопки переключения режимов (e.g., Crop mode) */
+.modeBtn {
+  background: #f2f4f6;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 14px;
+}
+
+.modeBtn.active {
+  background: #007aff;
+  color: white;
+  border-color: #007aff;
+}
+
+.modeBtn:hover {
+  background: #e5efff;
+}
+
+/* Основная кнопка */
+.btn-primary {
+  background: #007aff;
+  color: white;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+}
+.btn-primary:hover {
+  background: #0063d9;
+}
+
+/* Вторичная кнопка */
+.btn-secondary {
+  background: #f3f4f6;
+  color: #333;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.btn-secondary:hover {
+  background: #e2e6ea;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+/* ==================== IMAGE FRAME WITH VERTICAL ACTIONS ==================== */
+
+/* Контейнер: квадрат + иконки справа */
+.frame-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+/* Квадратный блок для изображения */
+.image-frame {
+  width: 200px;
+  height: 200px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 2px dashed #c7d3e0;
+  background: #f4f6f8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  transition: border 0.3s ease;
+}
+
+.image-frame:hover {
+  border-color: #007aff;
+}
+
+/* Фото внутри: растягивается по ширине */
+.preview-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block; /* Убеждаемся, что это блочный элемент */
+}
+
+/* Блок с иконками справа (вертикальное расположение) */
+.frame-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Кнопки-иконки */
+.frame-btn {
+  background: #f3f4f6;
+  border: none;
+  border-radius: 8px;
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #333;
+  transition: all 0.2s ease;
+}
+
+.frame-btn:hover {
+  background: #e5efff;
+  color: #007aff;
+  transform: scale(1.1);
+}
+
+.frame-btn.delete:hover {
+  color: #e63946;
+  background: #ffeaea;
+}
+
+/* ==================== CROP MODAL ==================== */
+.crop-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  animation: fadeIn 0.3s ease;
+}
+
+.crop-dialog {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  width: 720px;
+  max-width: 95%;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+  position: relative;
+  animation: scaleIn 0.25s ease;
+}
+
+.crop-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #2a4054;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.crop-toolbar {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.crop-area {
+  background: #000;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+  height: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.crop-area img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+/* Кнопки снизу */
+.crop-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  border-top: 1px solid #eee;
+  padding-top: 10px;
+  margin-top: 14px;
+}
+
+.crop-close {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #666;
+  cursor: pointer;
+}
+
+.crop-close:hover {
+  color: #000;
+}
+
+/* ==================== GENERIC BUTTONS & ANIMATIONS ==================== */
+
+/* Кнопки переключения режимов (modeBtn) */
+.modeBtn {
+  background: #f1f3f5;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  padding: 6px 14px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+
+.modeBtn.active {
+  background: #007aff;
+  color: white;
+  border-color: #007aff;
+}
+
+.modeBtn:hover {
+  background: #e7efff;
+}
+
+/* Основная кнопка (Primary) */
+.btn-primary {
+  background: #007aff;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 16px;
+  cursor: pointer;
+  font-weight: 500;
+}
+.btn-primary:hover {
+  background: #0066cc;
+}
+
+/* Вторичная кнопка (Secondary) */
+.btn-secondary {
+  background: #f3f4f6;
+  border: none;
+  color: #333;
+  border-radius: 6px;
+  padding: 6px 16px;
+  cursor: pointer;
+}
+.btn-secondary:hover {
+  background: #e2e6ea;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes scaleIn {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* ==================== CROPPER.JS VISUAL STYLES ==================== */
+
+.cropper-view-box,
+.cropper-face {
+  border-radius: 8px;
+  outline: 2px solid rgba(255, 255, 255, 0.9);
+  outline-offset: -2px;
+}
+
+.cropper-dashed {
+  border: none !important;
+}
+
+/* затемнение вне рамки */
+.cropper-bg {
+  background-color: rgba(0, 0, 0, 0.75) !important;
+}
+
+/* Белые углы */
+.cropper-point {
+  width: 8px !important;
+  height: 8px !important;
+  background-color: #fff !important;
+  border-radius: 2px;
+  opacity: 1 !important;
+}
+
+.cropper-point.point-nw,
+.cropper-point.point-ne,
+.cropper-point.point-sw,
+.cropper-point.point-se {
+  width: 14px !important;
+  height: 14px !important;
+  background-color: #fff !important;
+  border: 2px solid #000 !important;
+  border-radius: 3px;
+}
+
+.cropper-line {
+  background-color: rgba(255, 255, 255, 0.5) !important;
+}
+
+/* убрать сетку */
+.cropper-center,
+.cropper-dashed,
+.cropper-drag-box {
+  opacity: 0 !important;
+}
+/* ===================== CUSTOM CROP STYLES (KEEPING DETAILED VERSION) ===================== */
+
+/* затемнение вокруг */
+.cropper-modal {
+  background-color: rgba(0, 0, 0, 0.75) !important;
+}
+
+/* контур выделенной области */
+.cropper-view-box {
+  outline: 2px solid #fff !important;
+  outline-offset: -2px;
+  border-radius: 8px !important;
+}
+
+/* прозрачная зона внутри рамки */
+.cropper-face {
+  background-color: transparent !important;
+}
+
+/* убрать пунктир и сетку */
+.cropper-dashed,
+.cropper-center {
+  opacity: 0 !important;
+}
+
+/* линии деления убираем */
+.cropper-line {
+  background: none !important;
+}
+
+/* ======= Белые углы (“скобки”) ======= */
+.cropper-point {
+  width: 20px !important;
+  height: 20px !important;
+  background: none !important;
+}
+
+.cropper-point::before {
+  content: "";
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border: 2px solid #fff;
+  border-radius: 2px;
+}
+
+.cropper-point.point-nw::before {
+  border-right: none;
+  border-bottom: none;
+  top: 0;
+  left: 0;
+}
+
+.cropper-point.point-ne::before {
+  border-left: none;
+  border-bottom: none;
+  top: 0;
+  right: 0;
+}
+
+.cropper-point.point-sw::before {
+  border-right: none;
+  border-top: none;
+  bottom: 0;
+  left: 0;
+}
+
+.cropper-point.point-se::before {
+  border-left: none;
+  border-top: none;
+  bottom: 0;
+  right: 0;
+}
+
+/* скрываем точки по середине сторон */
+.cropper-point.point-n,
+.cropper-point.point-s,
+.cropper-point.point-e,
+.cropper-point.point-w {
+  display: none !important;
+}
+
+/* ===================== ACCOUNT CARD EDITING STYLES (UNIQUE) ===================== */
+body.acc-editing .account-card {
+  outline: 2px dashed var(--accent-blue);
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+body.acc-editing .account-card:hover {
+  background-color: rgba(0, 150, 225, 0.05);
+}
+
+.account-card.editable .delete-btn,
+.account-card.editable .add-btn {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.delete-btn,
+.add-btn {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+}
+
   </style>
 </head>
 <body>
   <div id="app"></div>
-  
+  <link href="https://unpkg.com/cropperjs/dist/cropper.min.css" rel="stylesheet"/>
+  <script src="https://unpkg.com/cropperjs/dist/cropper.min.js"></script>
+<script src="smt.js"></script>
+
+<script src="https://unpkg.com/cropperjs"></script>
+
 
 <script src="./js/smt.js"></script>
 </body>
