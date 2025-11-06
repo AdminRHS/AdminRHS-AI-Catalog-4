@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Cropper.js styles -->
+<link href="https://unpkg.com/cropperjs/dist/cropper.min.css" rel="stylesheet"/>
+
+<!-- Cropper.js script -->
+<script src="https://unpkg.com/cropperjs/dist/cropper.min.js"></script>
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AI Catalog - Remote Helpers</title>
@@ -5485,12 +5491,6 @@
   display: block;
 }
 
-.upload-placeholder {
-  font-size: 48px;
-  color: #83cbff;
-  opacity: 0.5;
-  user-select: none;
-}
 
 /* Панель кнопок под фото (появляется при :hover) */
 .image-actions {
@@ -5999,10 +5999,429 @@ body.acc-editing .account-card:hover {
   pointer-events: none;
   transition: opacity 0.2s;
 }
+/* Контейнер */
+.upload-box {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 160px;
+  height: 160px;
+  border: 2px dashed #a8c7fa;
+  border-radius: 16px;
+  background: #f8fbff;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  position: relative;
+}
 
+.upload-box:hover {
+  border-color: #1a73e8;
+  background: rgba(26, 115, 232, 0.05);
+}
+
+/* Плюсик */
+.upload-placeholder {
+  font-size: 60px;
+  color: #a8c7fa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.upload-box:hover .upload-placeholder {
+  transform: scale(1.15);
+  color: #1a73e8;
+}
+
+/* Превью изображения */
+.image-frame {
+  width: 160px;
+  height: 160px;
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.image-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 16px;
+}
+
+/* Ряд с кнопками */
+.frame-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Кнопки справа */
+.frame-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.frame-btn {
+  background: #f5f7fa;
+  border: none;
+  border-radius: 10px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.frame-btn:hover {
+  background: #e1ecff;
+  transform: scale(1.1);
+}
+
+.frame-btn.delete:hover {
+  background: #ffe5e5;
+}
+.upload-box {
+  width: 160px;
+  height: 160px;
+  border: 2px dashed #a8c7fa;
+  border-radius: 16px;
+  background: #f8fbff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.25s ease;
+}
+
+.upload-box:hover {
+  border-color: #1a73e8;
+  background: rgba(26, 115, 232, 0.05);
+}
+
+.upload-placeholder {
+  font-size: 60px;
+  color: #a8c7fa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.upload-placeholder:hover {
+  transform: scale(1.15);
+  color: #1a73e8;
+}
+.upload-box {
+  width: 180px;
+  height: 180px;
+  border: 2px dashed #a8c7fa;
+  border-radius: 16px;
+  background: #f8fbff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.25s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.upload-box:hover {
+  border-color: #1a73e8;
+  background: rgba(26, 115, 232, 0.05);
+}
+
+.upload-placeholder {
+  font-size: 60px;
+  color: #a8c7fa;
+  transition: transform 0.2s ease, color 0.2s ease;
+  cursor: pointer;
+}
+
+.upload-box:hover .upload-placeholder {
+  transform: scale(1.15);
+  color: #1a73e8;
+}
+
+.image-container {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+  border-radius: 16px;
+}
+
+.crop-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  transform: scale(1);
+  transition: transform 0.3s ease;
+}
+
+.frame-actions {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.frame-btn {
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 10px;
+  background: #f5f7fa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.frame-btn:hover {
+  background: #e1ecff;
+  transform: scale(1.1);
+}
+
+.frame-btn.delete:hover {
+  background: #ffe5e5;
+}
+
+.accounts-topbar {
+  display:flex; align-items:center; justify-content:space-between;
+  padding: .75rem 1rem; gap:.75rem;
+}
+
+.accounts-title { margin:0; font-size:1.125rem; }
+.accounts-actions .btn.primary { padding:.5rem .75rem; }
+
+.chips-row { display:flex; flex-wrap:wrap; gap:.4rem; margin-top:.5rem; }
+.chip.tool-chip {
+  display:inline-flex; align-items:center; gap:.4rem;
+  padding:.25rem .5rem; border-radius:.5rem;
+  background: var(--muted); color: var(--foreground);
+  font-size:.85rem; line-height:1;
+}
+.chip-icon { width:16px; height:16px; border-radius:3px; object-fit:cover; }
+.form-row { margin-bottom:.75rem; }
+.form-label { display:block; margin-bottom:.35rem; font-weight:600; opacity:.9; }
+.form-hint { margin-top:.5rem; font-size:.85rem; opacity:.7; }
+.form-error { margin-top:.5rem; color:#d63384; font-weight:600; }
+
+.image-container { position: relative; width: 220px; height: 220px; border-radius: 18px; overflow: hidden; }
+.image-container .crop-image {
+  width: 100%; height: 100%;
+  object-fit: cover;            /* дефолт как Fill */
+  object-position: top center;  /* «прижато к верху», по центру по X */
+  transition: object-fit .2s ease, object-position .2s ease, transform .2s ease;
+}
+/* Режим Fit */
+.image-container .crop-image[data-mode="fit"] {
+  object-fit: contain;
+  object-position: center center;
+  background: transparent;      /* чтоб не просвечивал фон */
+}
+/* Режим Fill */
+.image-container .crop-image[data-mode="fill"] {
+  object-fit: cover;
+  object-position: top center;
+}
+/* 🫧 Лёгкая "мочалка" вокруг превью */
+.upload-box,
+.image-container {
+  position: relative;
+  width: 220px;
+  height: 220px;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 1px 0 rgba(0,0,0,.03), 0 6px 20px rgba(33,35,38,.06);
+  border: 2px dashed rgba(82,109,255,.35); /* светло-синяя пунктирная */
+}
+
+/* Само изображение в кубике */
+.image-container .crop-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;            /* дефолт как Fill */
+  object-position: top center;  /* по ширине + прижатие к верху */
+  transition: object-fit .2s ease, object-position .2s ease, transform .2s ease;
+  border-radius: 16px;
+}
+
+/* Режимы превью через data-mode */
+.image-container .crop-image[data-mode="fit"]  { object-fit: contain; object-position: center center; }
+.image-container .crop-image[data-mode="fill"] { object-fit: cover;   object-position: top center; }
+
+/* Кнопки (Crop/Delete) — лёгкие белые "таблетки" */
+.frame-actions {
+  position: absolute; right: 10px; top: 10px; display: flex; flex-direction: column; gap: 10px;
+}
+.frame-btn {
+  background: #fff;
+  border: 1px solid rgba(0,0,0,.08);
+  border-radius: 12px;
+  width: 40px; height: 40px; display: grid; place-items: center;
+  box-shadow: 0 2px 10px rgba(33,35,38,.12);
+  cursor: pointer;
+}
+.frame-btn:hover { transform: translateY(-1px); }
+.frame-btn.delete { background: #fff; border-color: rgba(220,53,69,.18); }
+.upload-box, .image-container {
+  position: relative;
+  width: 220px;
+  height: 220px;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #fff;
+  border: 2px dashed rgba(82,109,255,.35);
+  box-shadow: 0 1px 0 rgba(0,0,0,.03), 0 6px 20px rgba(33,35,38,.06);
+}
+.crop-area {
+  border: 1px solid rgba(255,255,255,0.2);
+}
+.crop-modal.open {
+  display: flex !important;
+  z-index: 9999 !important;
+  opacity: 1 !important;
+}
+/* ==================== НОВЫЕ СТИЛИ ДЛЯ CROPPING MODAL ==================== */
+.crop-modal-overlay {
+  position: fixed;
+  z-index: 1000; /* Высокий индекс для отображения поверх всего */
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.5);
+  display: none; /* По умолчанию скрыто */
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.crop-modal-content {
+  background-color: #fefefe;
+  padding: 20px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 800px; /* Ограничение ширины */
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.crop-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 10px;
+}
+
+.crop-modal-header h2 {
+    margin: 0;
+}
+
+.close-btn {
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+  background: none;
+  border: none;
+  color: #333;
+}
+
+/* Контейнер для Cropper.js и предпросмотра */
+.crop-preview-container {
+  width: 100%;
+  max-width: 600px;
+  height: 400px; /* Фиксированная высота для области редактирования */
+  margin: 20px auto;
+  position: relative;
+  overflow: hidden;
+  background: #f0f0f0;
+  border: 1px solid var(--border);
+}
+
+/* Режимы кнопок */
+.crop-modes {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+    justify-content: center;
+}
+
+.mode-btn {
+    padding: 8px 15px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--card);
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.mode-btn.active {
+    background: var(--accent-blue);
+    color: white;
+    border-color: var(--accent-blue);
+}
+
+.crop-modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding-top: 15px;
+    border-top: 1px solid var(--border);
+}
+
+.apply-btn {
+    background: var(--accent-blue);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+/* Стили для предпросмотра Fill/Fit */
+#image-display-preview {
+    width: 100%;
+    height: 100%;
+    display: flex; /* Для центрирования */
+    justify-content: center;
+    align-items: center;
+}
+
+#image-display-preview img {
+    /* Эти стили будут перезаписаны object-fit */
+    width: 100%;
+    height: 100%;
+    object-position: center;
+}
+
+.object-fit-contain {
+    object-fit: contain; /* Режим "Вписать" (Fit) */
+}
+
+.object-fit-cover {
+    object-fit: cover; /* Режим "Заполнение" (Fill) */
+}
+/* ==================== КОНЕЦ НОВЫХ СТИЛЕЙ ==================== */
   </style>
 </head>
 <body>
+  
   <div id="app"></div>
   <link href="https://unpkg.com/cropperjs/dist/cropper.min.css" rel="stylesheet"/>
   <script src="https://unpkg.com/cropperjs/dist/cropper.min.js"></script>
@@ -6010,7 +6429,43 @@ body.acc-editing .account-card:hover {
 
 <script src="https://unpkg.com/cropperjs"></script>
 
-
 <script src="./js/smt.js"></script>
-</body>
+  <div id="app"></div>
+  <script src="your-bundle.js"></script>
+<div id="imageCropModal" style="/* ... стили ... */">
+        </div>
+
+    <script src="smt.js"></script> 
+    <div id="crop-modal" class="crop-modal-overlay">
+  <div class="crop-modal-content">
+    
+    <div class="crop-modal-header">
+      <h2>Редактирование изображения</h2>
+      <button class="close-btn" onclick="window.closeCropModal()">&times;</button>
+    </div>
+    
+    <div class="crop-modal-body">
+      
+      <div class="crop-modes">
+        <button id="mode-fill" class="mode-btn active" data-mode="fill">Заполнение (Fill)</button>
+        <button id="mode-fit" class="mode-btn" data-mode="fit">Вписать (Fit)</button>
+        <button id="mode-crop" class="mode-btn" data-mode="crop">Обрезка (Crop)</button>
+      </div>
+
+      <div class="crop-preview-container">
+        <img id="image-to-crop" src="" alt="Image to Crop">
+        
+        <div id="image-display-preview">
+           </div>
+      </div>
+    </div>
+    
+    <div class="crop-modal-footer">
+      <button class="cancel-btn" onclick="window.closeCropModal()">Отмена</button>
+      <button id="apply-crop-btn" class="apply-btn">Применить</button>
+    </div>
+    
+  </div>
+</div>
+</body> 
 </html>

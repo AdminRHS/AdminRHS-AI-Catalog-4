@@ -1,3 +1,5 @@
+
+
 // ==================== ICONS ====================
   const icons = {
     // Правые иконки (уже были SVG)
@@ -22,6 +24,7 @@
     create: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>`,
     upload: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>`
   };
+  
     // ==================== DEPARTMENT ICONS ====================
     const departmentIcons = {
       'Developers': '🦗',
@@ -560,26 +563,35 @@ const departmentLogos = {
       },
     ];
 
-// ==================== STATE MANAGEMENT ====================
-    let state = {
-      theme: 'light',
-      activeTab: 'catalog',
-      searchQuery: '',
-      filters: {
-        category: [],
-        department: [],
-        profession: [],
-        responsibility: [],
-        subscription: []
-      },
-      isPanelOpen: false,
-      openDropdown: null,
-      selectedTool: null,
-      isModalOpen: false,
-      isSearchOpen: false,
-      isEditMode: false,      // 👈 Для "режима дрожания"
-      isEditMenuOpen: false // 👈 Для выпадающего меню
-    };
+let state = {
+  theme: 'light',
+  activeTab: 'catalog',
+  searchQuery: '',
+  filters: {
+    category: [],
+    department: [],
+    profession: [],
+    responsibility: [],
+    subscription: []
+  },
+  isPanelOpen: false,
+  openDropdown: null,
+  selectedTool: null,
+  isModalOpen: false,
+  isSearchOpen: false,
+  isEditMode: false,       // 🔹 режим редактирования
+  isEditMenuOpen: false,   // 🔹 выпадающее меню редактирования
+
+  // 🔹 модалка для аккаунтов
+  isAccountModalOpen: false,
+  accountDraft: {
+    email: '',
+    free: [],
+    freemium: [],
+    paid: []
+  },
+  accountModalError: ''
+};
 
     // ==================== HELPER FUNCTIONS ====================
     function escapeHtml(text) {
@@ -587,6 +599,50 @@ const departmentLogos = {
       div.textContent = text;
       return div.innerHTML;
     }
+// ==================== ACCOUNTS: HELPERS ====================
+function normalizeToolName(name) {
+  return (name || '').toString().trim();
+}
+
+function getToolByName(name) {
+  if (!name) return null;
+  const lower = name.toLowerCase();
+  return tools.find(t => t.name.toLowerCase() === lower);
+}
+
+// Строка "GPT, Gemini, Notion" -> ["GPT","Gemini","Notion"]
+function parseToolInput(str) {
+  if (!str) return [];
+  return str
+    .split(',')
+    .map(s => normalizeToolName(s))
+    .filter(Boolean);
+}
+
+// Проверяем, что все тулзы из списка существуют в массиве tools
+function validateToolNames(list) {
+  const unknown = list.filter(n => !getToolByName(n));
+  return { ok: unknown.length === 0, unknown };
+}
+
+// Удобный рендер маленьких «чипов» (логотипы из toolLogos)
+function renderToolChips(list) {
+  return list.map(name => {
+    const t = getToolByName(name);
+    if (!t) return '';
+    const logoUrl =
+      state.theme === 'dark'
+        ? (toolLogos[t.name]?.dark || toolLogos[t.name]?.light)
+        : (toolLogos[t.name]?.light || toolLogos[t.name]?.dark);
+
+    return `
+      <span class="chip tool-chip" title="${escapeHtml(t.name)}">
+        ${logoUrl ? `<img src="${logoUrl}" alt="${escapeHtml(t.name)}" class="chip-icon"/>` : ''}
+        ${escapeHtml(t.name)}
+      </span>
+    `;
+  }).join('');
+}
 
     function initTheme() {
       const savedTheme = localStorage.getItem('theme');
@@ -751,38 +807,46 @@ function closeModal() {
       }
     }
 
-   // Close dropdowns/menus when clicking outside
+
+// ========================
+// Close dropdowns/menus when clicking outside
+// ========================
+// === исправленный глобальный обработчик кликов ===
 document.addEventListener('click', (e) => {
-  
-  // Логика для фильтров
-  if (!e.target.closest('.filter-dropdown')) {
-    if (state.openDropdown) {
-      state.openDropdown = null;
-      render();
-    }
+  if (e.target.closest('.add-tool-card')) {
+    e.stopPropagation();
+    return;
   }
 
-  // Логика для выпадающего Edit-меню
+  // ✅ исправлено: правильный id crop-модалки
+  if (e.target.closest('#cropModal') || e.target.closest('#openCropModalBtn')) {
+    return; 
+  }
+
+  if (!e.target.closest('.filter-dropdown') && state.openDropdown) {
+    state.openDropdown = null;
+    render();
+  }
+
+  if (
+    !e.target.closest('.edit-toggle-btn') &&
+    !e.target.closest('.edit-menu') &&
+    state.isEditMenuOpen
+  ) {
+    state.isEditMenuOpen = false;
+    render();
+  }
+
   if (!e.target.closest('.edit-toggle-btn') && !e.target.closest('.edit-menu')) {
     if (state.isEditMenuOpen) {
       state.isEditMenuOpen = false;
       render();
     }
   }
-  
-  // Логика для режима редактирования (jiggle mode)
-  // Выключаем, если клик был НЕ по кнопке "Edit" И НЕ по кнопке "X" на карточке
-  if (state.isEditMode && !e.target.closest('.edit-toggle-btn') && !e.target.closest('.card-delete-btn')) {
-    state.isEditMode = false;
-    render();
-  }
 });
-    // Close modal on escape
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && state.isModalOpen) {
-        closeModal();
-      }
-    });
+
+
+// =================================================================================
 
     // ==================== RENDER FUNCTIONS ====================
     function renderHeader() {
@@ -908,9 +972,14 @@ ${state.isEditMode ? `
               <span class="nav-icon">${icons.edit}</span>
             </button>
             
-            <button class="edit-menu-btn" title="Create New">
-              <span class="nav-icon">${icons.create}</span>
-            </button>
+            <button
+  class="edit-menu-btn"
+  title="Create New"
+  onclick="event.stopPropagation(); if (state.activeTab === 'accounts') { openAccountModal(); } else { openModal('createTool'); }"
+>
+  <span class="nav-icon">${icons.create}</span>
+</button>
+
             <button class="edit-menu-btn" title="Upload">
               <span class="nav-icon">${icons.upload}</span>
             </button>
@@ -1441,33 +1510,22 @@ function applyChanges() {
         <h2 class="modal-title">Add New Tool</h2>
 
         <!-- === LOGO UPLOAD === -->
-        <div class="modal-section">
-          <h3 class="modal-section-title">Card Logo</h3>
-          <div id="logo-upload" class="upload-box" 
-               ondragover="handleDragOver(event)" 
-               ondragleave="handleDragLeave(event)"
-               ondrop="handleFileDrop(event, 'logo')" 
-               onclick="document.getElementById('logoFileInput').click()">
-            <div id="logo-preview" class="upload-placeholder">+</div>
-            <input type="file" id="logoFileInput" accept="image/*" style="display:none;" onchange="handleFileSelect(event, 'logo')">
-          </div>
-        </div>
+<div class="modal-section">
+  <h3 class="modal-section-title">Card Logo</h3>
+  <div class="upload-box" id="logo-upload" onclick="openFileInput('logo')">
+    <div class="upload-placeholder">+</div>
+    <input type="file" id="logoFileInput" accept="image/*" style="display:none" onchange="handleFileSelect(event, 'logo')">
+  </div>
+</div>
 
-        <!-- === MODAL BACKGROUND UPLOAD === -->
-        <div class="modal-section">
-          <h3 class="modal-section-title">Modal Background Image</h3>
-          <div id="modal-upload" class="upload-box" 
-               ondragover="handleDragOver(event)" 
-               ondragleave="handleDragLeave(event)"
-               ondrop="handleFileDrop(event, 'modal')" 
-               onclick="document.getElementById('modalFileInput').click()">
-            <div id="modal-preview" class="upload-placeholder">+</div>
-            <input type="file" id="modalFileInput" accept="image/*" style="display:none;" onchange="handleFileSelect(event, 'modal')">
-          </div>
-        </div>
-<!-- Скрытые input для выбора изображений -->
-<input type="file" id="card-input" accept="image/*" style="display:none" onchange="previewImage(this.files[0], 'card')" />
-<input type="file" id="modal-input" accept="image/*" style="display:none" onchange="previewImage(this.files[0], 'modal')" />
+<!-- === MODAL BACKGROUND UPLOAD === -->
+<div class="modal-section">
+  <h3 class="modal-section-title">Modal Background Image</h3>
+  <div class="upload-box" id="modal-upload" onclick="openFileInput('modal')">
+    <div class="upload-placeholder">+</div>
+    <input type="file" id="modalFileInput" accept="image/*" style="display:none" onchange="handleFileSelect(event, 'modal')">
+  </div>
+</div>
 
         <!-- === TOOL DETAILS === -->
         <div class="modal-section">
@@ -1647,6 +1705,152 @@ function applyChanges() {
         </div>
       `;
     }
+// ==================== ACCOUNT MODAL ====================
+
+function openAccountModal() {
+  state.isAccountModalOpen = true;
+  render();
+}
+
+function closeAccountModal() {
+  // Закрываем окно, не трогая isEditMode
+  state.isAccountModalOpen = false;
+  const modal = document.querySelector('.account-modal-overlay');
+  if (modal) modal.remove();
+}
+
+
+
+function renderAccountModal() {
+  if (!state.isAccountModalOpen) return '';
+  const err = state.accountModalError ? `<div class="form-error">${escapeHtml(state.accountModalError)}</div>` : '';
+
+  // Подсказка: список известных тулзов для удобства
+  const known = tools.map(t => t.name).sort();
+  const hint = known.slice(0, 18).join(', ') + (known.length > 18 ? '…' : '');
+
+  return `
+    <div class="account-modal-overlay modal-overlay open" onclick="if(event.target === this) closeAccountModal();">
+      <div class="modal account-modal">
+        <button class="modal-close" onclick="closeAccountModal()">${icons.x}</button>
+        <h2 class="modal-title">Add Account</h2>
+
+        <div class="modal-section">
+          <h3 class="modal-section-title">Account Email</h3>
+          <input 
+            id="accEmailInput" 
+            class="modal-input" 
+            placeholder="e.g., dev@rh-s.com" 
+            oninput="state.accountDraft.email = this.value.trim()"
+          />
+        </div>
+
+        <div class="modal-section">
+          <h3 class="modal-section-title">Tools by Subscription</h3>
+
+          <div class="form-row">
+            <label class="form-label">Freemium</label>
+            <input id="accFreemiumInput" class="modal-input" placeholder="Comma-separated (e.g., GPT, Notion)" 
+              oninput="
+                const list = parseToolInput(this.value);
+                state.accountDraft.freemium = list;
+                document.getElementById('accFreemiumChips').innerHTML = renderToolChips(list);
+              " />
+            <div id="accFreemiumChips" class="chips-row"></div>
+          </div>
+
+          <div class="form-row">
+            <label class="form-label">Paid</label>
+            <input id="accPaidInput" class="modal-input" placeholder="Comma-separated (e.g., GitHub Copilot, MidJourney)" 
+              oninput="
+                const list = parseToolInput(this.value);
+                state.accountDraft.paid = list;
+                document.getElementById('accPaidChips').innerHTML = renderToolChips(list);
+              " />
+            <div id="accPaidChips" class="chips-row"></div>
+          </div>
+
+          <div class="form-row">
+            <label class="form-label">Free</label>
+            <input id="accFreeInput" class="modal-input" placeholder="Comma-separated (e.g., NotebookLM)" 
+              oninput="
+                const list = parseToolInput(this.value);
+                state.accountDraft.free = list;
+                document.getElementById('accFreeChips').innerHTML = renderToolChips(list);
+              " />
+            <div id="accFreeChips" class="chips-row"></div>
+          </div>
+
+          <div class="form-hint">
+            Known tools: ${escapeHtml(hint)}
+          </div>
+          ${err}
+        </div>
+
+        <div class="modal-actions">
+          <button class="modal-button" onclick="closeAccountModal()">Cancel</button>
+          <button class="modal-button primary" onclick="saveAccountFromModal()">Add</button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+// Escape-обработчик для аккаунт-модалки
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && state.isAccountModalOpen) {
+    closeAccountModal();
+  }
+});
+function saveAccountFromModal() {
+  const email = (state.accountDraft.email || '').trim();
+  if (!email) {
+    state.accountModalError = 'Please enter account email.';
+    const old = document.querySelector('.account-modal-overlay');
+    if (old) old.replaceWith(new DOMParser().parseFromString(renderAccountModal(), 'text/html').body.firstChild);
+    return;
+  }
+
+  const freemiumList = state.accountDraft.freemium || [];
+  const paidList = state.accountDraft.paid || [];
+  const freeList = state.accountDraft.free || [];
+
+  // Валидация существования тулзов
+  const vf = validateToolNames(freemiumList);
+  const vp = validateToolNames(paidList);
+  const vfree = validateToolNames(freeList);
+
+  if (!vf.ok || !vp.ok || !vfree.ok) {
+    const bad = [...(vf.unknown || []), ...(vp.unknown || []), ...(vfree.unknown || [])];
+    state.accountModalError = `Unknown tool(s): ${bad.join(', ')}`;
+    const old = document.querySelector('.account-modal-overlay');
+    if (old) old.replaceWith(new DOMParser().parseFromString(renderAccountModal(), 'text/html').body.firstChild);
+    // восстановим значения полей
+    setTimeout(() => {
+      document.getElementById('accEmailInput').value = email;
+      document.getElementById('accFreemiumInput').value = freemiumList.join(', ');
+      document.getElementById('accPaidInput').value = paidList.join(', ');
+      document.getElementById('accFreeInput').value = freeList.join(', ');
+      document.getElementById('accFreemiumChips').innerHTML = renderToolChips(freemiumList);
+      document.getElementById('accPaidChips').innerHTML = renderToolChips(paidList);
+      document.getElementById('accFreeChips').innerHTML = renderToolChips(freeList);
+    }, 0);
+    return;
+  }
+
+  // Собираем toolNames (единый список — как у твоих карточек)
+  const toolNames = [...freemiumList, ...paidList, ...freeList];
+
+  // Добавляем новый аккаунт в начало
+  accounts.unshift({
+    email,
+    toolNames
+  });
+
+  closeAccountModal();
+  render();
+  alert(`✅ Account "${email}" has been created!`);
+}
 
 function renderAccountsView() {
   const groupedBySubscription = {
@@ -1664,102 +1868,128 @@ function renderAccountsView() {
     ]
   };
 
-  if (!Array.isArray(accounts) || accounts.length === 0) {
-    return `<p style="padding: 2rem; text-align: center; color: var(--muted-foreground);">
-      No account data available
-    </p>`;
-  }
+  // ✅ не выходим из функции, даже если массив пуст
+  const hasAccounts = Array.isArray(accounts);
+  const sortedAccounts = hasAccounts ? [...accounts] : [];
+  const isEmpty = sortedAccounts.length === 0;
 
+  // Определяем порядок сортировки по email
   const order = ["dev@rh-s.com", "admin@rh-s.com", "lg@rh-s.com"];
 
-  const sortedAccounts = [...accounts].sort((a, b) => {
-    const aEmail = a.email.toLowerCase();
-    const bEmail = b.email.toLowerCase();
-    const aIndex = order.indexOf(aEmail);
-    const bIndex = order.indexOf(bEmail);
-    if (aIndex !== -1 && bIndex !== -1) return aIndex - bIndex;
-    if (aIndex !== -1) return -1;
-    if (bIndex !== -1) return 1;
-    return 0;
-  });
+  if (!isEmpty) {
+    sortedAccounts.sort((a, b) => {
+      const aEmail = a.email.toLowerCase();
+      const bEmail = b.email.toLowerCase();
+      const aIndex = order.indexOf(aEmail);
+      const bIndex = order.indexOf(bEmail);
+      if (aIndex !== -1 && bIndex !== -1) return aIndex - bIndex;
+      if (aIndex !== -1) return -1;
+      if (bIndex !== -1) return 1;
+      return 0;
+    });
+  }
 
-  // 🔹 Отрисовка карточек
-  return `
+  // 🔹 функция для отображения иконки тулза
+  const renderToolIcon = (toolName) => {
+    const tool = tools.find(t => t.name.toLowerCase() === toolName.toLowerCase());
+    if (!tool) return '';
+    const logoUrl =
+      state.theme === 'dark'
+        ? (toolLogos[tool.name]?.dark || toolLogos[tool.name]?.light)
+        : (toolLogos[tool.name]?.light || toolLogos[tool.name]?.dark);
+
+    return `
+      <button 
+        class="account-tool-btn-icon"
+        onclick="handleToolClickFromAccount('${escapeHtml(tool.name)}')"
+        title="${escapeHtml(tool.name)}"
+      >
+        <img src="${logoUrl}" alt="${escapeHtml(tool.name)} logo" class="account-tool-icon"/>
+      </button>
+    `;
+  };
+
+  // 🔹 функция для рендера блока Freemium / Paid / Free
+  const renderCategory = (title, toolsArr, color) => {
+    if (!toolsArr.length) return "";
+    return `
+      <div class="account-category">
+        <h4 class="account-category-title" style="color:${color};">${title}</h4>
+        <div class="account-tools">
+          ${toolsArr.map(toolName => renderToolIcon(toolName)).join('')}
+        </div>
+      </div>
+    `;
+  };
+
+  // 🔹 Сетка карточек аккаунтов
+  const grid = `
     <div class="tool-grid ${state.isEditMode ? 'edit-mode' : ''}">
-      ${sortedAccounts.map((account, index) => {
-        const freemiumTools = (account.toolNames || []).filter(name =>
-          groupedBySubscription.Freemium.some(f => f.toLowerCase() === name.toLowerCase())
-        );
-        const paidTools = (account.toolNames || []).filter(name =>
-          groupedBySubscription.Paid.some(f => f.toLowerCase() === name.toLowerCase())
-        );
-        const freeTools = (account.toolNames || []).filter(name =>
-          groupedBySubscription.Free.some(f => f.toLowerCase() === name.toLowerCase())
-        );
 
-        // 🔹 функция иконки + подписи
-        const renderToolIcon = (toolName) => {
-          const tool = tools.find(t => t.name.toLowerCase() === toolName.toLowerCase());
-          if (!tool) return '';
-          const logoUrl =
-            state.theme === 'dark'
-              ? (toolLogos[tool.name]?.dark || toolLogos[tool.name]?.light)
-              : (toolLogos[tool.name]?.light || toolLogos[tool.name]?.dark);
-
-          return `
-            <button 
-              class="account-tool-btn-icon"
-              onclick="handleToolClickFromAccount('${escapeHtml(tool.name)}')"
-              title="${escapeHtml(tool.name)}"
-            >
-              <img 
-            src="${logoUrl}" 
-            alt="${escapeHtml(tool.name)} logo" 
-            class="account-tool-icon"
-          />
-          </button>
-          `;
-        };
-
-        // 🔹 функция категории
-        const renderCategory = (title, tools, color) => {
-          if (!tools.length) return "";
-          return `
-            <div class="account-category">
-              <h4 class="account-category-title" style="color:${color};">${title}</h4>
-              <div class="account-tools">
-                ${tools.map(toolName => renderToolIcon(toolName)).join('')}
-              </div>
-            </div>
-          `;
-        };
-
-        // 🔹 возвращаем разметку карточки
-        return `
-          <div class="account-card" style="animation-delay:${index * 60}ms">
-            
-            ${state.isEditMode ? `<button class="card-delete-btn" onclick="alert('Delete ${escapeHtml(account.email)}?');">&times;</button>` : ''}
-
-            <div class="account-card-header">
-              <h3>${escapeHtml(account.email)}</h3>
-            </div>
-            <div class="account-card-content">
-              ${renderCategory("Freemium", freemiumTools, "#0096E1")}
-              ${renderCategory("Paid", paidTools, "#d63384")}
-              ${renderCategory("Free", freeTools, "#28a745")}
-            </div>
+      <!-- 🔹 Add Account card (показывается только при редактировании) -->
+      ${state.isEditMode ? `
+        <div class="tool-card add-tool-card" onclick="event.stopPropagation(); openAccountModal();">
+          <div class="add-tool-content">
+            <div class="add-tool-icon">+</div>
+            <div class="add-tool-text">Add Account</div>
           </div>
-        `;
-      }).join('')}
+        </div>
+      ` : ''}
+
+      <!-- 🔹 Основные карточки аккаунтов -->
+      ${
+        !isEmpty
+          ? sortedAccounts.map((account, index) => {
+              const freemiumTools = (account.toolNames || []).filter(name =>
+                groupedBySubscription.Freemium.some(f => f.toLowerCase() === name.toLowerCase())
+              );
+              const paidTools = (account.toolNames || []).filter(name =>
+                groupedBySubscription.Paid.some(f => f.toLowerCase() === name.toLowerCase())
+              );
+              const freeTools = (account.toolNames || []).filter(name =>
+                groupedBySubscription.Free.some(f => f.toLowerCase() === name.toLowerCase())
+              );
+
+              return `
+                <div class="account-card" style="animation-delay:${index * 60}ms">
+                  ${
+                    state.isEditMode
+                      ? `<button class="card-delete-btn" onclick="event.stopPropagation(); if(confirm('Delete ${escapeHtml(account.email)}?')) deleteAccount('${escapeHtml(account.email)}');">&times;</button>`
+                      : ''
+                  }
+                  <div class="account-card-header">
+                    <h3>${escapeHtml(account.email)}</h3>
+                  </div>
+                  <div class="account-card-content">
+                    ${renderCategory("Freemium", freemiumTools, "#0096E1")}
+                    ${renderCategory("Paid", paidTools, "#d63384")}
+                    ${renderCategory("Free", freeTools, "#28a745")}
+                  </div>
+                </div>
+              `;
+            }).join('')
+          : `
+            <p style="padding: 1.25rem; text-align: center; color: var(--muted-foreground);">
+              No account data available
+            </p>
+          `
+      }
     </div>
   `;
+
+  return grid;
 }
+
+
 
 
 // ==================== MAIN RENDER FUNCTION ====================
 function render() {
   const app = document.getElementById('app');
   let viewHtml = '';
+
+const currentEdit = state.isEditMode;
+
 
   // 1. Определяем, какой контент показать (Catalog или Accounts)
   if (state.activeTab === 'catalog') {
@@ -1782,14 +2012,22 @@ function render() {
     </div>
   `;
 
-  // 3. Отдельно рендерим модальное окно (оно вне #app)
-  const oldModal = document.querySelector('.modal-overlay');
-  if (oldModal) oldModal.remove();
-  document.body.insertAdjacentHTML('beforeend', renderModal());
+// 3. Отдельно рендерим модальное окно (оно вне #app)
+const oldModal = document.querySelector('.modal-overlay');
+if (oldModal) oldModal.remove();
+document.body.insertAdjacentHTML('beforeend', renderModal());
 
-  // 4. Заново применяем JS-эффекты для карточек
-  applyCardHoverColors();
+// +++ вставка модалки аккаунтов (если открыта)
+document.body.insertAdjacentHTML('beforeend', renderAccountModal());
+
+// ♻️ возвращаем состояние editMode после рендера
+if (currentEdit) state.isEditMode = true;
+console.log("🟢 EditMode restored:", state.isEditMode, "ActiveTab:", state.activeTab);
+
+// 4. Заново применяем JS-эффекты для карточек
+applyCardHoverColors();
 }
+
 // === ДАННЫЕ ДЛЯ ПОДСКАЗОК ===
 const tagSuggestionsData = {
   category: ["Automation", "Design", "Coding", "AI Assistant", "Web Design", "Tools"],
@@ -1892,61 +2130,64 @@ function handleDragLeave(e) {
   e.currentTarget.classList.remove('dragover');
 }
 
-function handleFileDrop(e, type) {
-  e.preventDefault();
-  e.currentTarget.classList.remove('dragover');
-  const file = e.dataTransfer.files[0];
-  if (file) previewImage(file, type);
+// === OPEN FILE INPUT ===
+function openFileInput(type) {
+  document.getElementById(`${type}FileInput`).click();
 }
 
+// === HANDLE FILE SELECTION ===
 function handleFileSelect(e, type) {
   const file = e.target.files[0];
-  if (file) previewImage(file, type);
-}
-// === ПРЕДПРОСМОТР ИЗОБРАЖЕНИЯ ===
-function previewImage(file, type) {
+  if (!file) return;
+
   const reader = new FileReader();
-  reader.onload = function (e) {
-    const preview = document.getElementById(type === 'logo' ? 'logo-preview' : 'modal-preview');
-    preview.innerHTML = `
-      <div class="frame-row">
-        <div class="image-frame">
-          <img id="${type}-img" src="${e.target.result}" alt="Preview" class="preview-img" />
-        </div>
-        <div class="frame-actions">
-          <button class="frame-btn" title="Crop" onclick="openCropModal('${type}')">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"
-              stroke-linecap="round" stroke-linejoin="round">
-              <path d="M6 2v14a2 2 0 0 0 2 2h14" />
-              <path d="M18 22V8a2 2 0 0 0-2-2H2" />
-            </svg>
-          </button>
-          <button class="frame-btn delete" title="Delete" onclick="deleteImage('${type}')">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"
-              stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="3 6 5 6 21 6" />
-              <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
-              <path d="M10 11v6" />
-              <path d="M14 11v6" />
-              <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
-            </svg>
-          </button>
-        </div>
-      </div>
-    `;
-    selectedImages[type] = e.target.result;
+  reader.onload = function (event) {
+    const uploadBox = document.getElementById(`${type}-upload`);
+    uploadBox.onclick = null; // отключаем открытие input при клике на саму область
+
+uploadBox.innerHTML = `
+  <div class="image-container">
+    <img src="${event.target.result}" alt="Preview" class="crop-image" id="${type}-img">
+    <div class="frame-actions">
+      <button class="frame-btn" title="Crop" onclick="openCropModal('${type}')">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 2v14a2 2 0 0 0 2 2h14" />
+          <path d="M18 22V8a2 2 0 0 0-2-2H2" />
+        </svg>
+      </button>
+      <button class="frame-btn delete" title="Delete" onclick="deleteImage('${type}')">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="3 6 5 6 21 6" />
+          <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+          <path d="M10 11v6" />
+          <path d="M14 11v6" />
+          <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
+        </svg>
+      </button>
+    </div>
+  </div>
+`;
+
   };
   reader.readAsDataURL(file);
 }
 
-
-
-
+// === DELETE IMAGE ===
 function deleteImage(type) {
-  const preview = document.getElementById(type === 'logo' ? 'logo-preview' : 'modal-preview');
-  preview.innerHTML = `<div class="upload-placeholder">+</div>`;
-  selectedImages[type] = null;
+  const uploadBox = document.getElementById(`${type}-upload`);
+
+  // полностью возвращаем исходный "+" без открытия диалога
+  uploadBox.innerHTML = `
+    <div class="upload-placeholder">+</div>
+    <input type="file" id="${type}FileInput" accept="image/*" style="display:none" onchange="handleFileSelect(event, '${type}')">
+  `;
+
+  uploadBox.onclick = () => openFileInput(type);
 }
+
+
 
 function replaceImage(type) {
   const input = document.createElement('input');
@@ -1956,118 +2197,202 @@ function replaceImage(type) {
   input.click();
 }
 
-// ============ IMAGE CROP MODAL (Fill / Crop, как в Figma) ============
+
+
+
+// ==================== IMAGE CROP (Telegram-style, stable) ====================
 let currentCropper = null;
-let cropMode = "fill";
+let cropMode = "fill"; // "fill" | "fit" | "crop"
 
-function openCropModal(type) {
-  const img = document.getElementById(`${type}-img`);
-  const cropModal = document.getElementById("cropModal");
-  const cropImage = document.getElementById("cropImage");
-  cropImage.src = img.src;
-  cropModal.style.display = "flex";
-  cropModal.dataset.type = type;
-
-  if (currentCropper) currentCropper.destroy();
- currentCropper = new Cropper(cropImage, {
-  viewMode: 1,
-  dragMode: "move",
-  background: false,
-  autoCropArea: 1,
-  responsive: true,
-  movable: true,
-  zoomable: true,
-  cropBoxResizable: true,
-  cropBoxMovable: true,
-  guides: false,
-});
-
-
-  setActiveMode("fill");
+// Загружаем Cropper.js (один раз)
+async function ensureCropperLoaded() {
+  if (window.Cropper) return;
+  await new Promise((resolve, reject) => {
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href = "https://unpkg.com/cropperjs/dist/cropper.min.css";
+    link.onload = resolve;
+    link.onerror = reject;
+    document.head.appendChild(link);
+  });
+  await new Promise((resolve, reject) => {
+    const s = document.createElement("script");
+    s.src = "https://unpkg.com/cropperjs/dist/cropper.min.js";
+    s.onload = resolve;
+    s.onerror = reject;
+    document.head.appendChild(s);
+  });
 }
 
-function setActiveMode(mode) {
-  cropMode = mode;
-  document.querySelectorAll(".modeBtn").forEach(b => b.classList.remove("active"));
-  document.querySelector(`.modeBtn[data-mode="${mode}"]`).classList.add("active");
+// Создаём модальное окно обрезки (если его нет)
+function ensureCropModalDOM() {
+  if (document.getElementById("tgCropperStyles")) return;
 
-  if (!currentCropper) return;
+  const styles = `
+  .crop-modal{position:fixed;inset:0;background:rgba(0,0,0,.86);display:none;align-items:center;justify-content:center;z-index:4000}
+.crop-modal.open{display:flex !important}
+.crop-modal{z-index:9999;}
+  .crop-dialog{background:#fff;border-radius:14px;padding:16px;width:min(92vw,960px);color:#111;box-shadow:0 20px 80px rgba(0,0,0,.3)}
+  .crop-title{margin:0 0 8px 0;font:600 17px/1.3 'Nunito Sans',system-ui;color:#1a1a1a}
+  .crop-toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:6px 0 10px}
+  .modeBtn,.crop-btn{border:1px solid rgba(0,0,0,.12);background:#f6f6f6;border-radius:10px;padding:8px 10px;font:500 13px/1 system-ui;color:#111;cursor:pointer;transition:.15s}
+  .modeBtn.active,.crop-btn.primary{background:#e8f0ff;border-color:#3a7afe;color:#0d47a1}
+  .crop-area{position:relative;background:#fafafa;border-radius:12px;overflow:hidden;height:min(60vh,520px);display:flex;align-items:center;justify-content:center}
+  #cropImage{max-width:100%;max-height:100%;display:block}
+  .crop-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:12px}
+  .crop-btn.primary{background:#3a7afe;color:#fff;border-color:#3a7afe}
+  .crop-btn.ghost{background:transparent;color:#444}
+  `;
+  const styleTag = document.createElement("style");
+  styleTag.id = "tgCropperStyles";
+  styleTag.textContent = styles;
+  document.head.appendChild(styleTag);
 
-  if (mode === "fill") {
-    currentCropper.clear();
-    currentCropper.setDragMode("move");
-  } 
-  else if (mode === "crop") {
-    // Включаем crop-режим с небольшой задержкой, чтобы DOM успел обновиться
-    setTimeout(() => {
-      currentCropper.setDragMode("crop");
-      currentCropper.crop();
-      const container = currentCropper.getContainerData();
-      const image = currentCropper.getImageData();
-
-      const padding = 24;
-      const cropWidth = Math.min(image.width, container.width) - padding * 2;
-      const cropHeight = Math.min(image.height, container.height) - padding * 2;
-
-      currentCropper.setCropBoxData({
-        left: (container.width - cropWidth) / 2,
-        top: (container.height - cropHeight) / 2,
-        width: cropWidth,
-        height: cropHeight
-      });
-
-      // Активируем видимую рамку и ручки
-      const box = document.querySelector(".cropper-crop-box");
-      const face = document.querySelector(".cropper-face");
-      if (box && face) {
-        box.style.border = "2px solid rgba(255,255,255,0.8)";
-        face.style.background = "rgba(0,0,0,0.4)";
-      }
-    }, 80);
-  }
-}
-
-
-function closeCropModal() {
-  document.getElementById("cropModal").style.display = "none";
-  if (currentCropper) {
-    currentCropper.destroy();
-    currentCropper = null;
-  }
-}
-
-function applyCrop() {
-  const type = document.getElementById("cropModal").dataset.type;
-  const canvas = currentCropper.getCroppedCanvas({ width: 800, height: 400 });
-  document.getElementById(`${type}-img`).src = canvas.toDataURL();
-  closeCropModal();
-}
-
-// Добавляем модалку при загрузке страницы
-document.addEventListener("DOMContentLoaded", () => {
-  const cropModalHTML = `
-  <div id="cropModal" class="crop-modal">
+  const modalHTML = `
+  <div id="cropModal" class="crop-modal" role="dialog" aria-modal="true">
     <div class="crop-dialog">
-      <button class="crop-close" onclick="closeCropModal()">&times;</button>
-      <h3 class="crop-title">Crop Image</h3>
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <h3 class="crop-title">Edit & Crop</h3>
+        <button class="crop-btn ghost" onclick="closeCropModal()">✕</button>
+      </div>
 
       <div class="crop-toolbar">
+        <button class="modeBtn" data-mode="fit" onclick="setActiveMode('fit')">Fit</button>
         <button class="modeBtn active" data-mode="fill" onclick="setActiveMode('fill')">Fill</button>
         <button class="modeBtn" data-mode="crop" onclick="setActiveMode('crop')">Crop</button>
+        <span style="flex:1"></span>
+        <button class="crop-btn" onclick="currentCropper && currentCropper.zoom(-0.15)">−</button>
+        <button class="crop-btn" onclick="currentCropper && currentCropper.zoom(0.15)">+</button>
+        <button class="crop-btn" onclick="currentCropper && currentCropper.rotate(-90)">↺</button>
+        <button class="crop-btn" onclick="currentCropper && currentCropper.rotate(90)">↻</button>
+        <button class="crop-btn" onclick="currentCropper && currentCropper.reset()">Reset</button>
       </div>
 
       <div class="crop-area">
-        <img id="cropImage" alt="Crop Area" />
+        <img id="cropImage" alt="Crop Area"/>
       </div>
 
       <div class="crop-actions">
-        <button class="btn-secondary" onclick="closeCropModal()">Cancel</button>
-        <button class="btn-primary" onclick="applyCrop()">Apply</button>
+        <button class="crop-btn ghost" onclick="closeCropModal()">Cancel</button>
+        <button class="crop-btn primary" onclick="applyCrop()">Apply</button>
       </div>
     </div>
   </div>`;
-  document.body.insertAdjacentHTML("beforeend", cropModalHTML);
+  document.body.insertAdjacentHTML("beforeend", modalHTML);
+}
+
+// Открываем модалку
+async function openCropModal(type) {
+  await ensureCropperLoaded();
+  console.log("🟢 openCropModal triggered for:", type);
+  ensureCropModalDOM();
+  const img = document.getElementById(`${type}-img`);
+  if (!img) return;
+
+  const modal = document.getElementById("cropModal");
+  const cropImage = document.getElementById("cropImage");
+  modal.dataset.type = type;
+  cropImage.src = img.src;
+
+  await new Promise((res) => {
+    if (cropImage.complete) res();
+    else { cropImage.onload = res; cropImage.onerror = res; }
+  });
+
+  if (currentCropper) { try { currentCropper.destroy(); } catch(_) {} currentCropper = null; }
+
+currentCropper = new Cropper(cropImage, {
+  viewMode: 1,
+  dragMode: "move",
+  background: false,
+  autoCrop: true,          // ✅ включаем рамку сразу
+  autoCropArea: 0.9,       // ✅ рамка занимает 90% области
+  responsive: true,
+  movable: true,
+  zoomable: true,
+  scalable: true,
+  rotatable: true,
+  wheelZoomRatio: 0.1,
+  guides: true,            // ✅ видимые направляющие
+  highlight: true,
+  cropBoxResizable: true,  // ✅ можно тянуть углы
+  cropBoxMovable: true,    // ✅ можно двигать рамку
 });
+console.log("✅ Cropper initialized:", !!currentCropper, cropImage.src);
+
+console.log("✅ Crop modal opened for:", type);
+
+
+  modal.classList.add("open");
+  setActiveMode(img.dataset.mode === "fit" ? "fit" : "fill");
+}
+
+// Выбор режима
+// === исправленный setActiveMode ===
+function setActiveMode(mode) {
+  cropMode = mode;
+  document.querySelectorAll(".modeBtn").forEach(b =>
+    b.classList.toggle("active", b.dataset.mode === mode)
+  );
+
+  if (!currentCropper) return;
+
+  const ci = document.getElementById("cropImage"); // <-- теперь определён
+  if (!ci) return;
+
+  if (mode === "fill") {
+    ci.style.objectFit = "cover";
+    currentCropper.clear();
+    currentCropper.setDragMode("move");
+  } else if (mode === "fit") {
+    ci.style.objectFit = "contain";
+    currentCropper.clear();
+    currentCropper.setDragMode("move");
+  } else if (mode === "crop") {
+    ci.style.objectFit = "contain";
+    currentCropper.setDragMode("crop");
+    currentCropper.crop();
+  }
+}
+
+
+
+
+// Применяем
+function applyCrop() {
+  const type = document.getElementById("cropModal")?.dataset.type;
+  const targetImg = document.getElementById(`${type}-img`);
+  if (!targetImg) return;
+  if (cropMode === "fit" || cropMode === "fill") {
+  targetImg.dataset.mode = cropMode;
+  targetImg.style.objectFit = cropMode === "fit" ? "contain" : "cover";
+  closeCropModal();
+  return;
+}
+
+
+  if (cropMode === "crop" && currentCropper) {
+    const canvas = currentCropper.getCroppedCanvas({
+      maxWidth: 2048,
+      maxHeight: 2048,
+      imageSmoothingEnabled: true,
+      imageSmoothingQuality: "high",
+    });
+    targetImg.src = canvas.toDataURL("image/png");
+    targetImg.dataset.mode = "fill";
+  }
+
+  closeCropModal();
+}
+
+// Закрываем
+function closeCropModal() {
+  const modal = document.getElementById("cropModal");
+  if (modal) modal.classList.remove("open");
+  if (currentCropper) { try { currentCropper.destroy(); } catch(_) {} currentCropper = null; }
+}
+
+
 // ====================== ACCOUNTS EDIT MODE ======================
 let accEditMode = false;
 
@@ -2113,6 +2438,11 @@ if (accCancelBtn) {
     });
   });
 }
+// === Make cropper functions globally accessible ===
+window.openCropModal = openCropModal;
+window.closeCropModal = closeCropModal;
+window.applyCrop = applyCrop;
+window.setActiveMode = setActiveMode;
 
 
     initTheme();
