@@ -1,5 +1,4 @@
 
-
 // ==================== ICONS ====================
   const icons = {
     // Правые иконки (уже были SVG)
@@ -1246,9 +1245,42 @@ const moreBtnHTML = hiddenCount > 0
 
   // ==================== CARD TEMPLATE ====================
   return `
-    <div class="tool-card" style="border-color: ${tool.borderColor}; animation-delay: ${index * 50}ms">
+  <div class="tool-card" data-id="${tool.id || tool.name}" style="animation-delay:${index * 60}ms">
+
       
       ${state.isEditMode ? `<button class="card-delete-btn" onclick="event.stopPropagation(); alert('Delete ${escapeHtml(tool.name)}?');">&times;</button>` : ''}
+${state.isEditMode && tool.name ? `
+  <button 
+    class="card-edit-btn" 
+    onclick="event.stopPropagation(); openToolEditById('${escapeHtml(tool.id)}')" 
+    title="Edit ${escapeHtml(tool.name)}"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" 
+         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M17 3a2.85 2.85 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/>
+    </svg>
+  </button>
+` : ''}
+${state.isEditMode && tool.name !== "Add New Tool" ? `
+  <button class="card-edit-btn" 
+          onclick="event.stopPropagation(); openToolEditById('${tool.id || tool.name}')">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor"
+         stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+         viewBox="0 0 24 24">
+      <path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 1 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+    </svg>
+  </button>
+` : ''}
+
+${state.isEditMode && tool.name !== "Add New Tool" ? `
+  <button class="card-edit-btn" onclick="event.stopPropagation(); openToolEditById('${tool.id || tool.name}')">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+      viewBox="0 0 24 24">
+      <path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 1 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+    </svg>
+  </button>
+` : ''}
 
       ${subscriptionBadgeHTML}
 
@@ -1613,6 +1645,47 @@ function applyChanges() {
 
 
       if (!state.selectedTool) return '';
+if (state.modalMode === 'editTool' && state.toolDraft) {
+  const t = state.toolDraft;
+  return `
+    <div class="modal-overlay open" onclick="if(event.target === this){ state.isModalOpen=false; state.modalMode='view'; this.remove(); document.body.style.overflow=''; }">
+      <div class="modal" role="dialog" aria-modal="true">
+        <button class="modal-close" onclick="state.isModalOpen=false; state.modalMode='view'; document.querySelector('.modal-overlay')?.remove(); document.body.style.overflow='';">
+          ${icons.x}
+        </button>
+        <h2 class="modal-title">Edit Tool</h2>
+
+        <div class="modal-section">
+          <input id="editName" class="modal-input" placeholder="Tool Name" value="${escapeHtml(t.name)}" />
+          <input id="editUrl" class="modal-input" placeholder="Website URL" value="${escapeHtml(t.url)}" />
+          <textarea id="editDescription" class="modal-textarea">${escapeHtml(t.description || '')}</textarea>
+        </div>
+
+        <div class="modal-section">
+          <input id="editAccount" class="modal-input" placeholder="Shared Account" value="${escapeHtml(t.account || '')}" />
+          <select id="editSubscription" class="modal-select">
+            ${['Freemium','Paid','Free'].map(v => `
+              <option value="${v}" ${t.subscription?.[0] === v ? 'selected':''}>${v}</option>
+            `).join('')}
+          </select>
+        </div>
+
+        <div class="modal-section">
+          <h3 class="modal-section-title">Tags</h3>
+          <input id="editFeatures" class="modal-input" placeholder="Key Features" value="${escapeHtml((t.keyFeatures||[]).join(', '))}" />
+          <input id="editProfessions" class="modal-input" placeholder="Relevant Professions" value="${escapeHtml((t.profession||[]).join(', '))}" />
+          <input id="editDepartments" class="modal-input" placeholder="Departments" value="${escapeHtml((t.department||[]).join(', '))}" />
+          <input id="editResponsibilities" class="modal-input" placeholder="Responsibilities" value="${escapeHtml((t.responsibility||[]).join(', '))}" />
+        </div>
+
+        <div class="modal-actions">
+          <button class="modal-button" onclick="state.isModalOpen=false; state.modalMode='view'; document.querySelector('.modal-overlay')?.remove(); document.body.style.overflow='';">Cancel</button>
+          <button class="modal-button primary" onclick="saveEditedTool()">Save Changes</button>
+        </div>
+      </div>
+    </div>
+  `;
+}
 
       const tool = state.selectedTool;
       const courseLink = courseLinks[tool.name.toLowerCase()] || 'https://oa-y.com/courses';
@@ -2386,63 +2459,110 @@ function applyCrop() {
 }
 
 // Закрываем
-function closeCropModal() {
-  const modal = document.getElementById("cropModal");
-  if (modal) modal.classList.remove("open");
-  if (currentCropper) { try { currentCropper.destroy(); } catch(_) {} currentCropper = null; }
+function openToolEditById(id) {
+  const tool = (window.tools || []).find(t => String(t.id) === String(id) || t.name === id);
+  if (!tool) {
+    console.warn('Tool not found for id:', id);
+    return;
+  }
+
+  // Устанавливаем состояние "редактирование"
+  window.state.modalMode = 'editTool';
+  window.state.toolDraft = JSON.parse(JSON.stringify(tool));
+  window.state.isModalOpen = true;
+
+  // Перерисовываем только модалку
+  document.querySelector('.modal-overlay')?.remove();
+  document.body.insertAdjacentHTML('beforeend', renderModal());
+  document.body.style.overflow = 'hidden';
+
+  console.log('Editing tool:', tool.name);
 }
 
 
-// ====================== ACCOUNTS EDIT MODE ======================
-let accEditMode = false;
+// 7) Делегируем клики: ✏️ или клик по самой карточке в Edit Mode
+document.addEventListener('click', (e) => {
+  // Клик по карандашу
+  const editBtn = e.target.closest('.card-edit-btn');
+  if (editBtn) {
+    const card = editBtn.closest('.tool-card, .account-card');
+    if (!card) return;
 
-const accEditBtn = document.getElementById("accEditBtn");
-const accConfirmBtn = document.getElementById("accConfirmBtn");
-const accCancelBtn = document.getElementById("accCancelBtn");
+    if (card.classList.contains('tool-card')) {
+      const id = card.dataset.id;
+      if (id) openToolEditById(id);
+    } else {
+      // TODO: аналогично для аккаунтов, если понадобится
+      // const email = card.dataset.email;
+      // openAccountEditByEmail(email);
+    }
+    e.stopPropagation();
+    return;
+  }
 
-if (accEditBtn) {
-  accEditBtn.addEventListener("click", () => {
-    accEditMode = true;
-    document.body.classList.add("acc-editing");
-    console.log("🟡 ACC edit mode ON");
+  // Клик по карточке — только когда включен режим редактирования
+  if (!state.isEditMode) return;
 
-    // Включаем визуальное редактирование карточек
-    document.querySelectorAll(".account-card").forEach(card => {
-      card.classList.add("editable");
-    });
-  });
-}
+  const toolCard = e.target.closest('.tool-card');
+  if (toolCard && !e.target.closest('a,button,input,select,textarea')) {
+    const id = toolCard.dataset.id;
+    if (id) openToolEditById(id);
+  }
+});
 
-if (accConfirmBtn) {
-  accConfirmBtn.addEventListener("click", () => {
-    accEditMode = false;
-    document.body.classList.remove("acc-editing");
-    console.log("🟢 ACC edit mode confirmed");
+// 8) Сохранение изменений из формы редактирования (перерисовываем только карточку)
+window.saveEditedTool = function saveEditedTool() {
+  if (!state.toolDraft) return;
 
-    // Снимаем подсветку
-    document.querySelectorAll(".account-card").forEach(card => {
-      card.classList.remove("editable");
-    });
-  });
-}
+  // забираем значения из формы
+  const get = (id) => document.getElementById(id)?.value ?? '';
+  const draft = {
+    ...state.toolDraft,
+    name: get('editToolName').trim(),
+    url: get('editToolUrl').trim(),
+    description: get('editToolDescription').trim(),
+    account: get('editToolAccount').trim(),
+    subscription: [document.getElementById('editToolSubscription')?.value || state.toolDraft.subscription?.[0] || 'Freemium'],
+    keyFeatures: get('editToolKeyFeatures').split(',').map(s => s.trim()).filter(Boolean),
+    category: get('editToolCategory').split(',').map(s => s.trim()).filter(Boolean),
+    department: get('editToolDepartment').split(',').map(s => s.trim()).filter(Boolean),
+    profession: get('editToolProfession').split(',').map(s => s.trim()).filter(Boolean),
+    responsibility: get('editToolResponsibility').split(',').map(s => s.trim()).filter(Boolean),
+  };
 
-if (accCancelBtn) {
-  accCancelBtn.addEventListener("click", () => {
-    accEditMode = false;
-    document.body.classList.remove("acc-editing");
-    console.log("🔴 ACC edit mode canceled");
+  // обновляем массив
+  const idx = (window.tools || []).findIndex(t => String(t.id) === String(draft.id));
+  if (idx === -1) return console.warn('[edit] saveEditedTool: tool index not found');
 
-    // Снимаем подсветку
-    document.querySelectorAll(".account-card").forEach(card => {
-      card.classList.remove("editable");
-    });
-  });
-}
-// === Make cropper functions globally accessible ===
-window.openCropModal = openCropModal;
-window.closeCropModal = closeCropModal;
-window.applyCrop = applyCrop;
-window.setActiveMode = setActiveMode;
+  window.tools[idx] = draft;
+
+  // точечно перерисовываем карточку
+  const oldCard = document.querySelector(`.tool-card[data-id="${draft.id}"]`);
+  if (oldCard) {
+    const newHTML = renderToolCard(draft, idx);
+    const wrapper = document.createElement('div');
+    wrapper.innerHTML = newHTML.trim();
+    const fresh = wrapper.firstElementChild;
+    if (fresh) {
+      // восстановим ключевые dataset
+      fresh.dataset.id = String(draft.id);
+      oldCard.replaceWith(fresh);
+    }
+  }
+
+  // закрываем модалку, но остаёмся в Edit Mode
+  state.isModalOpen = false;
+  state.modalMode = 'view';
+  state.toolDraft = null;
+  document.querySelector('.modal-overlay')?.remove();
+  document.body.style.overflow = '';
+
+  // вернём ✏️ на место
+  injectPencils();
+};
+
+
+
 
 
     initTheme();

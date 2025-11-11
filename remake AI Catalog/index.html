@@ -5172,39 +5172,8 @@
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
 }
 
-/* === DELETE BUTTON (КРЕСТИК) === */
-.card-delete-btn {
-  all: unset;
-  position: absolute;
-  top: -8px;
-  left: -8px;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  background: #808080;
-  color: #ffffff;
-  font-size: 24px;
-  font-weight: bold;
-  line-height: 28px;
-  text-align: center;
-  cursor: pointer;
-  z-index: 100;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-  transform: scale(0);
-  animation: growIn 0.2s ease-out forwards;
-  transition: background 0.25s ease, transform 0.25s ease;
-}
 
-@keyframes growIn {
-  to {
-    transform: scale(1);
-  }
-}
 
-.card-delete-btn:hover {
-  background: #666666;
-  transform: scale(1.1);
-}
 /* ==================== SUBSCRIPTION BADGE ICONS ==================== */
 
 .subscription-badge {
@@ -5258,27 +5227,32 @@
   transform: scale(1.1);
 }
 
-/* ==================== ADD NEW TOOL CARD (ORANGE VERSION) ==================== */
+/* ==================== ADD NEW TOOL CARD (BLUE VERSION) ==================== */
 .add-tool-card {
   background: var(--card);
-  border: 2px dashed #F59E0B;
+  border: 2px dashed var(--accent-blue, #0078d7); /* голубая рамка */
   border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
-  color: #F59E0B;
+  color: var(--accent-blue, #0078d7);
   cursor: pointer;
   transition: all 0.3s ease;
   min-height: 230px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
+/* Hover: мягкое стеклянное свечение */
 .add-tool-card:hover {
-  background: rgba(245, 158, 11, 0.05);
+  background: rgba(173, 216, 255, 0.18);
+  border-color: var(--accent-blue-hover, #0096E1);
   transform: translateY(-4px);
-  box-shadow: 0 8px 20px rgba(245, 158, 11, 0.25);
+  box-shadow: 0 8px 20px rgba(0, 136, 204, 0.25);
 }
 
+/* Контент внутри */
 .add-tool-content {
   display: flex;
   flex-direction: column;
@@ -5287,17 +5261,31 @@
   gap: 0.5rem;
 }
 
+/* Иконка “+” */
 .add-tool-icon {
   font-size: 48px;
   line-height: 1;
   font-weight: 300;
+  color: var(--accent-blue, #0078d7);
+  opacity: 0.9;
+  transition: opacity 0.25s ease;
 }
 
+/* Текст под иконкой */
 .add-tool-text {
   font-size: 18px;
   font-weight: 500;
-  color: #F59E0B;
+  color: var(--accent-blue, #0078d7);
+  opacity: 0.9;
 }
+
+/* При наведении — чуть ярче */
+.add-tool-card:hover .add-tool-icon,
+.add-tool-card:hover .add-tool-text {
+  opacity: 1;
+  color: var(--accent-blue-hover, #0096E1);
+}
+
 
 /* ==================== MODAL FORM ELEMENTS ==================== */
 .modal-input,
@@ -6418,8 +6406,90 @@ body.acc-editing .account-card:hover {
     object-fit: cover; /* Режим "Заполнение" (Fill) */
 }
 /* ==================== КОНЕЦ НОВЫХ СТИЛЕЙ ==================== */
+
+.card-delete-btn,
+.card-edit-btn {
+  position: absolute;
+  left: -12px;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px; /* квадрат с лёгкими скруглениями */
+  border: 1px solid rgba(0, 136, 204, 0.25); /* тонкая голубая рамка */
+  background: rgba(173, 216, 255, 0.18); /* мягкий прозрачный голубой */
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.25s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Позиционирование */
+.card-delete-btn {
+  top: -12px;
+}
+
+.card-edit-btn {
+  top: 30px; /* чуть ниже крестика, отступ побольше */
+}
+
+/* Единый стиль иконок — одинаковая толщина и цвет */
+.card-delete-btn svg,
+.card-edit-btn svg {
+  width: 16px;
+  height: 16px;
+  stroke: var(--accent-blue, #0078d7);
+  stroke-width: 1.8; /* одинаково тонко, как в хедере */
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0.9;
+  transition: stroke 0.2s ease, opacity 0.2s ease;
+}
+
+/* если крестик текстовый */
+.card-delete-btn {
+  font-size: 18px;
+  line-height: 0;
+  font-weight: 400;
+  color: var(--accent-blue, #0078d7);
+  opacity: 0.9;
+}
+
+/* Hover — мягкий подсвет голубым */
+.card-delete-btn:hover,
+.card-edit-btn:hover {
+  background: rgba(173, 216, 255, 0.35);
+  border-color: rgba(0, 136, 204, 0.5);
+  transform: scale(1.08);
+  box-shadow: 0 0 8px rgba(0, 136, 204, 0.25);
+  opacity: 1;
+}
+
+.card-delete-btn:hover svg,
+.card-edit-btn:hover svg {
+  stroke: var(--accent-blue-hover, #0096E1);
+}
+
+/* Тёмная тема */
+[data-theme="dark"] .card-delete-btn,
+[data-theme="dark"] .card-edit-btn {
+  background: rgba(60, 60, 60, 0.45);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+[data-theme="dark"] .card-delete-btn svg,
+[data-theme="dark"] .card-edit-btn svg {
+  stroke: var(--accent-blue-light, #5ba4f3);
+}
+
+
+
   </style>
 </head>
+
 <body>
   
   <div id="app"></div>
