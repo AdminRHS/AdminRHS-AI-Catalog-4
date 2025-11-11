@@ -200,12 +200,9 @@
 
     /* ==================== SEARCH & FILTER ==================== */
 
-    .search-controls {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      margin-bottom: 0.5rem;
-    }
+.search-controls { margin-top: 24px; }
+
+
 
     .search-wrapper {
       flex-grow: 1;
@@ -1736,6 +1733,8 @@
 
 
 /* ==================== ACCOUNT MANAGEMENT – UNIFORM CARD HEIGHT & SPACING ==================== */
+.account-grid { margin-top: 24px; }
+
 
 /* Контейнер сетки — выравнивание сверху */
 .tool-grid {
@@ -2432,10 +2431,11 @@
     }
 
     /* ==================== CONTAINER ==================== */
-   .container {
-  padding-left: 32px;
-  padding-right: 32px;
+ .container {
+  padding: 24px 20px 50px 20px;
 }
+
+
 
 
     /* ==================== HEADER ==================== */
@@ -2532,13 +2532,20 @@
 
 
     /* ==================== SEARCH & FILTER ==================== */
+.search-filter-bar {
+ margin-top: 36px;
+
+}
 
     .search-controls {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      margin-bottom: 0.5rem;
-    }
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 24px;        /* единый отступ от хедера */
+  margin-bottom: 0.5rem;
+}
+
+
 
     .search-wrapper {
       flex-grow: 1;
@@ -2965,13 +2972,7 @@
       margin-bottom: 2rem;
     }
 
-    /* 👇 ДОБАВЬТЕ ЭТО ПРАВИЛО 👇 */
-    /* Добавляем отступ для сетки "Account Management" (которая является прямым потомком .container),
-      чтобы она совпала по высоте с сеткой "AI Catalog" (которая идет после .search-filter)
-    */
 
-
-  
       .tool-grid {
         grid-template-columns: 1fr;
       }
@@ -4946,7 +4947,6 @@
   margin: auto;
   padding-left: 32px;
   padding-right: 32px;
-  padding-top: 32px;
 }
 .layout {
   display: flex;
@@ -5145,9 +5145,10 @@
 
 /* ==================== FILTER PANEL MARGINS ==================== */
 .filter-panel {
-  margin-top: 32px;
-  margin-bottom: 32px;
+  margin-top: 0;      /* закрытая панель не давит контент вниз */
+  margin-bottom: 0;   /* убираем лишний зазор под строкой поиска */
 }
+
 
 /* ==================== JIGGLE EDIT MODE ==================== */
 .tool-card,
