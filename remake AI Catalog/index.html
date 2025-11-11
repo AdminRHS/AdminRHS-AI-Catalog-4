@@ -5099,6 +5099,70 @@ body.acc-editing .account-card:hover {
   stroke: var(--accent-blue-light, #5ba4f3);
 }
 
+/* ===== Account Management (фикс размеров и сетки) ===== */
+.account-category {
+  margin-top: 0.6rem;
+  border: 1px solid var(--border);
+  background: rgba(0, 0, 0, 0.02);
+  border-radius: 12px;
+  padding: 1rem;
+}
+
+.dark .account-category {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+/* Заголовки категорий */
+.account-category-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  opacity: 0.9;
+  margin-bottom: 0.6rem;
+}
+
+/* Сетка иконок */
+.account-tools {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Непосредственно иконки (img / svg) */
+.account-tools img,
+.account-tools svg {
+  width: 72px;
+  height: 72px;
+  border-radius: 16px !important;
+  background: var(--card) !important;
+  padding: 10px !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08) !important;
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.account-tools img:hover,
+.account-tools svg:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 150, 225, 0.25);
+}
+
+/* Цвета заголовков */
+.account-cat-freemium {
+  color: #0096E1;
+}
+.account-cat-paid {
+  color: #d63384;
+}
+.account-cat-free {
+  color: #28a745;
+}
 
 
   </style>
