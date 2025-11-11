@@ -1168,8 +1168,8 @@ if (tool.name === "Notion") {
   }
 }
 
-// 🔹 Показываем по умолчанию 3 тега, а у Notion — 4
-const maxVisibleTags = tool.name === "Notion" ? 4 : 3;
+// 🔹 Показываем по умолчанию 3 тега, а у Notion — тоже максимум 3
+const maxVisibleTags = 3;
 const visibleTags = tags.slice(0, maxVisibleTags);
 const hiddenTags = tags.slice(maxVisibleTags);
 const hiddenCount = hiddenTags.length;
@@ -1732,9 +1732,12 @@ if (state.modalMode === 'editTool' && state.toolDraft) {
             <div class="modal-section">
               <h3 class="modal-section-title">Relevant Professions</h3>
               <div class="modal-tags">
-                ${tool.profession.map(prof => `
-                  <span class="modal-tag">${escapeHtml(prof)}</span>
-                `).join('')}
+                ${tool.professions.slice(0, 3).map(profession => `
+  <div class="tool-tag" style="background:${profession.color};">
+    ${profession.name}
+  </div>
+`).join('')}
+
               </div>
             </div>
 
