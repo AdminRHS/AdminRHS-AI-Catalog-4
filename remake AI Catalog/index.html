@@ -1,16 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Cropper.js styles -->
-<link href="https://unpkg.com/cropperjs/dist/cropper.min.css" rel="stylesheet"/>
-
-<!-- Cropper.js script -->
-<script src="https://unpkg.com/cropperjs/dist/cropper.min.js"></script>
-
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AI Catalog - Remote Helpers</title>
-  <link rel="stylesheet" href="https://unpkg.com/cropperjs/dist/cropper.min.css">
 
   <style>
         /* ==================== CSS VARIABLES ==================== */
@@ -30,6 +23,21 @@
   --badge-paid-icon: #DC2626;     /* Темно-красный */
   --badge-free-icon: #16A34A;     /* Ярко-зеленый */
 }
+Ще є якісь питанняшка? Ні? Немає, так? Тоді.
+
+То, в принципі, орієнтуйтесь на сайти, які вам дуже відомі. Ви багато чого длинно робили. І таким самим чином приблизно буде виглядати емейл розсилки якась.
+
+Михайло: 
+
+А якщо, а якщо побачите сказку, то там треба з вдоху ще розбиратися. Тобто, на потім.
+
+Ірина Бондаренко: 
+
+Да, це на потім, бо не встигнемо. Поки що найближче до завтрашнього часу розробити дизайн розсилки, саме. Угу, ну. 
+
+За брендінгом клієнта. Тобто вивчити та приблизно розробити. Тобто в його цілі розробити? Тобто якось все в принципі стандартно ми робимо з усіма проектами для клієнта. 
+
+Так все тоді питаннями. Так тоді ми пишемо з Настею до нашого каналу. 
 
 
 
@@ -177,26 +185,6 @@
 
   border-radius: 12px;
 }
-
-
-    .header-logo {
-  right: 48px;
-  top: 10px;      /* 👈 (80px - 60px) / 2 = 10px */
-  width: 41px;      /* 👈 НОВАЯ ШИРИНА */
-  height: 50px;
-  transition: transform 0.3s ease, opacity 0.3s ease;
-}
-
-.header-logo img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  border-radius: 10px;
-  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.15));
-}
-
-
-
 
     /* ==================== SEARCH & FILTER ==================== */
 
@@ -1160,50 +1148,6 @@
       }
     }
 
-    /* ==================== RESPONSIVE ==================== */
-    @media (max-width: 768px) {
-      .header {
-        height: auto;
-        min-height: 120px;
-        padding: 1rem;
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      .header-logo {
-  right: 48px;
-  top: 10px;      /* 👈 (80px - 60px) / 2 = 10px */
-  width: 41px;      /* 👈 НОВАЯ ШИРИНА */
-  height: 50px;
-      }
-
-      .header-title h1 {
-        font-size: 32px;
-        line-height: 40px;
-      }
-
-      .search-input {
-        max-width: 100% !important;
-      }
-
-      .filter-dropdowns {
-        flex-direction: column;
-      }
-
-      .modal {
-        width: 95%;
-        padding: 2rem 1.5rem;
-      }
-
-      .modal-title {
-        font-size: 28px;
-      }
-
-      .modal-actions {
-        flex-direction: column;
-      }
-    }
-
     /* ==================== UTILITIES ==================== */
     .hidden {
       display: none !important;
@@ -1454,11 +1398,20 @@
   opacity: 0 !important;
   transform: translateY(4px);
 }
-/* ===== Account Management – аккуратные секции (обновлённые) ===== */
+/* ===== Account Management – аккуратные секции (исправленные) ===== */
 .account-card {
   display: flex;
   flex-direction: column;
+  justify-content: space-between; /* равномерное распределение контента */
   gap: 0.8rem;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: var(--card);
+  padding: 1rem;
+
+  /* ✅ одинаковая высота для всех карточек */
+  min-height: 360px;
+  height: 360px;
 }
 
 /* Заголовок аккаунта */
@@ -1479,82 +1432,21 @@
   border: 1px solid rgba(0, 150, 225, 0.15);
 }
 
-/* Категории: Freemium, Paid, Free */
-.account-category {
-  margin-top: 0.5rem;
-  border: 1px solid var(--border);
-  background: rgba(0, 0, 0, 0.02);
-  border-radius: 12px;
-  padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.8rem;
-}
-
 .dark .account-category {
   background: rgba(255, 255, 255, 0.03);
 }
 
 /* Сетка иконок внутри */
 .account-tools {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  justify-content: flex-start;
+  display: grid;                /* 🔹 раньше flex — теперь grid */
+  grid-template-columns: repeat(3, minmax(0, 1fr)); /* 3 в ряд */
+  gap: calc(var(--icon-size) / 3); /* 🔹 отступы зависят от размера */
+  justify-items: center;
   align-items: center;
+  margin-top: 0.5rem;
 }
 
-/* Каждая иконка */
-.account-tool-icon {
-  width: 84px;
-  height: 84px;
-  border-radius: 16px;
-  background: var(--card);
-  padding: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  transition: all 0.25s ease;
-}
 
-.account-tool-icon img,
-.account-tool-icon svg {
-  width: 58px;
-  height: 58px;
-  object-fit: contain;
-}
-
-.account-tool-icon:hover {
-  transform: scale(1.05);
-  box-shadow: 0 4px 12px rgba(0, 150, 225, 0.25);
-}
-
-/* Заголовки секций */
-.account-category-title {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 13px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.6px;
-  opacity: 0.9;
-  margin-bottom: 0.25rem;
-}
-
-/* Цвета для Freemium / Paid / Free */
-.account-cat-freemium {
-  color: #0096E1;
-}
-
-.account-cat-paid {
-  color: #d63384;
-}
-
-.account-cat-free {
-  color: #28a745;
-}
 
 /* ==================== ACCOUNT MANAGEMENT – UNIFORM CARD HEIGHT & SPACING ==================== */
 .account-grid {
@@ -1591,100 +1483,6 @@
   align-items: stretch; /* 👈 ЗАМЕНИТЕ НА ЭТО */
 }
 
-
-/* ==================== ACCOUNT MANAGEMENT ICONS ==================== */
-.account-tools {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 0.75rem 0.8rem;
-  margin-top: 0.5rem;
-}
-
-.account-tool-icon {
-  width: 84px;          /* увеличили рамку */
-  height: 84px;
-  border-radius: 18px;  /* мягче форма */
-  background: var(--card);
-  padding: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  transition: all 0.25s ease;
-}
-
-.account-tool-icon img,
-.account-tool-icon svg {
-  width: 60px;          /* увеличили иконку */
-  height: 60px;
-  object-fit: contain;
-}
-
-.account-tool-icon:hover {
-  transform: scale(1.05);
-  box-shadow: 0 4px 12px rgba(0, 150, 225, 0.25);
-}
-
-
-/* ==================== ACCOUNT MANAGEMENT – INLINE BUTTONS ==================== */
-
-.account-tools {
-  display: flex;
-  flex-wrap: wrap;             /* <-- позволяет иконкам переноситься */
-  gap: 1rem;                   /* <-- расстояние между иконками */
-  justify-content: flex-start; /* <-- выравнивает их по левому краю */
-  align-items: center;         /* <-- центрирует вертикально */
-  margin-top: 0.6rem;
-}
-
-/* ==================== FIX: "+8 more" BUTTON ALIGNMENT ==================== */
-
-.account-tools {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;       /* ✅ выравниваем всё по центру по вертикали */
-  gap: 0.55rem 0.6rem;
-  margin-top: 0.5rem;
-}
-
-.account-tool-btn-icon {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  background: var(--card);
-  border: 1.6px solid var(--border);
-  border-radius: 8px;
-  padding: 0.35rem 0.75rem 0.35rem 0.6rem;
-  cursor: pointer;
-  transition: all 0.25s ease;
-  font-size: 13.6px;
-  color: var(--foreground);
-  font-weight: 500;
-  letter-spacing: -0.2px;
-  height: 30px;
-  white-space: nowrap;           /* чтобы текст не переносился внутри кнопки */
-}
-
-.account-tool-btn-icon:hover {
-  background: rgba(0, 150, 225, 0.08);
-  border-color: #0096E1;
-  color: #0096E1;
-  transform: translateY(-1px);
-  box-shadow: 0 0 6px rgba(0,150,225,0.25);
-}
-
-.dark .account-tool-btn-icon:hover {
-  background: rgba(131,203,255,0.12);
-  border-color: #83CBFF;
-  color: #83CBFF;
-  box-shadow: 0 0 8px rgba(131,203,255,0.25);
-}
-
-.account-tool-btn-icon:hover .account-tool-icon {
-  transform: scale(1.2);
-}
 
 /* ==================== FIX: INLINE ICON BUTTONS (LEFT ALIGNED) ==================== */
 .account-tools {
@@ -1893,12 +1691,12 @@
 
 
 .header-logo {
-  right: 48px;
-  top: 10px;      /* 👈 (80px - 60px) / 2 = 10px */
-  width: 41px;      /* 👈 НОВАЯ ШИРИНА */
+  left: 48px;  /* было right */
+  top: 10px;
+  width: 41px;
   height: 50px;
-  transition: transform 0.3s ease, opacity 0.3s ease;
 }
+
 
 .header-logo img {
   width: 100%;
@@ -2753,49 +2551,7 @@
       }
     }
 
-    /* ==================== RESPONSIVE ==================== */
-    @media (max-width: 768px) {
-      .header {
-        height: auto;
-        min-height: 120px;
-        padding: 1rem;
-        flex-direction: column;
-        align-items: flex-start;
-      }
 
-      ..header-logo {
-  right: 48px;
-  top: 10px;      /* 👈 (80px - 60px) / 2 = 10px */
-  width: 41px;      /* 👈 НОВАЯ ШИРИНА */
-  height: 50px;
-      }
-
-      .header-title h1 {
-        font-size: 32px;
-        line-height: 40px;
-      }
-
-      .search-input {
-        max-width: 100% !important;
-      }
-
-      .filter-dropdowns {
-        flex-direction: column;
-      }
-
-      .modal {
-        width: 95%;
-        padding: 2rem 1.5rem;
-      }
-
-      .modal-title {
-        font-size: 28px;
-      }
-
-      .modal-actions {
-        flex-direction: column;
-      }
-    }
 
     /* ==================== UTILITIES ==================== */
     .hidden {
@@ -3781,10 +3537,12 @@
 }
 
 .tool-grid.edit-mode .tool-card:hover,
-.tool-grid.edit-mode .account-card:hover {
-  transform: none !important;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
+.tool-grid.edit-mode 
+.account-card:hover {
+  transform: translateY(-2px);
+  box-shadow: none;
 }
+
 
 
 
@@ -5134,24 +4892,6 @@ body.acc-editing .account-card:hover {
   gap: 1rem;
 }
 
-/* Непосредственно иконки (img / svg) */
-.account-tools img,
-.account-tools svg {
-  width: 72px;
-  height: 72px;
-  border-radius: 16px !important;
-  background: var(--card) !important;
-  padding: 10px !important;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08) !important;
-  border: 1px solid rgba(0, 0, 0, 0.08) !important;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.account-tools img:hover,
-.account-tools svg:hover {
-  transform: scale(1.05);
-  box-shadow: 0 4px 12px rgba(0, 150, 225, 0.25);
-}
 
 /* Цвета заголовков */
 .account-cat-freemium {
@@ -5165,55 +4905,193 @@ body.acc-editing .account-card:hover {
 }
 
 
+/* ==================== FIX SCROLL + ICON VISIBILITY IN ACCOUNT CARDS ==================== */
+
+/* Только для вкладки Account Management */
+.account-card {
+  height: 200px !important;
+  min-height: 200px !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  border-radius: 20px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  overflow: hidden !important;
+}
+
+/* Контент внутри карточки со скроллом */
+.account-card-content {
+  flex-grow: 1 !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  padding: 0.8rem 1rem 1rem !important;
+  display: block !important; /* принудительно показываем содержимое */
+}
+
+/* Сброс видимости (чтобы иконки не прятались под overflow: visible из tool-карт) */
+.account-card-content *,
+.account-category *,
+.account-tools *,
+.account-tool-icon * {
+  overflow: visible !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Сетка для иконок */
+.account-tools {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 0.6rem !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+}
+
+/* Иконки — без рамок и теней */
+.account-tool-icon {
+  width: 44px !important;
+  height: 44px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.account-tool-icon img,
+.account-tool-icon svg {
+  width: 36px !important;
+  height: 36px !important;
+  object-fit: contain !important;
+}
+
+/* Аккуратный голубой скролл */
+.account-card-content::-webkit-scrollbar {
+  width: 6px;
+}
+.account-card-content::-webkit-scrollbar-thumb {
+  background: rgba(0, 150, 225, 0.35);
+  border-radius: 10px;
+}
+.account-card-content::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 150, 225, 0.55);
+}
+/* ==================== FIX ACCOUNT ICON BORDER + OVERFLOW ==================== */
+
+/* 1. Убираем рамку и фон у блока категорий */
+.account-category {
+  border: none !important;
+  background: transparent !important;
+  overflow: visible !important;
+  padding: 0.5rem 0 !important;
+  box-shadow: none !important;
+}
+
+/* 2. Исправляем иконки — чтобы не "выпирали" */
+.account-tool-icon {
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  overflow: visible !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  position: relative !important;
+}
+
+/* 3. Контейнер с иконками — нормальная сетка, без наложений */
+.account-tools {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  justify-content: flex-start !important;
+  align-items: center !important;
+  gap: 0.6rem !important;
+  overflow: visible !important;
+}
+
+/* 4. Изображения внутри — адаптивно и без белых подложек */
+.account-tool-icon img,
+.account-tool-icon svg {
+  width: 40px !important;
+  height: 40px !important;
+  object-fit: contain !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  display: block !important;
+}
+
+/* 5. Контейнер карточки — фиксированная высота и прокрутка */
+.account-card {
+  height: 200px !important;
+  overflow: hidden !important;
+}
+
+.account-card-content {
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+}
+
+/* 6. Скроллбар */
+.account-card-content::-webkit-scrollbar {
+  width: 6px;
+}
+.account-card-content::-webkit-scrollbar-thumb {
+  background: rgba(0, 150, 225, 0.35);
+  border-radius: 10px;
+}
+.account-card-content::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 150, 225, 0.55);
+}
+/* ==================== FIX CHIP ICONS (REMOVE BORDER & BACKGROUND) ==================== */
+
+/* Убираем фон, рамку и отступы у "чипов" */
+.chip,
+.tool-chip {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border-radius: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  overflow: visible !important;
+  gap: 0 !important;
+}
+
+/* Удаляем текстовые подписи, оставляем только иконки */
+.tool-chip {
+  font-size: 0 !important;
+  color: transparent !important;
+}
+
+/* Иконки внутри — без белых фонов и рамок */
+.chip-icon {
+  width: 40px !important;
+  height: 40px !important;
+  object-fit: contain !important;
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  display: block !important;
+}
+
+/* При наведении — лёгкое увеличение */
+.chip:hover .chip-icon {
+  transform: scale(1.1);
+  transition: transform 0.2s ease;
+}
+
   </style>
 </head>
 
 <body>
   
   <div id="app"></div>
-  <link href="https://unpkg.com/cropperjs/dist/cropper.min.css" rel="stylesheet"/>
-  <script src="https://unpkg.com/cropperjs/dist/cropper.min.js"></script>
-<script src="smt.js"></script>
-
-<script src="https://unpkg.com/cropperjs"></script>
-
 <script src="./js/smt.js"></script>
-  <div id="app"></div>
-  <script src="your-bundle.js"></script>
-<div id="imageCropModal" style="/* ... стили ... */">
-        </div>
 
-    <script src="smt.js"></script> 
-    <div id="crop-modal" class="crop-modal-overlay">
-  <div class="crop-modal-content">
-    
-    <div class="crop-modal-header">
-      <h2>Редактирование изображения</h2>
-      <button class="close-btn" onclick="window.closeCropModal()">&times;</button>
-    </div>
-    
-    <div class="crop-modal-body">
-      
-      <div class="crop-modes">
-        <button id="mode-fill" class="mode-btn active" data-mode="fill">Заполнение (Fill)</button>
-        <button id="mode-fit" class="mode-btn" data-mode="fit">Вписать (Fit)</button>
-        <button id="mode-crop" class="mode-btn" data-mode="crop">Обрезка (Crop)</button>
-      </div>
-
-      <div class="crop-preview-container">
-        <img id="image-to-crop" src="" alt="Image to Crop">
-        
-        <div id="image-display-preview">
-           </div>
-      </div>
-    </div>
-    
-    <div class="crop-modal-footer">
-      <button class="cancel-btn" onclick="window.closeCropModal()">Отмена</button>
-      <button id="apply-crop-btn" class="apply-btn">Применить</button>
-    </div>
-    
-  </div>
-</div>
 </body> 
 </html>

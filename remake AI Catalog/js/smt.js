@@ -848,21 +848,27 @@ document.addEventListener('click', (e) => {
 // =================================================================================
 
     // ==================== RENDER FUNCTIONS ====================
-    function renderHeader() {
-      return `
-        <header class="header">
-          <div class="header-title">
-            <h1>AI Catalog</h1>
-          </div>
-          <div class="header-logo">
-            <img 
-              src="photo/any emploee logo.png" 
-              alt="Any Employee"
-            />
-          </div>
-        </header>
-      `;
-    }
+function renderHeader() {
+  return `
+    <header class="header">
+      
+      <!-- ЛОГОТИП СЛЕВА -->
+      <div class="header-logo">
+        <img 
+          src="logo/anylogo.svg" 
+          alt="Any Employee"
+        />
+      </div>
+
+      <!-- ТЕКСТ СПРАВА -->
+      <div class="header-title">
+        <h1>AI Catalog</h1>
+      </div>
+
+    </header>
+  `;
+}
+
 
 function renderNavigation() {
   const themeIcon = state.theme === 'dark' ? icons.sun : icons.moon; // Используем SVG из объекта icons
@@ -2283,6 +2289,7 @@ let cropMode = "fill"; // "fill" | "fit" | "crop"
 // Загружаем Cropper.js (один раз)
 async function ensureCropperLoaded() {
   if (window.Cropper) return;
+
   await new Promise((resolve, reject) => {
     const link = document.createElement("link");
     link.rel = "stylesheet";
@@ -2291,6 +2298,7 @@ async function ensureCropperLoaded() {
     link.onerror = reject;
     document.head.appendChild(link);
   });
+
   await new Promise((resolve, reject) => {
     const s = document.createElement("script");
     s.src = "https://unpkg.com/cropperjs/dist/cropper.min.js";
@@ -2300,10 +2308,12 @@ async function ensureCropperLoaded() {
   });
 }
 
+
+
+
 // Создаём модальное окно обрезки (если его нет)
 function ensureCropModalDOM() {
   if (document.getElementById("tgCropperStyles")) return;
-
   const styles = `
   .crop-modal{position:fixed;inset:0;background:rgba(0,0,0,.86);display:none;align-items:center;justify-content:center;z-index:4000}
 .crop-modal.open{display:flex !important}
@@ -2461,9 +2471,31 @@ function applyCrop() {
   closeCropModal();
 }
 
-// Закрываем
+// Закрываем crop-модалку
+function closeCropModal() {
+  const modal = document.getElementById("cropModal");
+  if (modal) {
+    modal.classList.remove("open");
+  }
+
+  // Уничтожаем текущий инстанс Cropper, если он существует
+  if (window.currentCropper) {
+    try {
+      window.currentCropper.destroy();
+    } catch (e) {
+      console.warn("Cropper destroy error:", e);
+    }
+    window.currentCropper = null;
+  }
+
+  document.body.style.overflow = "";
+}
+
+// Открываем окно редактирования тулза по ID
 function openToolEditById(id) {
-  const tool = (window.tools || []).find(t => String(t.id) === String(id) || t.name === id);
+  const tool = (window.tools || []).find(
+    t => String(t.id) === String(id) || t.name === id
+  );
   if (!tool) {
     console.warn('Tool not found for id:', id);
     return;
@@ -2482,10 +2514,9 @@ function openToolEditById(id) {
   console.log('Editing tool:', tool.name);
 }
 
-
-// 7) Делегируем клики: ✏️ или клик по самой карточке в Edit Mode
+// 7) Делегируем клики: ✏️ или клик по самой карточке
 document.addEventListener('click', (e) => {
-  // Клик по карандашу
+  // Клик по карандашу (всегда открывает редактирование)
   const editBtn = e.target.closest('.card-edit-btn');
   if (editBtn) {
     const card = editBtn.closest('.tool-card, .account-card');
@@ -2496,22 +2527,19 @@ document.addEventListener('click', (e) => {
       if (id) openToolEditById(id);
     } else {
       // TODO: аналогично для аккаунтов, если понадобится
-      // const email = card.dataset.email;
-      // openAccountEditByEmail(email);
     }
     e.stopPropagation();
     return;
   }
 
-  // Клик по карточке — только когда включен режим редактирования
-  if (!state.isEditMode) return;
-
+  // Клик по карточке (логотип, название, фон) — всегда открывает модалку этого тулза
   const toolCard = e.target.closest('.tool-card');
   if (toolCard && !e.target.closest('a,button,input,select,textarea')) {
     const id = toolCard.dataset.id;
     if (id) openToolEditById(id);
   }
 });
+
 
 // 8) Сохранение изменений из формы редактирования (перерисовываем только карточку)
 window.saveEditedTool = function saveEditedTool() {
