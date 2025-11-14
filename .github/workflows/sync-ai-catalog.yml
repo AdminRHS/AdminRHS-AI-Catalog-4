@@ -1,18 +1,17 @@
 name: Sync AI Catalog from AI_list.json
 
 on:
-  # Trigger when AI_list.json changes (via Dropbox sync)
-  push:
-    paths:
-      - 'Finance Public/AI_list.json'
-      - 'Finance Public/AI  - AI.json'
-  
   # Manual trigger
   workflow_dispatch:
   
   # Scheduled check every 6 hours
   schedule:
     - cron: '0 */6 * * *'
+  
+  # Also trigger on push to main (in case file is synced)
+  push:
+    branches:
+      - main
 
 jobs:
   sync-catalog:
@@ -30,6 +29,20 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+      
+      - name: Download AI_list.json from Dropbox
+        env:
+          DROPBOX_ACCESS_TOKEN: ${{ secrets.DROPBOX_ACCESS_TOKEN }}
+        run: |
+          mkdir -p "Finance Public"
+          curl -X POST https://content.dropboxapi.com/2/files/download \
+            --header "Authorization: Bearer $DROPBOX_ACCESS_TOKEN" \
+            --header "Dropbox-API-Arg: {\"path\": \"/Finance Public/AI_list.json\"}" \
+            -o "Finance Public/AI_list.json" || \
+          curl -X POST https://content.dropboxapi.com/2/files/download \
+            --header "Authorization: Bearer $DROPBOX_ACCESS_TOKEN" \
+            --header "Dropbox-API-Arg: {\"path\": \"/Finance Public/AI  - AI.json\"}" \
+            -o "Finance Public/AI_list.json"
       
       - name: Run catalog sync script
         run: |
