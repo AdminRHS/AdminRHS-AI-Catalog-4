@@ -1,11 +1,6 @@
 name: Sync AI Catalog from AI_list.json
 
 on:
-  # Trigger when AI_list.json changes
-  push:
-    paths:
-      - 'Finance Public/AI_list.json'
-  
   # Manual trigger
   workflow_dispatch:
   

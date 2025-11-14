@@ -1,0 +1,122 @@
+[
+  {
+    "email": "dev@rh-s.com",
+    "toolNames": [
+      "Cursor",
+      "Perplexity",
+      "Claude",
+      "Lovable",
+      "Dropbox Dash"
+    ]
+  },
+  {
+    "email": "admin@rh-s.com",
+    "toolNames": [
+      "Cursor",
+      "RunwayML",
+      "Perplexity",
+      "Claude",
+      "Lovable",
+      "Replit",
+      "Grok",
+      "Pollo.ai",
+      "Vectal Pro",
+      "supabase.com",
+      "Huggingface",
+      "Genspark",
+      "Gamma",
+      "OpenRouter",
+      "Loom",
+      "n8n",
+      "Manus",
+      "Hedra",
+      "Vozo AI",
+      "HeyGen",
+      "Google cloud (AI)",
+      "Wispr Flow",
+      "Dropbox Dash",
+      "TurboScribe",
+      "WHALESWING",
+      "Notion",
+      "Suno",
+      "Adobe Firefly"
+    ]
+  },
+  {
+    "email": "lg@rh-s.com",
+    "toolNames": [
+      "Cursor",
+      "Perplexity",
+      "Claude",
+      "Dropbox Dash"
+    ]
+  },
+  {
+    "email": "niko@rh-s.com",
+    "toolNames": [
+      "Cursor",
+      "GPT",
+      "Gemini",
+      "Perplexity",
+      "Claude",
+      "Wispr Flow",
+      "Dropbox Dash"
+    ]
+  },
+  {
+    "email": "sales@rh-s.com",
+    "toolNames": [
+      "Cursor",
+      "Perplexity",
+      "Claude"
+    ]
+  },
+  {
+    "email": "bmselfie@gmail.com",
+    "toolNames": [
+      "Claude"
+    ]
+  },
+  {
+    "email": "content@rh-s.com",
+    "toolNames": [
+      "Make.com",
+      "Dropbox Dash"
+    ]
+  },
+  {
+    "email": "dd@rh-s.com",
+    "toolNames": [
+      "Cursor",
+      "Perplexity",
+      "MidJourney",
+      "Claude",
+      "hailuoai.video",
+      "Hailo",
+      "Freepik",
+      "Dropbox Dash"
+    ]
+  },
+  {
+    "email": "design@rh-s.com",
+    "toolNames": [
+      "ElevenLabs"
+    ]
+  },
+  {
+    "email": "hr@rem-s.com",
+    "toolNames": [
+      "Cursor",
+      "GPT",
+      "Claude"
+    ]
+  },
+  {
+    "email": "hr@remotemployees.com",
+    "toolNames": [
+      "Cursor",
+      "Perplexity",
+      "Claude"
+    ]
+  }
+]

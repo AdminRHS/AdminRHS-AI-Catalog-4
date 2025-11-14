@@ -1,0 +1,39 @@
+{
+  "id": "tool-019",
+  "name": "Cursor",
+  "url": "https://cursor.sh/",
+  "category": [
+    "Programming",
+    "AI Assistant"
+  ],
+  "description": "Cursor is an AI-powered code editor built specifically for AI-first development workflows. It integrates multiple AI models (GPT-5, Claude/Sonnet 4.5, Composer) and provides specialized features like Agents view, file-aware context with @ symbol referencing, and built-in browser for local development. Central tool for the 3-prompt design system generation methodology, enabling visual design analysis (GPT-5), component implementation (Claude/Sonnet), and comprehensive documentation (GPT-5) all in one environment.",
+  "keyFeatures": [
+    "Multi-model support (switch between GPT-5, Claude, Composer)",
+    "Agents view for organized task management",
+    "Codebase-aware AI suggestions",
+    "Built-in localhost browser preview",
+    "File referencing with @ symbol"
+  ],
+  "subscription": [
+    "Freemium"
+  ],
+  "account": "dev@rh-s.com",
+  "lastUpdated": "2025-11-13",
+  "whatsNew": "AI-Assisted Design System Generation (3-prompt methodology)",
+  "profession": [
+    "Front-end Developer",
+    "Full Stack Developer",
+    "UI/UX Designer",
+    "AI Prompt Engineer",
+    "Design Systems Engineer"
+  ],
+  "responsibility": [
+    "Design Websites",
+    "Write Code"
+  ],
+  "department": [
+    "Developers",
+    "Designers"
+  ],
+  "borderColor": "#28a745"
+}
