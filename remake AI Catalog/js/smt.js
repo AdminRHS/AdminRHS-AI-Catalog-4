@@ -207,10 +207,10 @@ const departmentLogos = {
         category: ["Automation"],
         description: "Visual workflow automation platform with 400+ integrations for connecting apps and services.",
         keyFeatures: ["Visual workflow builder", "400+ integrations", "Self-hostable", "Custom functions", "API integration"],
-        subscription: ["Freemium"],
-        account: "dev@rh-s.com",
-        lastUpdated: "2025-09-16",
-        whatsNew: "Added new AI nodes and improved performance for large workflows. Community edition remains free for self-hosting.",
+        subscription: ["Paid"],
+        account: "Multiple accounts: admin@rh-s.com",
+        lastUpdated: "2025-11-14",
+        whatsNew: "Paid subscription active on admin@rh-s.com account. Valid until 11/26/2025.",
         profession: ["Back-end Developer", "System Administrator", "Project Manager"],
         responsibility: ["Automate Workflows", "Write Code", "Manage Information"],
         department: ["Developers", "Managers"],
@@ -223,13 +223,13 @@ const departmentLogos = {
         category: ["Design"],
         description: "AI-powered presentation and website creation tool that generates content from text prompts.",
         keyFeatures: ["AI presentation generation", "Text-to-presentation", "Multi-format export", "Real-time collaboration", "Template library"],
-        subscription: ["Freemium"],
-        account: "sales@rh-s.com",
-        lastUpdated: "2025-09-15",
-        whatsNew: "Enhanced AI models for better content generation and added new export formats including video presentations.",
+        subscription: ["Paid"],
+        account: "Multiple accounts: admin@rh-s.com, sales@rh-s.com",
+        lastUpdated: "2025-11-14",
+        whatsNew: "Paid subscription active on admin@rh-s.com. Valid until 11/25/2025. Used by designers, financial manager, and AI department.",
         profession: ["Project Manager", "Product Manager", "Content Manager", "Sales Manager"],
         responsibility: ["Create Presentations", "Design Websites", "Write Content"],
-        department: ["Managers", "Marketers"],
+        department: ["Managers", "Marketers", "Designers"],
         borderColor: "#dc3545"
       },
       {
@@ -288,9 +288,9 @@ const departmentLogos = {
         description: "Dropbox Dash unifies your search across all apps, documents, and folders using AI.",
         keyFeatures: ["Universal Search", "AI Summarization", "Connects 3rd-party apps", "Organized Search results"],
         subscription: ["Paid"],
-        account: "it-support@rh-s.com",
-        lastUpdated: "2025-09-16",
-        whatsNew: "New 'Stack' feature for grouping related documents and a deeper integration with Notion and Asana.",
+        account: "Multiple accounts: dev@rh-s.com, admin@rh-s.com, lg@rh-s.com, niko@rh-s.com, content@rh-s.com, dd@rh-s.com",
+        lastUpdated: "2025-11-14",
+        whatsNew: "Paid subscriptions active across 6 accounts. Most subscriptions valid until Dec 2025.",
         profession: ["All Professionals"],
         responsibility: ["Manage Information", "Research Topics", "Summarize Documents"],
         department: ["All Departments"],
@@ -319,10 +319,10 @@ const departmentLogos = {
         category: ["Web Design"],
         description: "AI-powered full-stack web application builder with GitHub integration and real-time rendering.",
         keyFeatures: ["Full-stack development", "GitHub sync", "Real-time rendering", "Component library", "Deployment automation"],
-        subscription: ["Freemium"],
-        account: "dev@rh-s.com",
-        lastUpdated: "2025-09-15",
-        whatsNew: "Added support for serverless functions and improved React component generation.",
+        subscription: ["Paid"],
+        account: "Multiple accounts: admin@rh-s.com (paid, valid until 12/4/2025), dev@rh-s.com (not paid)",
+        lastUpdated: "2025-11-14",
+        whatsNew: "Paid subscription active on admin@rh-s.com account. Valid until 12/4/2025.",
         profession: ["Full Stack Developer", "Web Designer"],
         responsibility: ["Write Code", "Deploy Applications", "Design Websites"],
         department: ["Developers", "Designers"],
@@ -431,13 +431,13 @@ const departmentLogos = {
         category: ["AI Assistant"],
         description: "OpenAI's flagship conversational AI with advanced reasoning, coding, and multimodal capabilities.",
         keyFeatures: ["Advanced reasoning", "Code generation", "Multimodal input", "Custom instructions", "Plugin ecosystem"],
-        subscription: ["Freemium"],
-        account: "admin@rh-s.com",
-        lastUpdated: "2025-09-16",
-        whatsNew: "GPT-5 preview released with enhanced reasoning and improved coding capabilities.",
+        subscription: ["Paid"],
+        account: "Multiple accounts: niko@rh-s.com (GPT team, valid until 11/24/2025), hr@rem-s.com (valid until 12/3/2025)",
+        lastUpdated: "2025-11-14",
+        whatsNew: "Paid subscriptions active. GPT team account (niko@rh-s.com) used across all departments. Valid until Nov-Dec 2025.",
         profession: ["Back-end Developer", "Content Manager", "Analyst", "Project Manager", "Copywriter"],
         responsibility: ["Write Code", "Debug Software", "Write Content", "Research Topics", "Analyze Data", "Automate Workflows"],
-        department: ["Developers", "Marketers", "Managers"],
+        department: ["Developers", "Marketers", "Managers", "AI", "Recruiters"],
         borderColor: "#28a745"
       },
       {
@@ -447,13 +447,13 @@ const departmentLogos = {
         category: ["AI Assistant"],
         description: "Google's AI assistant with deep workspace integration and extensive research capabilities.",
         keyFeatures: ["Google integration", "1M token context", "Workspace sync", "Research tools", "Multimodal capabilities"],
-        subscription: ["Freemium"],
-        account: "admin@rh-s.com",
-        lastUpdated: "2025-09-16",
-        whatsNew: "Enhanced Google Workspace integration and improved research capabilities with real-time data access.",
+        subscription: ["Paid"],
+        account: "Multiple accounts: niko@rh-s.com (valid until 12/3/2025)",
+        lastUpdated: "2025-11-14",
+        whatsNew: "Paid subscription active on niko@rh-s.com. Used across all departments (lead generator, sales manager, recruiter, developers, AI, financial manager, designers, videographers). Valid until 12/3/2025.",
         profession: ["Content Manager", "Analyst", "SEO Manager", "Project Manager"],
         responsibility: ["Write Content", "Research Topics", "Analyze Data", "Create Presentations", "Manage Information"],
-        department: ["Marketers", "Managers"],
+        department: ["Marketers", "Managers", "Developers", "AI", "Designers", "Videograph"],
         borderColor: "#d63384"
       },
       {
@@ -463,13 +463,13 @@ const departmentLogos = {
         category: ["AI Assistant"],
         description: "Anthropic's AI assistant excelling in coding performance and reasoning with extended thinking.",
         keyFeatures: ["Advanced reasoning", "Extended thinking", "Code analysis", "Long context", "Safety focus"],
-        subscription: ["Freemium"],
-        account: "admin@rh-s.com",
-        lastUpdated: "2025-09-16",
-        whatsNew: "Claude 4 Sonnet released with improved reasoning capabilities and better code understanding.",
+        subscription: ["Paid"],
+        account: "Multiple accounts: admin@rh-s.com, dev@rh-s.com, niko@rh-s.com, hr@remotemployees.com, sales@rh-s.com, lg@rh-s.com, hr@rem-s.com, dd@rh-s.com, bmselfie@gmail.com",
+        lastUpdated: "2025-11-14",
+        whatsNew: "Paid subscriptions active across 9 accounts. Most subscriptions valid until Nov-Dec 2025. Used by all departments.",
         profession: ["Back-end Developer", "Analyst", "Content Manager", "Project Manager"],
         responsibility: ["Write Code", "Debug Software", "Analyze Data", "Research Topics"],
-        department: ["Developers", "Managers", "Marketers"],
+        department: ["Developers", "Managers", "Marketers", "AI", "Recruiters", "Designers"],
         borderColor: "#28a745"
       },
       {
@@ -479,14 +479,30 @@ const departmentLogos = {
         category: ["AI Assistant"],
         description: "X's AI assistant with real-time information access and unique personality for social media insights.",
         keyFeatures: ["Real-time data", "X platform integration", "Unfiltered responses", "Social insights", "Current events"],
-        subscription: ["Paid"],
-        account: "lg@rh-s.com",
-        lastUpdated: "2025-09-15",
-        whatsNew: "Enhanced real-time capabilities and improved social media trend analysis.",
+        subscription: ["Freemium"],
+        account: "Multiple accounts: admin@rh-s.com (not paid, expired 10/26/2025), lg@rh-s.com",
+        lastUpdated: "2025-11-14",
+        whatsNew: "Subscription on admin@rh-s.com expired. Used by admin and lead generator departments.",
         profession: ["Social Media Manager", "Content Manager", "PR Manager", "Influencer Manager"],
         responsibility: ["Write Content", "Research Topics", "Analyze Data"],
-        department: ["Marketers"],
+        department: ["Marketers", "AI"],
         borderColor: "#d63384"
+      },
+      {
+        id: "tool-029",
+        name: "Perplexity",
+        url: "https://www.perplexity.ai/",
+        category: ["AI Assistant"],
+        description: "AI-powered search engine that provides direct answers with citations, combining web search with AI reasoning.",
+        keyFeatures: ["Real-time web search", "Citation sources", "Direct answers", "Research capabilities", "Multi-model support"],
+        subscription: ["Paid"],
+        account: "Multiple accounts: admin@rh-s.com, dev@rh-s.com, dd@rh-s.com, lg@rh-s.com, sales@rh-s.com, hr@remotemployees.com, niko@rh-s.com",
+        lastUpdated: "2025-11-14",
+        whatsNew: "Paid subscriptions active across 7 accounts. Most subscriptions valid until 10/2/2026. Used by developers, designers, lead generators, sales, recruiters, and financial manager.",
+        profession: ["Back-end Developer", "Content Manager", "Analyst", "Project Manager", "Financial Manager"],
+        responsibility: ["Research Topics", "Analyze Data", "Write Content", "Manage Information"],
+        department: ["Developers", "Designers", "Marketers", "Managers", "AI"],
+        borderColor: "#28a745"
       },
       {
         id: "tool-026",
@@ -527,13 +543,13 @@ const departmentLogos = {
         category: ["Tools"],
         description: "All-in-one workspace with AI-powered features for content creation and organization.",
         keyFeatures: ["AI writing assistant", "Database management", "Template library", "Collaboration tools", "Custom workflows"],
-        subscription: ["Freemium"],
-        account: "admin@rh-s.com",
-        lastUpdated: "2025-09-16",
-        whatsNew: "Enhanced AI features with better content generation and improved database functionality.",
+        subscription: ["Paid"],
+        account: "Multiple accounts: admin@rh-s.com (Notion AI, valid until 6/19/2026)",
+        lastUpdated: "2025-11-14",
+        whatsNew: "Paid Notion AI subscription active on admin@rh-s.com. Valid until 6/19/2026. Used by AI department.",
         profession: ["Project Manager", "Content Manager", "Analyst", "HR Manager"],
         responsibility: ["Create Presentations", "Write Content", "Manage Information", "Analyze Data"],
-        department: ["Managers", "Marketers"],
+        department: ["Managers", "Marketers", "AI"],
         borderColor: "#dc3545"
       }
     ];
@@ -541,24 +557,48 @@ const departmentLogos = {
     // ==================== DATA - ACCOUNTS ====================
     const accounts = [
       {
-        email: "niko@rh-s.com",
-        toolNames: ["MidJourney", "Envato Elements AI"]
+        email: "dev@rh-s.com",
+        toolNames: ["Cursor", "Perplexity", "Claude", "Lovable", "Dropbox Dash", "n8n", "GitHub Copilot", "Replit", "Bolt.new", "V0", "DeepSite", "Claude Desktop", "AI Studio"]
       },
       {
         email: "admin@rh-s.com",
-        toolNames: ["GPT", "Gemini", "Claude", "NotebookLM", "Notion"]
-      },
-      {
-        email: "dev@rh-s.com",
-        toolNames: ["n8n", "GitHub Copilot", "Replit", "Lovable", "Bolt.new", "V0", "DeepSite", "Cursor", "Claude Desktop", "AI Studio"]
+        toolNames: ["Cursor", "RunwayML", "Perplexity", "Claude", "Lovable", "Replit", "Grok", "Pollo.ai", "Vectal Pro", "supabase.com", "Huggingface", "Genspark", "Gamma", "OpenRouter", "Loom", "n8n", "Manus", "Hedra", "Vozo AI", "HeyGen", "Google cloud (AI)", "Wispr Flow", "Dropbox Dash", "TurboScribe", "WHALESWING", "Notion", "Suno", "Adobe Firefly", "GPT", "Gemini", "NotebookLM"]
       },
       {
         email: "lg@rh-s.com",
-        toolNames: ["Genspark", "Grok"]
+        toolNames: ["Cursor", "Perplexity", "Claude", "Dropbox Dash", "Genspark", "Grok"]
+      },
+      {
+        email: "niko@rh-s.com",
+        toolNames: ["Cursor", "GPT", "Gemini", "Perplexity", "Claude", "Wispr Flow", "Dropbox Dash", "MidJourney", "Envato Elements AI"]
       },
       {
         email: "sales@rh-s.com",
-        toolNames: ["Gamma"]
+        toolNames: ["Cursor", "Perplexity", "Claude", "Gamma"]
+      },
+      {
+        email: "content@rh-s.com",
+        toolNames: ["Make.com", "Dropbox Dash"]
+      },
+      {
+        email: "dd@rh-s.com",
+        toolNames: ["Cursor", "Perplexity", "MidJourney", "Claude", "hailuoai.video", "Hailo", "Freepik", "Dropbox Dash"]
+      },
+      {
+        email: "design@rh-s.com",
+        toolNames: ["ElevenLabs"]
+      },
+      {
+        email: "hr@rem-s.com",
+        toolNames: ["Cursor", "GPT", "Claude"]
+      },
+      {
+        email: "hr@remotemployees.com",
+        toolNames: ["Cursor", "Perplexity", "Claude"]
+      },
+      {
+        email: "bmselfie@gmail.com",
+        toolNames: ["Claude"]
       },
     ];
 
