@@ -2095,6 +2095,26 @@ function saveAccountFromModal() {
   alert(`✅ Account "${email}" has been created!`);
 }
 
+function deleteAccount(email) {
+  if (!email) return;
+  
+  // Find the index of the account to delete
+  const index = accounts.findIndex(acc => acc.email === email);
+  
+  if (index === -1) {
+    alert(`Account "${email}" not found.`);
+    return;
+  }
+  
+  // Remove the account from the array
+  accounts.splice(index, 1);
+  
+  // Re-render to update the view
+  render();
+  
+  alert(`✅ Account "${email}" has been deleted!`);
+}
+
 function renderAccountsView() {
   const groupedBySubscription = {
     Freemium: [
