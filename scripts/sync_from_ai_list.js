@@ -145,8 +145,8 @@ function extractToolsFromSmtJs() {
     
     // Find the closing bracket of the array
     // Need to track both array brackets and object braces to handle nested structures
-    // Start with bracketCount = 1 because we're already inside the opening bracket
-    let bracketCount = 1;
+    // Start with bracketCount = 0, we'll increment when we see the opening bracket
+    let bracketCount = 0;
     let braceCount = 0;
     let inString = false;
     let stringChar = null;
@@ -183,9 +183,9 @@ function extractToolsFromSmtJs() {
         bracketCount++;
       } else if (char === ']') {
         bracketCount--;
-        // Only consider this the end if we're back to the main array level (bracketCount === 0)
-        // At this point, we've closed the main array
-        if (bracketCount === 0) {
+        // When bracketCount reaches -1, we've closed the main array
+        // (because we started counting after the opening bracket)
+        if (bracketCount === -1) {
           toolsEnd = i + 1;
           break;
         }
