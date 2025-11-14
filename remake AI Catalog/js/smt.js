@@ -1738,12 +1738,9 @@ if (state.modalMode === 'editTool' && state.toolDraft) {
             <div class="modal-section">
               <h3 class="modal-section-title">Relevant Professions</h3>
               <div class="modal-tags">
-                ${tool.professions.slice(0, 3).map(profession => `
-  <div class="tool-tag" style="background:${profession.color};">
-    ${profession.name}
-  </div>
-`).join('')}
-
+                ${(tool.profession || []).map(profession => `
+                  <span class="modal-tag">${escapeHtml(profession)}</span>
+                `).join('')}
               </div>
             </div>
 
