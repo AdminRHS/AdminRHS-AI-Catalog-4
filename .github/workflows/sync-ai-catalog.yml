@@ -1,0 +1,81 @@
+name: Sync AI Catalog from AI_list.json
+
+on:
+  # Trigger when AI_list.json changes (via Dropbox sync)
+  push:
+    paths:
+      - 'Finance Public/AI_list.json'
+      - 'Finance Public/AI  - AI.json'
+  
+  # Manual trigger
+  workflow_dispatch:
+  
+  # Scheduled check every 6 hours
+  schedule:
+    - cron: '0 */6 * * *'
+
+jobs:
+  sync-catalog:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Allow writing to repository
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: 'Nov25/Design/Safonova Eleonora/Safonova Eleonora/AdminRHS-AI-Catalog-4/package.json'
+      
+      - name: Install dependencies
+        working-directory: Nov25/Design/Safonova Eleonora/Safonova Eleonora/AdminRHS-AI-Catalog-4
+        run: |
+          npm ci
+      
+      - name: Run catalog sync script
+        working-directory: Nov25/Design/Safonova Eleonora/Safonova Eleonora/AdminRHS-AI-Catalog-4
+        run: |
+          node scripts/sync_from_ai_list.js
+      
+      - name: Check for changes
+        id: check_changes
+        run: |
+          if git diff --staged --quiet; then
+            echo "changes=false" >> $GITHUB_OUTPUT
+            echo "No changes detected in catalog"
+          else
+            echo "changes=true" >> $GITHUB_OUTPUT
+            echo "Changes detected in catalog"
+            git status --short
+          fi
+      
+      - name: Commit and push changes
+        if: steps.check_changes.outputs.changes == 'true'
+        run: |
+          git config user.name "ai-catalog-sync-bot"
+          git config user.email "actions@github.com"
+          git add "Nov25/Design/Safonova Eleonora/Safonova Eleonora/AdminRHS-AI-Catalog-4/remake AI Catalog/js/smt.js"
+          git commit -m "Auto-sync: Update AI catalog from AI_list.json - $(date '+%Y-%m-%d %H:%M:%S UTC')"
+          git pull origin main --rebase || true
+          git push origin main
+      
+      - name: Upload sync logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sync-logs
+          path: |
+            Nov25/Design/Safonova Eleonora/Safonova Eleonora/AdminRHS-AI-Catalog-4/sync-*.log
+          retention-days: 7
+      
+      - name: Notify on failure
+        if: failure()
+        run: |
+          echo "❌ AI Catalog sync failed! Check the logs for details."
+
