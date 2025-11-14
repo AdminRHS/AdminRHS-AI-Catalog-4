@@ -30,6 +30,22 @@ jobs:
         with:
           node-version: '20'
       
+      - name: Download AI_list.json from Dropbox
+        env:
+          DROPBOX_ACCESS_TOKEN: ${{ secrets.DROPBOX_ACCESS_TOKEN }}
+        run: |
+          mkdir -p "Finance Public"
+          # Try AI_list.json first, then fallback to AI  - AI.json
+          curl -X POST https://content.dropboxapi.com/2/files/download \
+            --header "Authorization: Bearer $DROPBOX_ACCESS_TOKEN" \
+            --header "Dropbox-API-Arg: {\"path\": \"/Finance Public/AI_list.json\"}" \
+            -o "Finance Public/AI_list.json" 2>/dev/null || \
+          curl -X POST https://content.dropboxapi.com/2/files/download \
+            --header "Authorization: Bearer $DROPBOX_ACCESS_TOKEN" \
+            --header "Dropbox-API-Arg: {\"path\": \"/Finance Public/AI  - AI.json\"}" \
+            -o "Finance Public/AI_list.json" 2>/dev/null || \
+          echo "Warning: Could not download from Dropbox, using existing file if available"
+      
       - name: Run catalog sync script
         run: |
           node scripts/sync_from_ai_list.js
