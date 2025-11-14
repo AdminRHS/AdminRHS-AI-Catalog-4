@@ -47,13 +47,15 @@ const departmentMap = {
 };
 
 // Get workspace root
-// In GitHub Actions: repository root
+// In GitHub Actions: repository root (GITHUB_WORKSPACE)
 // Locally: Dropbox root
 const scriptDir = __dirname;
 let workspaceRoot;
 
 // Check if we're in GitHub Actions (check for GITHUB_WORKSPACE env var)
 if (process.env.GITHUB_WORKSPACE) {
+  // In GitHub Actions, repository is cloned to GITHUB_WORKSPACE
+  // Files are synced from Dropbox, so paths might be different
   workspaceRoot = process.env.GITHUB_WORKSPACE;
 } else {
   // Local development: go up from AdminRHS-AI-Catalog-4/scripts/ to Dropbox root
@@ -61,9 +63,14 @@ if (process.env.GITHUB_WORKSPACE) {
 }
 
 // Paths
+// In GitHub Actions, files might be in root or in their original Dropbox structure
+// Try multiple possible locations
 const aiListPath = path.join(workspaceRoot, 'Finance Public', 'AI_list.json');
-// Also try alternative path for AI_list.json (in case of different naming)
 const aiListPathAlt = path.join(workspaceRoot, 'Finance Public', 'AI  - AI.json');
+// Also try in root if synced differently
+const aiListPathRoot = path.join(workspaceRoot, 'AI_list.json');
+
+// smt.js is always relative to script location
 const smtJsPath = path.join(scriptDir, '..', 'remake AI Catalog', 'js', 'smt.js');
 
 // Logging
@@ -80,16 +87,20 @@ function log(message) {
  */
 function readAIList() {
   try {
-    // Try primary path first
-    let filePath = aiListPath;
-    if (!fs.existsSync(filePath)) {
-      // Try alternative path
-      if (fs.existsSync(aiListPathAlt)) {
-        filePath = aiListPathAlt;
-        log(`Using alternative path: ${aiListPathAlt}`);
-      } else {
-        throw new Error(`AI_list.json not found at ${aiListPath} or ${aiListPathAlt}`);
+    // Try multiple possible paths
+    let filePath = null;
+    const pathsToTry = [aiListPath, aiListPathAlt, aiListPathRoot];
+    
+    for (const testPath of pathsToTry) {
+      if (fs.existsSync(testPath)) {
+        filePath = testPath;
+        log(`Found AI_list.json at: ${testPath}`);
+        break;
       }
+    }
+    
+    if (!filePath) {
+      throw new Error(`AI_list.json not found. Tried: ${pathsToTry.join(', ')}`);
     }
     
     const content = fs.readFileSync(filePath, 'utf8');

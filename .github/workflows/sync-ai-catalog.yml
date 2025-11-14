@@ -32,14 +32,13 @@ jobs:
           node-version: '20'
       
       - name: Run catalog sync script
-        working-directory: Nov25/Design/Safonova Eleonora/Safonova Eleonora/AdminRHS-AI-Catalog-4
         run: |
           node scripts/sync_from_ai_list.js
       
       - name: Check for changes
         id: check_changes
         run: |
-          git add "Nov25/Design/Safonova Eleonora/Safonova Eleonora/AdminRHS-AI-Catalog-4/remake AI Catalog/js/smt.js"
+          git add "remake AI Catalog/js/smt.js"
           if git diff --staged --quiet; then
             echo "changes=false" >> $GITHUB_OUTPUT
             echo "No changes detected in catalog"
@@ -64,7 +63,7 @@ jobs:
         with:
           name: sync-logs
           path: |
-            Nov25/Design/Safonova Eleonora/Safonova Eleonora/AdminRHS-AI-Catalog-4/sync-*.log
+            sync-*.log
           retention-days: 7
       
       - name: Notify on failure
