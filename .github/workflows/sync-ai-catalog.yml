@@ -46,6 +46,7 @@ jobs:
       - name: Check for changes
         id: check_changes
         run: |
+          git add "Nov25/Design/Safonova Eleonora/Safonova Eleonora/AdminRHS-AI-Catalog-4/remake AI Catalog/js/smt.js"
           if git diff --staged --quiet; then
             echo "changes=false" >> $GITHUB_OUTPUT
             echo "No changes detected in catalog"
@@ -60,7 +61,6 @@ jobs:
         run: |
           git config user.name "ai-catalog-sync-bot"
           git config user.email "actions@github.com"
-          git add "Nov25/Design/Safonova Eleonora/Safonova Eleonora/AdminRHS-AI-Catalog-4/remake AI Catalog/js/smt.js"
           git commit -m "Auto-sync: Update AI catalog from AI_list.json - $(date '+%Y-%m-%d %H:%M:%S UTC')"
           git pull origin main --rebase || true
           git push origin main
