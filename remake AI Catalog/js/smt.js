@@ -583,6 +583,8 @@ let state = {
 
   // 🔹 модалка для аккаунтов
   isAccountModalOpen: false,
+  isAccountDetailsModalOpen: false,
+  selectedAccount: null,
   accountDraft: {
     email: '',
     free: [],
@@ -1303,7 +1305,7 @@ ${state.isEditMode && tool.name !== "Add New Tool" ? `
           </h3>
         </div>
 
-        <div class="tool-description">
+        <div class="tool-description" style="max-height: 3.6em; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; line-height: 1.8em;">
           ${escapeHtml(tool.description)}
         </div>
 
@@ -1367,19 +1369,19 @@ function toggleTags(cardElement) {
   const expanded = cardElement.classList.toggle('expanded');
 
   if (expanded) {
-    // позиционирование карточки поверх сетки
+    // позиционирование карточки поверх сетки с фиксированной позицией относительно viewport
     const rect = cardElement.getBoundingClientRect();
-    const gridRect = grid.getBoundingClientRect();
-    const offsetTop = rect.top - gridRect.top + grid.scrollTop;
-    const offsetLeft = rect.left - gridRect.left;
     const width = rect.width;
+    const scrollY = window.scrollY || window.pageYOffset;
 
-    // фиксируем позицию
-    cardElement.style.position = 'absolute';
-    cardElement.style.top = `${offsetTop}px`;
-    cardElement.style.left = `${offsetLeft}px`;
+    // Используем fixed positioning для более надежного позиционирования
+    cardElement.style.position = 'fixed';
+    cardElement.style.top = `${rect.top + scrollY}px`;
+    cardElement.style.left = `${rect.left}px`;
     cardElement.style.width = `${width}px`;
+    cardElement.style.maxWidth = 'calc(100vw - 2rem)';
     cardElement.style.zIndex = '1001';
+    cardElement.style.margin = '0';
 
     // делаем плавное появление карточки
     cardElement.classList.add('visible');
@@ -1391,29 +1393,51 @@ function toggleTags(cardElement) {
     });
     moreBtn.textContent = 'Show less';
 
-    // клик вне карточки закрывает её
-    overlay.onclick = (e) => {
-      if (!cardElement.contains(e.target)) {
-        hiddenTags.forEach(tag => (tag.style.display = 'none'));
-        cardElement.classList.remove('expanded', 'visible');
-        cardElement.style.position = 'relative';
-        cardElement.style.top = '';
-        cardElement.style.left = '';
-        cardElement.style.width = '';
-        cardElement.style.zIndex = '';
-        moreBtn.textContent = `+${hiddenTags.length} more`;
-        overlay.classList.remove('visible');
+    // Обновляем позицию при скролле
+    const updatePosition = () => {
+      if (cardElement.classList.contains('expanded')) {
+        const newRect = cardElement.getBoundingClientRect();
+        const newScrollY = window.scrollY || window.pageYOffset;
+        cardElement.style.top = `${newRect.top + newScrollY}px`;
       }
     };
+
+    // Клик вне карточки закрывает её
+    const handleOverlayClick = (e) => {
+      if (!cardElement.contains(e.target)) {
+        closeExpandedCard();
+      }
+    };
+
+    const closeExpandedCard = () => {
+      hiddenTags.forEach(tag => (tag.style.display = 'none'));
+      cardElement.classList.remove('expanded', 'visible');
+      cardElement.style.position = '';
+      cardElement.style.top = '';
+      cardElement.style.left = '';
+      cardElement.style.width = '';
+      cardElement.style.maxWidth = '';
+      cardElement.style.zIndex = '';
+      cardElement.style.margin = '';
+      moreBtn.textContent = `+${hiddenTags.length} more`;
+      overlay.classList.remove('visible');
+      overlay.onclick = null;
+      window.removeEventListener('scroll', updatePosition);
+    };
+
+    overlay.onclick = handleOverlayClick;
+    window.addEventListener('scroll', updatePosition, { passive: true });
   } else {
     // закрытие
     hiddenTags.forEach(tag => (tag.style.display = 'none'));
     cardElement.classList.remove('visible');
-    cardElement.style.position = 'relative';
+    cardElement.style.position = '';
     cardElement.style.top = '';
     cardElement.style.left = '';
     cardElement.style.width = '';
+    cardElement.style.maxWidth = '';
     cardElement.style.zIndex = '';
+    cardElement.style.margin = '';
     moreBtn.textContent = `+${hiddenTags.length} more`;
     overlay.classList.remove('visible');
   }
@@ -1798,6 +1822,106 @@ function closeAccountModal() {
   if (modal) modal.remove();
 }
 
+function openAccountDetailsModal(email) {
+  if (state.isEditMode) return; // Don't open modal in edit mode
+  const account = accounts.find(acc => acc.email === email);
+  if (!account) return;
+  
+  state.selectedAccount = account;
+  state.isAccountDetailsModalOpen = true;
+  document.body.style.overflow = 'hidden';
+  render();
+}
+
+function closeAccountDetailsModal() {
+  state.isAccountDetailsModalOpen = false;
+  state.selectedAccount = null;
+  const modal = document.querySelector('.account-details-modal-overlay');
+  if (modal) modal.remove();
+  document.body.style.overflow = '';
+}
+
+function renderAccountDetailsModal() {
+  if (!state.isAccountDetailsModalOpen || !state.selectedAccount) return '';
+  
+  const account = state.selectedAccount;
+  const groupedBySubscription = {
+    Freemium: [
+      "n8n", "Gamma", "Replit", "Lovable", "Bolt.new", "V0",
+      "Genspark", "DeepSite", "Cursor", "Claude Desktop",
+      "GPT", "Gemini", "Claude", "Notion"
+    ],
+    Paid: [
+      "MidJourney", "GitHub Copilot", "Envato Elements AI",
+      "Dropbox Dash", "Grok"
+    ],
+    Free: [
+      "NotebookLM", "AI Studio"
+    ]
+  };
+  
+  const freemiumTools = (account.toolNames || []).filter(name =>
+    groupedBySubscription.Freemium.some(f => f.toLowerCase() === name.toLowerCase())
+  );
+  const paidTools = (account.toolNames || []).filter(name =>
+    groupedBySubscription.Paid.some(f => f.toLowerCase() === name.toLowerCase())
+  );
+  const freeTools = (account.toolNames || []).filter(name =>
+    groupedBySubscription.Free.some(f => f.toLowerCase() === name.toLowerCase())
+  );
+  
+  const renderToolList = (tools, color) => {
+    if (!tools.length) return '<p style="color: var(--muted-foreground);">No tools in this category</p>';
+    return tools.map(toolName => {
+      return `<div class="account-tool-item" style="border-left: 3px solid ${color}; padding-left: 0.75rem; margin-bottom: 0.5rem;">
+        <strong>${escapeHtml(toolName)}</strong>
+      </div>`;
+    }).join('');
+  };
+  
+  return `
+    <div class="account-details-modal-overlay modal-overlay open" onclick="if(event.target === this) closeAccountDetailsModal();">
+      <div class="modal">
+        <button class="modal-close" onclick="closeAccountDetailsModal()">${icons.x}</button>
+        <h2 class="modal-title">Account Details</h2>
+        
+        <div class="modal-section">
+          <h3 class="modal-section-title">Email</h3>
+          <div class="modal-section-content">${escapeHtml(account.email)}</div>
+        </div>
+        
+        <div class="modal-section">
+          <h3 class="modal-section-title" style="color: #0096E1;">Freemium Tools (${freemiumTools.length})</h3>
+          <div class="modal-section-content">
+            ${renderToolList(freemiumTools, "#0096E1")}
+          </div>
+        </div>
+        
+        <div class="modal-section">
+          <h3 class="modal-section-title" style="color: #d63384;">Paid Tools (${paidTools.length})</h3>
+          <div class="modal-section-content">
+            ${renderToolList(paidTools, "#d63384")}
+          </div>
+        </div>
+        
+        <div class="modal-section">
+          <h3 class="modal-section-title" style="color: #28a745;">Free Tools (${freeTools.length})</h3>
+          <div class="modal-section-content">
+            ${renderToolList(freeTools, "#28a745")}
+          </div>
+        </div>
+        
+        <div class="modal-section">
+          <h3 class="modal-section-title">Total Tools</h3>
+          <div class="modal-section-content">
+            <strong>${(account.toolNames || []).length} tools</strong> across all subscription types
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
 
 
 function renderAccountModal() {
@@ -2030,7 +2154,7 @@ function renderAccountsView() {
               );
 
               return `
-                <div class="account-card" style="animation-delay:${index * 60}ms">
+                <div class="account-card" style="animation-delay:${index * 60}ms" onclick="if(!state.isEditMode) openAccountDetailsModal('${escapeHtml(account.email)}')">
                   ${
                     state.isEditMode
                       ? `<button class="card-delete-btn" onclick="event.stopPropagation(); if(confirm('Delete ${escapeHtml(account.email)}?')) deleteAccount('${escapeHtml(account.email)}');">&times;</button>`
@@ -2098,6 +2222,8 @@ document.body.insertAdjacentHTML('beforeend', renderModal());
 
 // +++ вставка модалки аккаунтов (если открыта)
 document.body.insertAdjacentHTML('beforeend', renderAccountModal());
+// +++ вставка модалки деталей аккаунта (если открыта)
+document.body.insertAdjacentHTML('beforeend', renderAccountDetailsModal());
 
 // ♻️ возвращаем состояние editMode после рендера
 if (currentEdit) state.isEditMode = true;
