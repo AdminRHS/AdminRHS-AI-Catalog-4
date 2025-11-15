@@ -919,18 +919,6 @@ const departmentLogos = {
         responsibility: ["Research Topics","Analyze Data","Summarize Documents","Manage Information"],
         department: ["Managers","Marketers"],
         borderColor: "#dc3545"
-      }
-    ];,
-        description: "Cursor is an AI-powered code editor built specifically for AI-first development workflows. It integrates multiple AI models (GPT-5, Claude/Sonnet 4.5, Composer) and provides specialized features like Agents view, file-aware context with @ symbol referencing, and built-in browser for local development. Central tool for the 3-prompt design system generation methodology, enabling visual design analysis (GPT-5), component implementation (Claude/Sonnet), and comprehensive documentation (GPT-5) all in one environment.",
-        keyFeatures: ["Multi-model support (switch between GPT-5, Claude, Composer)","Agents view for organized task management","Codebase-aware AI suggestions","Built-in localhost browser preview","File referencing with @ symbol"],
-        subscription: ["Paid"],
-        account: "Multiple accounts: admin@rh-s.com, dev@rh-s.com, niko@rh-s.com, dd@rh-s.com, lg@rh-s.com, sales@rh-s.com, hr@remotemployees.com, hr@rem-s.com",
-        lastUpdated: "2025-11-14",
-        whatsNew: "Updated subscription info. Valid until 8/23/2025 for 8 account(s).",
-        profession: ["Front-end Developer","Full Stack Developer","UI/UX Designer","AI Prompt Engineer","Design Systems Engineer","Financial Manager","Sales Manager","Recruiter"],
-        responsibility: ["Design Websites","Write Code"],
-        department: ["Developers","Designers","Managers","Marketers","AI"],
-        borderColor: "#28a745"
       },
       {
         id: "tool-030",
@@ -1635,18 +1623,6 @@ const departmentLogos = {
         responsibility: ["Research Topics","Analyze Data","Summarize Documents","Manage Information"],
         department: ["Managers","Marketers"],
         borderColor: "#dc3545"
-      }
-    ];,
-        description: "AI tool for Designers team.",
-        keyFeatures: ["AI-powered features","User-friendly interface"],
-        subscription: ["Freemium"],
-        account: "content@rh-s.com",
-        lastUpdated: "2025-11-14",
-        whatsNew: "Newly added tool! Subscription status: Freemium.",
-        profession: ["All Professionals"],
-        responsibility: ["Manage Information"],
-        department: ["Designers"],
-        borderColor: "#808080"
       },
       {
         id: "tool-031",
