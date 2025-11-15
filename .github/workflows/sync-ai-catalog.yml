@@ -30,11 +30,36 @@ jobs:
           DROPBOX_ACCESS_TOKEN: ${{ secrets.DROPBOX_ACCESS_TOKEN }}
         run: |
           mkdir -p "Finance Public"
+          
+          # Check if token is set
+          if [ -z "$DROPBOX_ACCESS_TOKEN" ]; then
+            echo "❌ Error: DROPBOX_ACCESS_TOKEN secret is not set in GitHub repository settings"
+            echo "Please go to: Settings > Secrets and variables > Actions > New repository secret"
+            echo "Name: DROPBOX_ACCESS_TOKEN"
+            echo "Value: [Your Dropbox access token]"
+            exit 1
+          fi
+          
           # Try AI_list.json first
           HTTP_CODE=$(curl -s -o "Finance Public/AI_list.json" -w "%{http_code}" \
             -X POST https://content.dropboxapi.com/2/files/download \
             --header "Authorization: Bearer $DROPBOX_ACCESS_TOKEN" \
             --header "Dropbox-API-Arg: {\"path\": \"/Finance Public/AI_list.json\"}")
+          
+          # Check response for token expiration
+          if [ "$HTTP_CODE" = "401" ]; then
+            echo "❌ Error: Dropbox Access Token has expired (HTTP 401)"
+            echo "Response content:"
+            cat "Finance Public/AI_list.json" || echo "No response file"
+            echo ""
+            echo "To fix this:"
+            echo "1. Go to https://www.dropbox.com/developers/apps"
+            echo "2. Select your app or create a new one"
+            echo "3. Generate a new access token"
+            echo "4. Go to GitHub: Settings > Secrets and variables > Actions"
+            echo "5. Update DROPBOX_ACCESS_TOKEN secret with the new token"
+            exit 1
+          fi
           
           if [ "$HTTP_CODE" != "200" ]; then
             echo "Failed to download AI_list.json (HTTP $HTTP_CODE), trying alternative..."
@@ -43,6 +68,20 @@ jobs:
               -X POST https://content.dropboxapi.com/2/files/download \
               --header "Authorization: Bearer $DROPBOX_ACCESS_TOKEN" \
               --header "Dropbox-API-Arg: {\"path\": \"/Finance Public/AI  - AI.json\"}")
+            
+            if [ "$HTTP_CODE" = "401" ]; then
+              echo "❌ Error: Dropbox Access Token has expired (HTTP 401)"
+              echo "Response content:"
+              cat "Finance Public/AI_list.json" || echo "No response file"
+              echo ""
+              echo "To fix this:"
+              echo "1. Go to https://www.dropbox.com/developers/apps"
+              echo "2. Select your app or create a new one"
+              echo "3. Generate a new access token"
+              echo "4. Go to GitHub: Settings > Secrets and variables > Actions"
+              echo "5. Update DROPBOX_ACCESS_TOKEN secret with the new token"
+              exit 1
+            fi
             
             if [ "$HTTP_CODE" != "200" ]; then
               echo "Error: Failed to download from Dropbox (HTTP $HTTP_CODE)"
