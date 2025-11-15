@@ -2354,6 +2354,9 @@ const departmentLogos = {
       }
     ];
 
+    // Assign tools to window object for global access
+    window.tools = tools;
+
     // ==================== DATA - ACCOUNTS ====================
     const accounts = [
       {
@@ -4048,8 +4051,13 @@ function renderAccountsView() {
 
 // ==================== MAIN RENDER FUNCTION ====================
 function render() {
-  const app = document.getElementById('app');
-  let viewHtml = '';
+  try {
+    const app = document.getElementById('app');
+    if (!app) {
+      console.error('❌ App element not found. DOM may not be ready.');
+      return;
+    }
+    let viewHtml = '';
 
 const currentEdit = state.isEditMode;
 
@@ -4091,6 +4099,10 @@ console.log("🟢 EditMode restored:", state.isEditMode, "ActiveTab:", state.act
 
 // 4. Заново применяем JS-эффекты для карточек
 applyCardHoverColors();
+  } catch (error) {
+    console.error('❌ Error in render():', error);
+    console.error('Error stack:', error.stack);
+  }
 }
 
 // === ДАННЫЕ ДЛЯ ПОДСКАЗОК ===
@@ -4579,6 +4591,15 @@ window.saveEditedTool = function saveEditedTool() {
 
 
 
-    initTheme();
-    render();
+    // Wait for DOM to be ready before initializing
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => {
+        initTheme();
+        render();
+      });
+    } else {
+      // DOM is already ready
+      initTheme();
+      render();
+    }
 
