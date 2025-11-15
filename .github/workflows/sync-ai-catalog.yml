@@ -25,9 +25,44 @@ jobs:
         with:
           node-version: '20'
       
+      - name: Refresh Dropbox Access Token (if needed)
+        id: refresh_token
+        env:
+          DROPBOX_APP_KEY: ${{ secrets.DROPBOX_APP_KEY }}
+          DROPBOX_APP_SECRET: ${{ secrets.DROPBOX_APP_SECRET }}
+          DROPBOX_REFRESH_TOKEN: ${{ secrets.DROPBOX_REFRESH_TOKEN }}
+        run: |
+          # Function to refresh access token
+          refresh_access_token() {
+            if [ -z "$DROPBOX_APP_KEY" ] || [ -z "$DROPBOX_APP_SECRET" ] || [ -z "$DROPBOX_REFRESH_TOKEN" ]; then
+              echo "⚠️  Refresh token credentials not configured. Using access token directly."
+              echo "refresh_needed=false" >> $GITHUB_OUTPUT
+              return
+            fi
+            
+            echo "🔄 Refreshing Dropbox access token..."
+            RESPONSE=$(curl -s -X POST https://api.dropbox.com/oauth2/token \
+              -u "$DROPBOX_APP_KEY:$DROPBOX_APP_SECRET" \
+              -d grant_type=refresh_token \
+              -d refresh_token="$DROPBOX_REFRESH_TOKEN")
+            
+            if echo "$RESPONSE" | grep -q "access_token"; then
+              NEW_TOKEN=$(echo "$RESPONSE" | python3 -c "import sys, json; print(json.load(sys.stdin)['access_token'])")
+              echo "✅ Successfully refreshed access token"
+              echo "access_token=$NEW_TOKEN" >> $GITHUB_OUTPUT
+              echo "refresh_needed=true" >> $GITHUB_OUTPUT
+            else
+              echo "⚠️  Failed to refresh token, will try with existing access token"
+              echo "Response: $RESPONSE"
+              echo "refresh_needed=false" >> $GITHUB_OUTPUT
+            fi
+          }
+          
+          refresh_access_token
+      
       - name: Download AI_list.json from Dropbox
         env:
-          DROPBOX_ACCESS_TOKEN: ${{ secrets.DROPBOX_ACCESS_TOKEN }}
+          DROPBOX_ACCESS_TOKEN: ${{ steps.refresh_token.outputs.access_token || secrets.DROPBOX_ACCESS_TOKEN }}
         run: |
           mkdir -p "Finance Public"
           
@@ -40,53 +75,39 @@ jobs:
             exit 1
           fi
           
-          # Try AI_list.json first
-          HTTP_CODE=$(curl -s -o "Finance Public/AI_list.json" -w "%{http_code}" \
-            -X POST https://content.dropboxapi.com/2/files/download \
-            --header "Authorization: Bearer $DROPBOX_ACCESS_TOKEN" \
-            --header "Dropbox-API-Arg: {\"path\": \"/Finance Public/AI_list.json\"}")
-          
-          # Check response for token expiration
-          if [ "$HTTP_CODE" = "401" ]; then
-            echo "❌ Error: Dropbox Access Token has expired (HTTP 401)"
-            echo "Response content:"
-            cat "Finance Public/AI_list.json" || echo "No response file"
-            echo ""
-            echo "To fix this:"
-            echo "1. Go to https://www.dropbox.com/developers/apps"
-            echo "2. Select your app or create a new one"
-            echo "3. Generate a new access token"
-            echo "4. Go to GitHub: Settings > Secrets and variables > Actions"
-            echo "5. Update DROPBOX_ACCESS_TOKEN secret with the new token"
-            exit 1
-          fi
-          
-          if [ "$HTTP_CODE" != "200" ]; then
-            echo "Failed to download AI_list.json (HTTP $HTTP_CODE), trying alternative..."
-            # Try alternative path
+          # Function to download file
+          download_file() {
+            local PATH_ARG="$1"
             HTTP_CODE=$(curl -s -o "Finance Public/AI_list.json" -w "%{http_code}" \
               -X POST https://content.dropboxapi.com/2/files/download \
               --header "Authorization: Bearer $DROPBOX_ACCESS_TOKEN" \
-              --header "Dropbox-API-Arg: {\"path\": \"/Finance Public/AI  - AI.json\"}")
+              --header "Dropbox-API-Arg: {\"path\": \"$PATH_ARG\"}")
             
             if [ "$HTTP_CODE" = "401" ]; then
-              echo "❌ Error: Dropbox Access Token has expired (HTTP 401)"
-              echo "Response content:"
-              cat "Finance Public/AI_list.json" || echo "No response file"
-              echo ""
-              echo "To fix this:"
-              echo "1. Go to https://www.dropbox.com/developers/apps"
-              echo "2. Select your app or create a new one"
-              echo "3. Generate a new access token"
-              echo "4. Go to GitHub: Settings > Secrets and variables > Actions"
-              echo "5. Update DROPBOX_ACCESS_TOKEN secret with the new token"
-              exit 1
+              echo "⚠️  Access token expired (HTTP 401)"
+              return 1
             fi
             
             if [ "$HTTP_CODE" != "200" ]; then
-              echo "Error: Failed to download from Dropbox (HTTP $HTTP_CODE)"
+              echo "Failed to download (HTTP $HTTP_CODE)"
+              return 1
+            fi
+            
+            return 0
+          }
+          
+          # Try AI_list.json first
+          if ! download_file "/Finance Public/AI_list.json"; then
+            echo "Failed to download AI_list.json, trying alternative path..."
+            # Try alternative path
+            if ! download_file "/Finance Public/AI  - AI.json"; then
+              echo "❌ Error: Failed to download from Dropbox"
               echo "Response content:"
               cat "Finance Public/AI_list.json" || echo "No response file"
+              echo ""
+              echo "If you see HTTP 401, make sure you have set up refresh token:"
+              echo "1. Run: python3 scripts/get_refresh_token.py"
+              echo "2. Add all 4 secrets to GitHub: DROPBOX_ACCESS_TOKEN, DROPBOX_APP_KEY, DROPBOX_APP_SECRET, DROPBOX_REFRESH_TOKEN"
               exit 1
             fi
           fi
@@ -99,7 +120,7 @@ jobs:
             exit 1
           fi
           
-          echo "Successfully downloaded AI_list.json from Dropbox"
+          echo "✅ Successfully downloaded AI_list.json from Dropbox"
       
       - name: Run catalog sync script
         run: |
