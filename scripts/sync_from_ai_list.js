@@ -283,31 +283,47 @@ function updateSmtJs(tools) {
     }
     
     // Find the closing bracket
+    // Start with bracketCount = 0, we'll increment when we see the opening bracket
     let bracketCount = 0;
     let inString = false;
     let stringChar = null;
     let toolsEnd = -1;
     
-    for (let i = toolsStart + 'const tools = ['.length; i < content.length; i++) {
+    // Start after 'const tools = ['
+    const startPos = toolsStart + 'const tools = ['.length;
+    
+    for (let i = startPos; i < content.length; i++) {
       const char = content[i];
       const prevChar = i > 0 ? content[i - 1] : '';
+      const nextChar = i < content.length - 1 ? content[i + 1] : '';
       
+      // Handle string detection (including escaped quotes)
       if (!inString && (char === '"' || char === "'" || char === '`')) {
         inString = true;
         stringChar = char;
-      } else if (inString && char === stringChar && prevChar !== '\\') {
-        inString = false;
-        stringChar = null;
+      } else if (inString) {
+        // Check for escaped quote
+        if (char === '\\' && (nextChar === stringChar || nextChar === '\\' || nextChar === 'n' || nextChar === 'r' || nextChar === 't')) {
+          i++; // Skip escaped character
+          continue;
+        }
+        // Check for end of string
+        if (char === stringChar && prevChar !== '\\') {
+          inString = false;
+          stringChar = null;
+        }
+        continue; // Skip bracket counting inside strings
       }
       
-      if (!inString) {
-        if (char === '[') bracketCount++;
-        if (char === ']') {
-          bracketCount--;
-          if (bracketCount === 0) {
-            toolsEnd = i + 1;
-            break;
-          }
+      // Count brackets (only when not in string)
+      if (char === '[') {
+        bracketCount++;
+      } else if (char === ']') {
+        bracketCount--;
+        // When bracketCount reaches -1, we've closed the main array
+        if (bracketCount === -1) {
+          toolsEnd = i + 1;
+          break;
         }
       }
     }
