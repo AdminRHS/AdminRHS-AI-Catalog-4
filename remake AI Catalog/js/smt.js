@@ -93,173 +93,236 @@ const departmentLogos = {
 
 
 
+// ==================== TOOL LOGOS ====================
+const toolLogos = {
 
-    // ==================== TOOL LOGOS ====================
-    const toolLogos = {
-
-       "Make.com": {
-    logo: "photo/make.png"
+  "Make.com": {
+    light: "photo/make.png",
+    dark: "photo/make.png"
   },
+
   "InVideo AI": {
-    logo: "photo/InVideoAI.png"
+    light: "photo/InVideoAI.png",
+    dark: "photo/InVideoAI.png"
   },
+
   "RunwayML": {
-    logo: "photo/RunwayML.png"
+    light: "photo/RunwayML.png",
+    dark: "photo/RunwayML.png"
   },
+
   "Perplexity": {
-    logo: "photo/Perplexity.webp"
+    light: "photo/Perplexity.webp",
+    dark: "photo/Perplexity.webp"
   },
+
   "Pollo.ai": {
-    logo: "photo/Pollo.ai.png"
+    light: "photo/Pollo.ai.png",
+    dark: "photo/Pollo.ai.png"
   },
+
   "supabase.com": {
-    logo: "photo/supabase.com.png"
+    light: "photo/supabase.com.png",
+    dark: "photo/supabase.com.png"
   },
+
   "Huggingface": {
-    logo: "photo/Huggingface.svg"
+    light: "photo/Huggingface.svg",
+    dark: "photo/Huggingface.svg"
   },
+
   "OpenRouter": {
-    logoLight: "photo/OpenRouterlight.png",
-    logoDark: "photo/OpenRouterdark.png"
+    light: "photo/OpenRouterlight.png",
+    dark: "photo/OpenRouterdark.png"
   },
+
   "Loom": {
-    logo: "photo/loom.png"
+    light: "photo-light/loom.png",
+    dark: "photo/loom.png"
   },
+
   "hailuoai.video": {
-    logo: "photo/hailuoai.video.png"
+    light: "photo/hailuoai.video.png",
+    dark: "photo/hailuoai.video.png"
   },
+
   "Hailo": {
-    logo: "photo/Hailo.png"
+    light: "photo/Hailo.png",
+    dark: "photo/Hailo.png"
   },
+
   "Manus": {
-    logoLight: "photo/Manuslight.png",
-    logoDark: "photo/Manusdark.png"
+    light: "photo/Manuslight.png",
+    dark: "photo/Manusdark.png"
   },
+
   "Hedra": {
-    logoLight: "photo/hedralight.png",
-    logoDark: "photo/hedradark.png"
+    light: "photo/hedralight.png",
+    dark: "photo/hedradark.png"
   },
+
   "Vozo AI": {
-    logo: "photo/VozoAI.png"
+    light: "photo/VozoAI.png",
+    dark: "photo/VozoAI.png"
   },
+
   "HeyGen": {
-    logo: "photo/HeyGen.jpeg"
+    light: "photo/HeyGen.jpeg",
+    dark: "photo/HeyGen.jpeg"
   },
+
   "Google cloud (AI)": {
-    logo: "photo/Google cloud (AI).png"
+    light: "photo/Google cloud (AI).png",
+    dark: "photo/Google cloud (AI).png"
   },
+
   "Wispr Flow": {
-    logo: "photo/Wispr Flow.jpg"
+    light: "photo/Wispr Flow.jpg",
+    dark: "photo/Wispr Flow.jpg"
   },
+
   "TurboScribe": {
-    logo: "photo/TurboScribe.png"
+    light: "photo/TurboScribe.png",
+    dark: "photo/TurboScribe.png"
   },
+
   "WHALESWING": {
-    logo: "photo/WHALESWING.svg"
+    light: "photo/WHALESWING.svg",
+    dark: "photo/WHALESWING.svg"
   },
+
   "Freepik": {
-    logo: "photo/Freepik.png"
+    light: "photo/Freepik.png",
+    dark: "photo/Freepik.png"
   },
+
   "Suno": {
-    logo: "photo/Suno.png"
+    light: "photo/Suno.png",
+    dark: "photo/Suno.png"
   },
+
   "ElevenLabs": {
-    logoLight: "photo/ElevenLabslight.svg",
-    logoDark: "photo/ElevenLabsdark.png"
+    light: "photo/ElevenLabslight.svg",
+    dark: "photo/ElevenLabsdark.png"
   },
+
   "Adobe Firefly": {
-    logo: "photo/Adobe Firefly.svg.png"
+    light: "photo/Adobe Firefly.svg.png",
+    dark: "photo/Adobe Firefly.svg.png"
   },
-  'n8n': {
-    light: 'photo-light/n8n-color.png',
-    dark: 'photo/n8n-color.png'
+
+  "n8n": {
+    light: "photo-light/n8n-color.png",
+    dark: "photo/n8n-color.png"
   },
-  'Gamma': {
-    light: 'photo-light/gammai.png',
-    dark: 'photo/gammai-removebg-preview.png'
+
+  "Gamma": {
+    light: "photo-light/gammai.png",
+    dark: "photo/gammai-removebg-preview.png"
   },
-  'MidJourney': {
-    light: 'photo-light/midjourney.png',
-    dark: 'photo/midjourney.png'
+
+  "MidJourney": {
+    light: "photo-light/midjourney.png",
+    dark: "photo/midjourney.png"
   },
-  'GitHub Copilot': {
-    light: 'photo-light/github_logo_icon.png',
-    dark: 'photo/github_logo_icon.png'
+
+  "GitHub Copilot": {
+    light: "photo-light/github_logo_icon.png",
+    dark: "photo/github_logo_icon.png"
   },
-  'Envato Elements AI': {
-    light: 'photo-light/Envato.png',
-    dark: 'photo/Envato-removebg-preview.png'
+
+  "Envato Elements AI": {
+    light: "photo-light/Envato.png",
+    dark: "photo/Envato-removebg-preview.png"
   },
-  'Dropbox Dash': {
-    light: 'photo-light/Dropbox_Icon.svg.png',
-    dark: 'photo/Dropbox_Icon.svg.png'
+
+  "Dropbox Dash": {
+    light: "photo-light/Dropbox_Icon.svg.png",
+    dark: "photo/Dropbox_Icon.svg.png"
   },
-  'Replit': {
-    light: 'photo-light/replit.png',
-    dark: 'photo/replit.png'
+
+  "Replit": {
+    light: "photo-light/replit.png",
+    dark: "photo/replit.png"
   },
-  'Lovable': {
-    light: 'photo-light/Lovable.png',
-    dark: 'photo/Lovable.png'
+
+  "Lovable": {
+    light: "photo-light/Lovable.png",
+    dark: "photo/Lovable.png"
   },
-  'Bolt.new': {
-    light: 'photo-light/bolts.png',
-    dark: 'photo/bolts-removebg-preview.png'
+
+  "Bolt.new": {
+    light: "photo-light/bolts.png",
+    dark: "photo/bolts-removebg-preview.png"
   },
-  'V0': {
-    light: 'photo-light/faviconV2.png',
-    dark: 'photo/faviconV2.png'
+
+  "V0": {
+  light: "photo/v0dark.png",
+  dark: "photo/V0.png"
+},
+
+
+  "Genspark": {
+    light: "photo-light/genspark-icon.png",
+    dark: "photo/genspark-icon.png"
   },
-  'Genspark': {
-    light: 'photo-light/genspark-icon.png',
-    dark: 'photo/genspark-icon.png'
+
+  "DeepSite": {
+    light: "photo-light/deepsite.png",
+    dark: "photo/deepsite.png"
   },
-  'DeepSite': {
-    light: 'photo-light/deepsite.png',
-    dark: 'photo/deepsite.png'
+
+  "Cursor": {
+    light: "photo-light/faviconV2(1).png",
+    dark: "photo/faviconV2 (1).png"
   },
-  'Cursor': {
-    light: 'photo-light/faviconV2(1).png',
-    dark: 'photo/faviconV2 (1).png'
+
+  "Claude Desktop": {
+    light: "photo-light/Claude_AL_symbol.svg.png",
+    dark: "photo/Claude_AL_symbol.svg.png"
   },
-  'Claude Desktop': {
-    light: 'photo-light/Claude_AL_symbol.svg.png',
-    dark: 'photo/Claude_AL_symbol.svg.png'
+
+  "GPT": {
+    light: "photo-light/gpt.png",
+    dark: "photo/faviconV2.png"
   },
-  'GPT': {
-    light: 'photo-light/gpt.png',
-    dark: 'photo/faviconV2.png'
+
+  "Gemini": {
+    light: "photo-light/Google_Gemin.png",
+    dark: "photo/Google_Gemin.png"
   },
-  'Gemini': {
-    light: 'photo-light/Google_Gemin.png',
-    dark: 'photo/Google_Gemin.png'
+
+  "Claude": {
+    light: "photo-light/Claude_AL_symbol.svg.png",
+    dark: "photo/Claude_AL_symbol.svg.png"
   },
-  'Claude': {
-    light: 'photo-light/Claude_AL_symbol.svg.png',
-    dark: 'photo/Claude_AL_symbol.svg.png'
+
+  "Grok": {
+    light: "photo-light/grok.png",
+    dark: "photo/grok.png"
   },
-  'Grok': {
-    light: 'photo-light/grok.png',
-    dark: 'photo/grok.png'
+
+  "AI Studio": {
+    light: "photo-light/aistudio.png",
+    dark: "photo/aistudio.png"
   },
-  'AI Studio': {
-    light: 'photo-light/aistudio.png',
-    dark: 'photo/aistudio.png'
+
+  "NotebookLM": {
+    light: "photo-light/notebook.png",
+    dark: "photo/notebook.png"
   },
-  'NotebookLM': {
-    light: 'photo-light/notebook.png',
-    dark: 'photo/notebook.png'
-  },
-  'Notion': {
-    light: 'photo-light/Notion-logo.svg.png',
-    dark: 'photo/Notion-logo.svg.png'
-  },
-  'Loom': {
-    light: 'photo-light/loom.png',
-    dark: 'photo/loom.png'
+"Vectal Pro": {
+  light: "photo/Vectal Pro.png",
+  dark: "photo/Vectal Pro.png"
+},
+
+  "Notion": {
+    light: "photo-light/Notion-logo.svg.png",
+    dark: "photo/Notion-logo.svg.png"
   }
 
 };
+
 
 
     // ==================== COURSE LINKS ====================
@@ -1223,7 +1286,7 @@ const departmentLogos = {
         department: ["Managers","Marketers"],
         borderColor: "#dc3545"
       }
-    ];;
+    ];
 
     // Assign tools to window object for global access
     window.tools = tools;
