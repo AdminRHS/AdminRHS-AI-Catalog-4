@@ -96,6 +96,80 @@ const departmentLogos = {
 
     // ==================== TOOL LOGOS ====================
     const toolLogos = {
+
+       "Make.com": {
+    logo: "photo/make.png"
+  },
+  "InVideo AI": {
+    logo: "photo/InVideoAI.png"
+  },
+  "RunwayML": {
+    logo: "photo/RunwayML.png"
+  },
+  "Perplexity": {
+    logo: "photo/Perplexity.webp"
+  },
+  "Pollo.ai": {
+    logo: "photo/Pollo.ai.png"
+  },
+  "supabase.com": {
+    logo: "photo/supabase.com.png"
+  },
+  "Huggingface": {
+    logo: "photo/Huggingface.svg"
+  },
+  "OpenRouter": {
+    logoLight: "photo/OpenRouterlight.png",
+    logoDark: "photo/OpenRouterdark.png"
+  },
+  "Loom": {
+    logo: "photo/loom.png"
+  },
+  "hailuoai.video": {
+    logo: "photo/hailuoai.video.png"
+  },
+  "Hailo": {
+    logo: "photo/Hailo.png"
+  },
+  "Manus": {
+    logoLight: "photo/Manuslight.png",
+    logoDark: "photo/Manusdark.png"
+  },
+  "Hedra": {
+    logoLight: "photo/hedralight.png",
+    logoDark: "photo/hedradark.png"
+  },
+  "Vozo AI": {
+    logo: "photo/VozoAI.png"
+  },
+  "HeyGen": {
+    logo: "photo/HeyGen.jpeg"
+  },
+  "Google cloud (AI)": {
+    logo: "photo/Google cloud (AI).png"
+  },
+  "Wispr Flow": {
+    logo: "photo/Wispr Flow.jpg"
+  },
+  "TurboScribe": {
+    logo: "photo/TurboScribe.png"
+  },
+  "WHALESWING": {
+    logo: "photo/WHALESWING.svg"
+  },
+  "Freepik": {
+    logo: "photo/Freepik.png"
+  },
+  "Suno": {
+    logo: "photo/Suno.png"
+  },
+  "ElevenLabs": {
+    logoLight: "photo/ElevenLabslight.svg",
+    logoDark: "photo/ElevenLabsdark.png"
+  },
+  "Adobe Firefly": {
+    logo: "photo/Adobe Firefly.svg.png"
+  },
   'n8n': {
     light: 'photo-light/n8n-color.png',
     dark: 'photo/n8n-color.png'
@@ -179,10 +253,12 @@ const departmentLogos = {
   'Notion': {
     light: 'photo-light/Notion-logo.svg.png',
     dark: 'photo/Notion-logo.svg.png'
-  }
+  },
   'Loom': {
     light: 'photo-light/loom.png',
     dark: 'photo/loom.png'
+  }
+
 };
 
 
