@@ -1,4 +1,4 @@
-# AI Catalog Auto-Sync Scripts
+﻿# AI Catalog Auto-Sync Scripts
 
 Автоматическая синхронизация каталога ИИ тулзов из `AI_list.json` в приложение каталога.
 
@@ -27,7 +27,7 @@ node scripts/sync_from_ai_list.js
 
 1. **Чтение данных**: Скрипт читает `AI_list.json` из папки `Finance Public/`
 2. **Обработка**: Группирует данные по тулзам, определяет статусы подписок, собирает аккаунты
-3. **Поиск в Taxonomy**: Для новых тулзов ищет дополнительную информацию в `Taxonomy/Entities/LIBRARIES/Tools/AI_Tools/`
+3. **Поиск в Taxonomy**: Для новых тулзов ищет дополнительную информацию в `Entities/LIBRARIES/Tools/AI_Tools/`
 4. **Обновление каталога**: Обновляет массив `tools` в `remake AI Catalog/js/smt.js`
 5. **Коммит**: GitHub Actions автоматически коммитит изменения
 

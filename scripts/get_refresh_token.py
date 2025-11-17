@@ -6,6 +6,7 @@
 """
 
 import sys
+import os
 
 try:
     from dropbox import DropboxOAuth2FlowNoRedirect
@@ -20,15 +21,21 @@ def get_refresh_token():
     print("=" * 80)
     print()
     
-    # Get App Key and Secret
-    print("Шаг 1: Получите App Key и App Secret")
-    print("1. Откройте: https://www.dropbox.com/developers/apps")
-    print("2. Найдите ваше приложение (или создайте новое)")
-    print("3. Перейдите в Settings → App key и App secret")
-    print()
+    # Get App Key and Secret from environment or input
+    app_key = os.environ.get('DROPBOX_APP_KEY', '').strip()
+    app_secret = os.environ.get('DROPBOX_APP_SECRET', '').strip()
     
-    app_key = input("Введите App Key: ").strip()
-    app_secret = input("Введите App Secret: ").strip()
+    if not app_key or not app_secret:
+        print("Шаг 1: Получите App Key и App Secret")
+        print("1. Откройте: https://www.dropbox.com/developers/apps")
+        print("2. Найдите ваше приложение (или создайте новое)")
+        print("3. Перейдите в Settings → App key и App secret")
+        print()
+        
+        if not app_key:
+            app_key = input("Введите App Key: ").strip()
+        if not app_secret:
+            app_secret = input("Введите App Secret: ").strip()
     
     if not app_key or not app_secret:
         print("❌ App Key и App Secret обязательны!")
