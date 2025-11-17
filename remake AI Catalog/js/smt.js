@@ -1144,7 +1144,7 @@ const departmentLogos = {
         department: ["Managers","Marketers"],
         borderColor: "#dc3545"
       }
-    ];;;;;;;;;
+    ];;;;;;;;;;
 
     // Assign tools to window object for global access
     window.tools = tools;
