@@ -3408,4 +3408,3 @@ window.saveEditedTool = function saveEditedTool() {
       initTheme();
       render();
     }
-
