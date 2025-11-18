@@ -171,9 +171,9 @@ const toolLogos = {
     dark: "photo/HeyGen.jpeg"
   },
 
-  "Google cloud (AI)": {
-    light: "photo/Google cloud (AI).png",
-    dark: "photo/Google cloud (AI).png"
+  "Google Cloud (AI)": {
+    light: "photo/Google Cloud (AI).png",
+    dark: "photo/Google Cloud (AI).png"
   },
 
   "Wispr Flow": {
@@ -341,735 +341,827 @@ const toolLogos = {
     };
 
     // ==================== DATA - TOOLS ====================
-    const tools = [
-      {
-        id: "tool-019",
-        name: "Cursor",
-        url: "https://cursor.sh/",
-        category: ["Programming","AI Assistant"],
-        description: "Cursor is an AI-powered code editor built specifically for AI-first development workflows. It integrates multiple AI models (GPT-5, Claude/Sonnet 4.5, Composer) and provides specialized features like Agents view, file-aware context with @ symbol referencing, and built-in browser for local development. Central tool for the 3-prompt design system generation methodology, enabling visual design analysis (GPT-5), component implementation (Claude/Sonnet), and comprehensive documentation (GPT-5) all in one environment.",
-        keyFeatures: ["Multi-model support (switch between GPT-5, Claude, Composer)","Agents view for organized task management","Codebase-aware AI suggestions","Built-in localhost browser preview","File referencing with @ symbol"],
-        subscription: ["Paid"],
-        account: "Multiple accounts: admin@rh-s.com, dev@rh-s.com, niko@rh-s.com, dd@rh-s.com, lg@rh-s.com, sales@rh-s.com, hr@remotemployees.com, hr@rem-s.com",
-        lastUpdated: "2025-11-17",
-        whatsNew: "Updated subscription info. Valid until 8/23/2025 for 8 account(s).",
-        profession: ["Front-end Developer","Full Stack Developer","UI/UX Designer","AI Prompt Engineer","Design Systems Engineer","Financial Manager","Sales Manager","Recruiter"],
-        responsibility: ["Design Websites","Write Code"],
-        department: ["Developers","Designers","Managers","Marketers","AI"],
-        borderColor: "#28a745"
-      },
-      {
-        id: "tool-030",
-        name: "Make.com",
-        url: "https://www.make.com/en",
-        category: ["Tools"],
-        description: "AI tool for Designers team.",
-        keyFeatures: ["AI-powered features","User-friendly interface"],
-        subscription: ["Freemium"],
-        account: "content@rh-s.com",
-        lastUpdated: "2025-11-17",
-        whatsNew: "Updated subscription info. Subscription status: Freemium.",
-        profession: ["All Professionals"],
-        responsibility: ["Manage Information"],
-        department: ["Designers"],
-        borderColor: "#808080"
-      },
-      {
-        id: "tool-022",
-        name: "GPT",
-        url: "https://openai.com/chatgpt",
-        category: ["AI Assistant"],
-        description: "OpenAI's flagship conversational AI with advanced reasoning, coding, and multimodal capabilities.",
-        keyFeatures: ["Advanced reasoning","Code generation","Multimodal input","Custom instructions","Plugin ecosystem"],
-        subscription: ["Paid"],
-        account: "Multiple accounts: niko@rh-s.com, hr@rem-s.com",
-        lastUpdated: "2025-11-17",
-        whatsNew: "Updated subscription info. Valid until 12/3/2025 for 2 account(s).",
-        profession: ["Back-end Developer","Content Manager","Analyst","Project Manager","Copywriter"],
-        responsibility: ["Write Code","Debug Software","Write Content","Research Topics","Analyze Data","Automate Workflows"],
-        department: ["Developers","Marketers","Managers","AI","Recruiters","Designers","Videograph"],
-        borderColor: "#28a745"
-      },
-      {
-        id: "tool-023",
-        name: "Gemini",
-        url: "https://gemini.google.com/",
-        category: ["AI Assistant"],
-        description: "Google's AI assistant with deep workspace integration and extensive research capabilities.",
-        keyFeatures: ["Google integration","1M token context","Workspace sync","Research tools","Multimodal capabilities"],
-        subscription: ["Paid"],
-        account: "niko@rh-s.com",
-        lastUpdated: "2025-11-17",
-        whatsNew: "Updated subscription info. Valid until 12/3/2025 for 1 account(s).",
-        profession: ["Content Manager","Analyst","SEO Manager","Project Manager"],
-        responsibility: ["Write Content","Research Topics","Analyze Data","Create Presentations","Manage Information"],
-        department: ["Marketers","Managers","Developers","AI","Designers","Videograph"],
-        borderColor: "#d63384"
-      },
-      {
-        id: "tool-031",
-        name: "InVideo AI",
-        url: "https://invideo.io",
-        category: ["Tools"],
-        description: "AI tool for Videograph team.",
-        keyFeatures: ["AI-powered features","User-friendly interface"],
-        subscription: ["Freemium"],
-        account: "unknown@rh-s.com",
-        lastUpdated: "2025-11-17",
-        whatsNew: "Updated subscription info. Subscription status: Freemium.",
-        profession: ["All Professionals"],
-        responsibility: ["Manage Information"],
-        department: ["Videograph"],
-        borderColor: "#808080"
-      },
-      {
-        id: "tool-032",
-        name: "RunwayML",
-        url: "https://app.runwayml.com/video-tools/teams/admin04665/ai-tools/generate?mode=tools",
-        category: ["AI Assistant","Video"],
-        description: "Professional AI video editing platform offering video generation, image-to-video conversion, video editing tools, and AI-powered effects. Used for creative video production and content creation.",
-        keyFeatures: ["Professional video editing capabilities","AI-powered effects and generation","Multiple video editing tools","Image-to-video conversion","High-quality output"],
-        subscription: ["Paid"],
-        account: "admin@rh-s.com",
-        lastUpdated: "2025-11-17",
-        whatsNew: "Updated subscription info. Valid until 11/23/2025 for 1 account(s).",
-        profession: ["All Professionals"],
-        responsibility: ["Write Code","Manage Information","Generate Images"],
-        department: ["Designers"],
-        borderColor: "#28a745"
-      },
-      {
-        id: "tool-029",
-        name: "Perplexity",
-        url: "https://www.perplexity.ai/",
-        category: ["AI Assistant"],
-        description: "AI-powered search engine that provides direct answers with citations, combining web search with AI reasoning.",
-        keyFeatures: ["Real-time web search","Citation sources","Direct answers","Research capabilities","Multi-model support"],
-        subscription: ["Paid"],
-        account: "Multiple accounts: admin@rh-s.com, dev@rh-s.com, dd@rh-s.com, lg@rh-s.com, sales@rh-s.com, hr@remotemployees.com, niko@rh-s.com",
-        lastUpdated: "2025-11-17",
-        whatsNew: "Updated subscription info. Valid until 10/9/2025 for 7 account(s).",
-        profession: ["Back-end Developer","Content Manager","Analyst","Project Manager","Financial Manager"],
-        responsibility: ["Research Topics","Analyze Data","Write Content","Manage Information"],
-        department: ["Developers","Designers","Marketers","Managers","AI"],
-        borderColor: "#28a745"
-      },
-      {
-        id: "tool-003",
-        name: "MidJourney",
-        url: "https://www.midjourney.com/",
-        category: ["Design"],
-        description: "Leading AI image generation platform for creating artistic and photorealistic images from text prompts.",
-        keyFeatures: ["Photorealistic rendering","Artistic styles","Commercial usage rights","Community gallery","Style references"],
-        subscription: ["Paid"],
-        account: "dd@rh-s.com",
-        lastUpdated: "2025-11-17",
-        whatsNew: "Updated subscription info. Valid until 11/15/2025 for 1 account(s).",
-        profession: ["UI/UX Designer","Content Manager","Social Media Manager"],
-        responsibility: ["Generate Images","Source Assets"],
-        department: ["Designers","Marketers"],
-        borderColor: "#6f42c1"
-      },
-      {
-        id: "tool-024",
-        name: "Claude",
-        url: "https://claude.ai/",
-        category: ["AI Assistant"],
-        description: "Anthropic's AI assistant excelling in coding performance and reasoning with extended thinking.",
-        keyFeatures: ["Advanced reasoning","Extended thinking","Code analysis","Long context","Safety focus"],
-        subscription: ["Paid"],
-        account: "Multiple accounts: admin@rh-s.com, dev@rh-s.com, niko@rh-s.com, hr@remotemployees.com, sales@rh-s.com, lg@rh-s.com, hr@rem-s.com, dd@rh-s.com, bmselfie@gmail.com",
-        lastUpdated: "2025-11-17",
-        whatsNew: "Updated subscription info. Valid until 12/7/2025 for 9 account(s).",
-        profession: ["Back-end Developer","Analyst","Content Manager","Project Manager"],
-        responsibility: ["Write Code","Debug Software","Analyze Data","Research Topics"],
-        department: ["Developers","Managers","Marketers","AI","Recruiters","Designers","Videograph"],
-        borderColor: "#28a745"
-      },
-      {
-        id: "tool-014",
-        name: "Lovable",
-        url: "https://lovable.dev/",
-        category: ["Web Design"],
-        description: "AI-powered full-stack web application builder with GitHub integration and real-time rendering.",
-        keyFeatures: ["Full-stack development","GitHub sync","Real-time rendering","Component library","Deployment automation"],
-        subscription: ["Paid"],
-        account: "Multiple accounts: admin@rh-s.com, dev@rh-s.com",
-        lastUpdated: "2025-11-17",
-        whatsNew: "Updated subscription info. Valid until 9/1/2025 for 2 account(s).",
-        profession: ["Full Stack Developer","Web Designer"],
-        responsibility: ["Write Code","Deploy Applications","Design Websites"],
-        department: ["Developers","Designers"],
-        borderColor: "#28a745"
-      },
-      {
-        id: "tool-013",
-        name: "Replit",
-        url: "https://replit.com/",
-        category: ["Web Design"],
-        description: "Browser-based IDE with AI agents that build full-stack applications from natural language.",
-        keyFeatures: ["AI-powered development","Real-time collaboration","Instant deployment","Multiple frameworks","Cloud hosting"],
-        subscription: ["Freemium"],
-        account: "admin@rh-s.com",
-        lastUpdated: "2025-11-17",
-        whatsNew: "Updated subscription info. Valid until 9/30/2025 for 1 account(s).",
-        profession: ["Full Stack Developer","Front-end Developer","Back-end Developer"],
-        responsibility: ["Write Code","Debug Software","Deploy Applications","Design Websites"],
-        department: ["Developers"],
-        borderColor: "#28a745"
-      },
-      {
-        id: "tool-025",
-        name: "Grok",
-        url: "https://x.ai/",
-        category: ["AI Assistant"],
-        description: "X's AI assistant with real-time information access and unique personality for social media insights.",
-        keyFeatures: ["Real-time data","X platform integration","Unfiltered responses","Social insights","Current events"],
-        subscription: ["Freemium"],
-        account: "admin@rh-s.com",
-        lastUpdated: "2025-11-17",
-        whatsNew: "Updated subscription info. Valid until 10/26/2025 for 1 account(s).",
-        profession: ["Social Media Manager","Content Manager","PR Manager","Influencer Manager"],
-        responsibility: ["Write Content","Research Topics","Analyze Data"],
-        department: ["Marketers","AI"],
-        borderColor: "#d63384"
-      },
-      {
-        id: "tool-033",
-        name: "Pollo.ai",
-        url: "https://pollo.ai/home",
-        category: ["Tools"],
-        description: "AI tool for Developers team.",
-        keyFeatures: ["AI-powered features","User-friendly interface"],
-        subscription: ["Freemium"],
-        account: "admin@rh-s.com",
-        lastUpdated: "2025-11-17",
-        whatsNew: "Updated subscription info. Valid until 7/12/2025 for 1 account(s).",
-        profession: ["All Professionals"],
-        responsibility: ["Manage Information"],
-        department: ["Developers"],
-        borderColor: "#808080"
-      },
-      {
-        id: "tool-034",
-        name: "Vectal Pro",
-        url: "https://www.vectal.ai/",
-        category: ["Tools"],
-        description: "AI tool for Developers team.",
-        keyFeatures: ["AI-powered features","User-friendly interface"],
-        subscription: ["Freemium"],
-        account: "admin@rh-s.com",
-        lastUpdated: "2025-11-17",
-        whatsNew: "Updated subscription info. Subscription status: Freemium.",
-        profession: ["All Professionals"],
-        responsibility: ["Manage Information"],
-        department: ["Developers"],
-        borderColor: "#808080"
-      },
-      {
-        id: "tool-035",
-        name: "supabase.com",
-        url: "http://supabase.com/",
-        category: ["Tools"],
-        description: "AI tool for Developers team.",
-        keyFeatures: ["AI-powered features","User-friendly interface"],
-        subscription: ["Freemium"],
-        account: "admin@rh-s.com",
-        lastUpdated: "2025-11-17",
-        whatsNew: "Updated subscription info. Valid until 10/8/2025 for 1 account(s).",
-        profession: ["All Professionals"],
-        responsibility: ["Manage Information"],
-        department: ["Developers"],
-        borderColor: "#808080"
-      },
-      {
-        id: "tool-036",
-        name: "Huggingface",
-        url: "https://huggingface.co",
-        category: ["Tools"],
-        description: "AI tool for Developers team.",
-        keyFeatures: ["AI-powered features","User-friendly interface"],
-        subscription: ["Freemium"],
-        account: "admin@rh-s.com",
-        lastUpdated: "2025-11-17",
-        whatsNew: "Updated subscription info. Subscription status: Freemium.",
-        profession: ["All Professionals"],
-        responsibility: ["Manage Information"],
-        department: ["Developers"],
-        borderColor: "#808080"
-      },
-      {
-        id: "tool-017",
-        name: "Genspark",
-        url: "https://www.genspark.ai/",
-        category: ["Web Design"],
-        description: "Comprehensive Super Agent AI workspace for website building, presentations, and research.",
-        keyFeatures: ["Multi-format creation","Research capabilities","Website building","Presentation tools","Content generation"],
-        subscription: ["Freemium"],
-        account: "admin@rh-s.com",
-        lastUpdated: "2025-11-17",
-        whatsNew: "Updated subscription info. Subscription status: Freemium.",
-        profession: ["Content Manager","Project Manager","Web Designer"],
-        responsibility: ["Design Websites","Create Presentations","Research Topics","Generate Images"],
-        department: ["Marketers","Managers","Designers"],
-        borderColor: "#d63384"
-      },
-      {
-        id: "tool-002",
-        name: "Gamma",
-        url: "https://gamma.app/",
-        category: ["Design"],
-        description: "AI-powered presentation and website creation tool that generates content from text prompts.",
-        keyFeatures: ["AI presentation generation","Text-to-presentation","Multi-format export","Real-time collaboration","Template library"],
-        subscription: ["Paid"],
-        account: "admin@rh-s.com",
-        lastUpdated: "2025-11-17",
-        whatsNew: "Updated subscription info. Valid until 11/25/2025 for 1 account(s).",
-        profession: ["Project Manager","Product Manager","Content Manager","Sales Manager"],
-        responsibility: ["Create Presentations","Design Websites","Write Content"],
-        department: ["Managers","Marketers","Designers","ai"],
-        borderColor: "#dc3545"
-      },
-      {
-        id: "tool-037",
-        name: "OpenRouter",
-        url: "https://openrouter.ai",
-        category: ["Tools"],
-        description: "AI tool for Developers team.",
-        keyFeatures: ["AI-powered features","User-friendly interface"],
-        subscription: ["Freemium"],
-        account: "admin@rh-s.com",
-        lastUpdated: "2025-11-17",
-        whatsNew: "Updated subscription info. Subscription status: Freemium.",
-        profession: ["All Professionals"],
-        responsibility: ["Manage Information"],
-        department: ["Developers"],
-        borderColor: "#808080"
-      },
-      {
-        id: "tool-038",
-        name: "Loom",
-        url: "https://www.loom.com/looms/videos",
-        category: ["AI Assistant","Video"],
-        description: "Video messaging platform enabling users to record and share videos instantly. Used for asynchronous communication, screen recording, tutorials, and team collaboration.",
-        keyFeatures: ["Easy to use","Quick recording","Instant sharing","Screen recording","Team collaboration"],
-        subscription: ["Paid"],
-        account: "admin@rh-s.com",
-        lastUpdated: "2025-11-17",
-        whatsNew: "Updated subscription info. Valid until 11/18/2025 for 1 account(s).",
-        profession: ["All Professionals"],
-        responsibility: ["Manage Information"],
-        department: ["AI"],
-        borderColor: "#28a745"
-      },
-      {
-        id: "tool-039",
-        name: "hailuoai.video",
-        url: "https://hailuoai.video",
-        category: ["Tools"],
-        description: "AI tool for Developers team.",
-        keyFeatures: ["AI-powered features","User-friendly interface"],
-        subscription: ["Freemium"],
-        account: "dd@rh-s.com",
-        lastUpdated: "2025-11-17",
-        whatsNew: "Updated subscription info. Valid until 6/21/2025 for 1 account(s).",
-        profession: ["All Professionals"],
-        responsibility: ["Manage Information"],
-        department: ["Developers"],
-        borderColor: "#808080"
-      },
-      {
-        id: "tool-040",
-        name: "Hailo",
-        url: "https://hailo.ai",
-        category: ["Tools"],
-        description: "AI tool for Developers team.",
-        keyFeatures: ["AI-powered features","User-friendly interface"],
-        subscription: ["Freemium"],
-        account: "dd@rh-s.com",
-        lastUpdated: "2025-11-17",
-        whatsNew: "Updated subscription info. Valid until 6/21/2025 for 1 account(s).",
-        profession: ["All Professionals"],
-        responsibility: ["Manage Information"],
-        department: ["Developers"],
-        borderColor: "#808080"
-      },
-      {
-        id: "tool-001",
-        name: "n8n",
-        url: "https://n8n.io/",
-        category: ["Automation"],
-        description: "Visual workflow automation platform with 400+ integrations for connecting apps and services.",
-        keyFeatures: ["Visual workflow builder","400+ integrations","Self-hostable","Custom functions","API integration"],
-        subscription: ["Paid"],
-        account: "admin@rh-s.com",
-        lastUpdated: "2025-11-17",
-        whatsNew: "Updated subscription info. Valid until 11/26/2025 for 1 account(s).",
-        profession: ["Back-end Developer","System Administrator","Project Manager"],
-        responsibility: ["Automate Workflows","Write Code","Manage Information"],
-        department: ["Developers","Managers"],
-        borderColor: "#28a745"
-      },
-      {
-        id: "tool-041",
-        name: "Manus",
-        url: "https://manus.im/app",
-        category: ["Tools"],
-        description: "AI tool for Developers team.",
-        keyFeatures: ["AI-powered features","User-friendly interface"],
-        subscription: ["Freemium"],
-        account: "admin@rh-s.com",
-        lastUpdated: "2025-11-17",
-        whatsNew: "Updated subscription info. Valid until 9/25/2025 for 1 account(s).",
-        profession: ["All Professionals"],
-        responsibility: ["Manage Information"],
-        department: ["Developers"],
-        borderColor: "#808080"
-      },
-      {
-        id: "tool-042",
-        name: "Hedra",
-        url: "https://www.hedra.com/app/home",
-        category: ["AI Assistant","Video"],
-        description: "AI video platform offering various video-related AI tools and services. Specific capabilities and use cases to be determined through further research.",
-        keyFeatures: ["AI-powered features","User-friendly interface"],
-        subscription: ["Paid"],
-        account: "admin@rh-s.com",
-        lastUpdated: "2025-11-17",
-        whatsNew: "Updated subscription info. Valid until 11/8/2025 for 1 account(s).",
-        profession: ["All Professionals"],
-        responsibility: ["Manage Information"],
-        department: ["Videograph"],
-        borderColor: "#28a745"
-      },
-      {
-        id: "tool-043",
-        name: "Vozo AI",
-        url: "https://app.vozo.ai",
-        category: ["Tools"],
-        description: "AI tool for Videograph team.",
-        keyFeatures: ["AI-powered features","User-friendly interface"],
-        subscription: ["Freemium"],
-        account: "admin@rh-s.com",
-        lastUpdated: "2025-11-17",
-        whatsNew: "Updated subscription info. Valid until 10/26/2025 for 1 account(s).",
-        profession: ["All Professionals"],
-        responsibility: ["Manage Information"],
-        department: ["Videograph"],
-        borderColor: "#808080"
-      },
-      {
-        id: "tool-044",
-        name: "HeyGen",
-        url: "https://www.heygen.com/",
-        category: ["AI Assistant","Video"],
-        description: "AI-powered video generation platform that creates videos with realistic AI avatars, voice cloning, and multilingual support. Used for creating professional video content without actors or studios.",
-        keyFeatures: ["Realistic AI avatars","Voice cloning technology","Multilingual support","Easy to use","Professional quality"],
-        subscription: ["Paid"],
-        account: "admin@rh-s.com",
-        lastUpdated: "2025-11-17",
-        whatsNew: "Updated subscription info. Valid until 11/27/2025 for 1 account(s).",
-        profession: ["All Professionals"],
-        responsibility: ["Manage Information"],
-        department: ["Videograph"],
-        borderColor: "#28a745"
-      },
-      {
-        id: "tool-045",
-        name: "Google cloud (AI)",
-        url: "",
-        category: ["Tools"],
-        description: "AI tool for Developers team.",
-        keyFeatures: ["AI-powered features","User-friendly interface"],
-        subscription: ["Freemium"],
-        account: "admin@rh-s.com",
-        lastUpdated: "2025-11-17",
-        whatsNew: "Updated subscription info. Valid until 10/21/2025 for 1 account(s).",
-        profession: ["All Professionals"],
-        responsibility: ["Manage Information"],
-        department: ["Developers"],
-        borderColor: "#808080"
-      },
-      {
-        id: "tool-046",
-        name: "Wispr Flow",
-        url: "https://wisprflow.ai",
-        category: ["Tools"],
-        description: "AI tool for Marketers team.",
-        keyFeatures: ["AI-powered features","User-friendly interface"],
-        subscription: ["Paid"],
-        account: "Multiple accounts: admin@rh-s.com, niko@rh-s.com",
-        lastUpdated: "2025-11-17",
-        whatsNew: "Updated subscription info. Valid until 11/7/2025 for 2 account(s).",
-        profession: ["All Professionals"],
-        responsibility: ["Manage Information"],
-        department: ["Marketers","Managers","Developers","AI","Designers","Videograph"],
-        borderColor: "#808080"
-      },
-      {
-        id: "tool-011",
-        name: "Dropbox Dash",
-        url: "https://www.dropbox.com/products/dash",
-        category: ["Productivity"],
-        description: "Dropbox Dash unifies your search across all apps, documents, and folders using AI.",
-        keyFeatures: ["Universal Search","AI Summarization","Connects 3rd-party apps","Organized Search results"],
-        subscription: ["Paid"],
-        account: "Multiple accounts: dev@rh-s.com, admin@rh-s.com, lg@rh-s.com, niko@rh-s.com, content@rh-s.com, dd@rh-s.com",
-        lastUpdated: "2025-11-17",
-        whatsNew: "Updated subscription info. Valid until 12/4/2025 for 6 account(s).",
-        profession: ["All Professionals"],
-        responsibility: ["Manage Information","Research Topics","Summarize Documents"],
-        department: ["All Departments","Developers","AI","Marketers","Managers","Videograph","Designers"],
-        borderColor: "#d63384"
-      },
-      {
-        id: "tool-047",
-        name: "TurboScribe",
-        url: "http://turboscribe.ai",
-        category: ["Tools"],
-        description: "AI tool for Videograph team.",
-        keyFeatures: ["AI-powered features","User-friendly interface"],
-        subscription: ["Paid"],
-        account: "admin@rh-s.com",
-        lastUpdated: "2025-11-17",
-        whatsNew: "Updated subscription info. Valid until 12/4/2025 for 1 account(s).",
-        profession: ["All Professionals"],
-        responsibility: ["Manage Information"],
-        department: ["Videograph"],
-        borderColor: "#808080"
-      },
-      {
-        id: "tool-048",
-        name: "WHALESWING",
-        url: "https://whaleswing.com",
-        category: ["Tools"],
-        description: "AI tool for Developers team.",
-        keyFeatures: ["AI-powered features","User-friendly interface"],
-        subscription: ["Freemium"],
-        account: "admin@rh-s.com",
-        lastUpdated: "2025-11-17",
-        whatsNew: "Updated subscription info. Subscription status: Freemium.",
-        profession: ["All Professionals"],
-        responsibility: ["Manage Information"],
-        department: ["Developers"],
-        borderColor: "#808080"
-      },
-      {
-        id: "tool-028",
-        name: "Notion",
-        url: "https://www.notion.so/",
-        category: ["Tools"],
-        description: "All-in-one workspace with AI-powered features for content creation and organization.",
-        keyFeatures: ["AI writing assistant","Database management","Template library","Collaboration tools","Custom workflows"],
-        subscription: ["Paid"],
-        account: "admin@rh-s.com",
-        lastUpdated: "2025-11-17",
-        whatsNew: "Updated subscription info. Valid until 6/19/2026 for 1 account(s).",
-        profession: ["Project Manager","Content Manager","Analyst","HR Manager"],
-        responsibility: ["Create Presentations","Write Content","Manage Information","Analyze Data"],
-        department: ["Managers","Marketers","AI"],
-        borderColor: "#dc3545"
-      },
-      {
-        id: "tool-010",
-        name: "Envato Elements AI",
-        url: "https://elements.envato.com/ai",
-        category: ["Design"],
-        description: "AI image generator from Envato Elements, focused on generating high-quality commercial-use images.",
-        keyFeatures: ["Commercial License","High-quality Output","Style Customization","Integrated Asset Library"],
-        subscription: ["Paid"],
-        account: "unknown@rh-s.com",
-        lastUpdated: "2025-11-17",
-        whatsNew: "Updated subscription info. Valid until 8/7/2026 for 0 account(s).",
-        profession: ["UI/UX Designer","Graphic Designer","Content Manager"],
-        responsibility: ["Generate Images","Source Assets"],
-        department: ["Designers","Marketers"],
-        borderColor: "#6f42c1"
-      },
-      {
-        id: "tool-049",
-        name: "Freepik",
-        url: "https://www.freepik.com/",
-        category: ["Tools"],
-        description: "AI tool for Designers team.",
-        keyFeatures: ["AI-powered features","User-friendly interface"],
-        subscription: ["Paid"],
-        account: "dd@rh-s.com",
-        lastUpdated: "2025-11-17",
-        whatsNew: "Updated subscription info. Valid until 8/8/2026 for 1 account(s).",
-        profession: ["All Professionals"],
-        responsibility: ["Manage Information"],
-        department: ["Designers"],
-        borderColor: "#808080"
-      },
-      {
-        id: "tool-050",
-        name: "Suno",
-        url: "https://sunoai-music.com/",
-        category: ["Tools"],
-        description: "AI tool for Videograph team.",
-        keyFeatures: ["AI-powered features","User-friendly interface"],
-        subscription: ["Paid"],
-        account: "admin@rh-s.com",
-        lastUpdated: "2025-11-17",
-        whatsNew: "Updated subscription info. Valid until 11/29/2025 for 1 account(s).",
-        profession: ["All Professionals"],
-        responsibility: ["Manage Information"],
-        department: ["Videograph"],
-        borderColor: "#808080"
-      },
-      {
-        id: "tool-051",
-        name: "ElevenLabs",
-        url: "https://docs.elevenlabs.io/",
-        category: ["AI Assistant"],
-        description: "Advanced AI voice generation platform. Used for creating voiceovers for video content, presentations, tutorials, and educational materials. Supports multiple languages and custom voice cloning.",
-        keyFeatures: ["Extremely natural-sounding voices","Voice cloning capabilities","Multi-language support","Fast generation","API for automation"],
-        subscription: ["Free"],
-        account: "dd@rh-s.com",
-        lastUpdated: "2025-11-17",
-        whatsNew: "Updated subscription info. Subscription status: Free.",
-        profession: ["Design Team","Video Editors","Content Creators"],
-        responsibility: ["Design Websites","Manage Information","Create Presentations"],
-        department: ["Designers","Video Editors","Content Creation","Marketing"],
-        borderColor: "#28a745"
-      },
-      {
-        id: "tool-052",
-        name: "Adobe Firefly",
-        url: "https://firefly.adobe.com/",
-        category: ["Tools"],
-        description: "AI tool for Designers team.",
-        keyFeatures: ["AI-powered features","User-friendly interface"],
-        subscription: ["Paid"],
-        account: "admin@rh-s.com",
-        lastUpdated: "2025-11-17",
-        whatsNew: "Updated subscription info. Valid until 12/17/2025 for 1 account(s).",
-        profession: ["All Professionals"],
-        responsibility: ["Manage Information"],
-        department: ["Designers"],
-        borderColor: "#808080"
-      },
-      {
-        id: "tool-009",
-        name: "GitHub Copilot",
-        url: "https://github.com/features/copilot",
-        category: ["Coding"],
-        description: "AI pair programmer by GitHub that provides autocomplete-style suggestions from an AI model.",
-        keyFeatures: ["Code Autocomplete","Real-time suggestions","Supports multiple languages","Code explanation"],
-        subscription: ["Paid"],
-        account: "dev@rh-s.com",
-        lastUpdated: "2025-09-17",
-        whatsNew: "Copilot Enterprise is now available, featuring chat within private repositories and enhanced security features.",
-        profession: ["Back-end Developer","Front-end Developer","DevOps Engineer"],
-        responsibility: ["Write Code","Troubleshoot Issues"],
-        department: ["Developers"],
-        borderColor: "#28a745"
-      },
-      
-      {
-        id: "tool-027",
-        name: "NotebookLM",
-        url: "https://notebooklm.google.com/",
-        category: ["AI Assistant"],
-        description: "Google's research assistant specializing in document analysis with audio overview generation.",
-        keyFeatures: ["Document analysis","Audio overviews","Citation tracking","Research synthesis","Source grounding"],
-        subscription: ["Free"],
-        account: "admin@rh-s.com",
-        lastUpdated: "2025-09-15",
-        whatsNew: "Improved audio generation quality and added support for more document formats.",
-        profession: ["Analyst","Content Manager","Project Manager","Financial Manager"],
-        responsibility: ["Research Topics","Analyze Data","Summarize Documents","Manage Information"],
-        department: ["Managers","Marketers"],
-        borderColor: "#dc3545"
-      },
-  
-    
-      {
-        id: "tool-015",
-        name: "Bolt.new",
-        url: "https://bolt.new/",
-        category: ["Web Design"],
-        description: "AI web development platform for building full-stack applications with WebContainers technology.",
-        keyFeatures: ["WebContainers technology","Multiple frameworks","Instant preview","Code export","AI assistance"],
-        subscription: ["Freemium"],
-        account: "dev@rh-s.com",
-        lastUpdated: "2025-09-14",
-        whatsNew: "Updated pricing model and enhanced AI capabilities with GPT-4 Turbo integration.",
-        profession: ["Full Stack Developer","Front-end Developer"],
-        responsibility: ["Write Code","Debug Software","Deploy Applications"],
-        department: ["Developers"],
-        borderColor: "#28a745"
-      },
-      {
-        id: "tool-016",
-        name: "V0",
-        url: "https://v0.dev/",
-        category: ["Web Design"],
-        description: "Vercel's AI-powered UI generator that creates React/Next.js components from natural language.",
-        keyFeatures: ["React component generation","Next.js integration","Shadcn/ui components","Tailwind CSS","Production-ready code"],
-        subscription: ["Freemium"],
-        account: "dev@rh-s.com",
-        lastUpdated: "2025-09-16",
-        whatsNew: "Enhanced component library and improved code quality with better TypeScript support.",
-        profession: ["Front-end Developer","UI/UX Designer"],
-        responsibility: ["Write Code","Design Websites"],
-        department: ["Developers","Designers"],
-        borderColor: "#28a745"
-      },
-      {
-        id: "tool-018",
-        name: "DeepSite",
-        url: "https://deepsiteai.com/",
-        category: ["Web Design"],
-        description: "Affordable AI website generator powered by DeepSeek V3 with single HTML file output.",
-        keyFeatures: ["Single HTML output","Responsive design","DeepSeek V3 powered","No coding required","Fast generation"],
-        subscription: ["Freemium"],
-        account: "dev@rh-s.com",
-        lastUpdated: "2025-09-13",
-        whatsNew: "Integrated DeepSeek V3 model for improved website generation and added responsive templates.",
-        profession: ["Web Designer","Wordpress Designer"],
-        responsibility: ["Design Websites","Write Code"],
-        department: ["Designers"],
-        borderColor: "#6f42c1"
-      },
-      {
-        id: "tool-020",
-        name: "Claude Desktop",
-        url: "https://claude.ai/desktop",
-        category: ["Programming"],
-        description: "Desktop integration of Claude AI with local file access and Model Context Protocol support.",
-        keyFeatures: ["Desktop integration","Local file access","Model Context Protocol","Advanced reasoning","Code analysis"],
-        subscription: ["Freemium"],
-        account: "dev@rh-s.com",
-        lastUpdated: "2025-09-16",
-        whatsNew: "Added support for more file types and improved integration with development tools.",
-        profession: ["Back-end Developer","Front-end Developer","Analyst","Content Manager"],
-        responsibility: ["Write Code","Analyze Data","Research Topics","Manage Information"],
-        department: ["Developers","Managers","Marketers"],
-        borderColor: "#28a745"
-      },
-      {
-        id: "tool-026",
-        name: "AI Studio",
-        url: "https://aistudio.google.com/",
-        category: ["AI Assistant"],
-        description: "Google's experimental AI platform providing free access to latest Gemini models without safety filters.",
-        keyFeatures: ["Latest models","No safety filters","Free access","Model tuning","API access"],
-        subscription: ["Free"],
-        account: "dev@rh-s.com",
-        lastUpdated: "2025-09-16",
-        whatsNew: "Added support for Gemini 2.0 Flash and improved fine-tuning capabilities.",
-        profession: ["Back-end Developer","Graphic Designer","Content Manager"],
-        responsibility: ["Write Code","Generate Images","Create Presentations","Design Websites"],
-        department: ["Developers","Designers","Marketers"],
-        borderColor: "#28a745"
-      },
+const tools = [
 
-    ];
+  // 001 — Cursor
+  {
+    id: "tool-019",
+    name: "Cursor",
+    url: "https://cursor.sh/",
+    category: ["Coding / Programming"],
+    description: "Cursor is an AI-powered code editor built for AI-first development workflows.",
+    keyFeatures: [
+      "Multi-model support",
+      "Agents view",
+      "Codebase-aware suggestions",
+      "@ symbol file referencing",
+      "Built-in browser preview"
+    ],
+    subscription: ["Paid"],
+    account: "Multiple accounts: admin@rh-s.com, dev@rh-s.com, niko@rh-s.com, dd@rh-s.com, lg@rh-s.com, sales@rh-s.com, hr@remotemployees.com, hr@rem-s.com",
+    lastUpdated: "2025-11-17",
+    whatsNew: "Subscription valid until 8/23/2025 for 8 accounts.",
+    profession: ["Front-end Developer","Full Stack Developer","UI/UX Designer","AI Prompt Engineer","Design Systems Engineer","Financial Manager","Sales Manager","Recruiter"],
+    responsibility: ["Design Websites","Write Code"],
+    department: ["Developers","Designers","Managers","Marketers","AI"],
+    borderColor: "#28a745"
+  },
 
-    // Assign tools to window object for global access
-    window.tools = tools;
+  // 002 — Make.com
+  {
+    id: "tool-030",
+    name: "Make.com",
+    url: "https://www.make.com/en",
+    category: ["Automation / Integrations"],
+    description: "Automation platform used by Designers team.",
+    keyFeatures: ["AI-powered automations","User-friendly interface"],
+    subscription: ["Freemium"],
+    account: "content@rh-s.com",
+    lastUpdated: "2025-11-17",
+    whatsNew: "Subscription status: Freemium.",
+    profession: ["All Professionals"],
+    responsibility: ["Manage Information"],
+    department: ["Designers"],
+    borderColor: "#808080"
+  },
+
+  // 003 — GPT
+  {
+    id: "tool-022",
+    name: "GPT",
+    url: "https://openai.com/chatgpt",
+    category: ["AI Assistant"],
+    description: "OpenAI's flagship conversational AI.",
+    keyFeatures: [
+      "Advanced reasoning",
+      "Code generation",
+      "Multimodal input",
+      "Custom instructions",
+      "Plugin ecosystem"
+    ],
+    subscription: ["Paid"],
+    account: "Multiple accounts: niko@rh-s.com, hr@rem-s.com",
+    lastUpdated: "2025-11-17",
+    whatsNew: "Valid until 12/3/2025 for 2 accounts.",
+    profession: ["Back-end Developer","Content Manager","Analyst","Project Manager","Copywriter"],
+    responsibility: ["Write Code","Debug Software","Write Content","Research Topics","Analyze Data","Automate Workflows"],
+    department: ["Developers","Marketers","Managers","AI","Recruiters","Designers","Videograph"],
+    borderColor: "#28a745"
+  },
+
+  // 004 — Gemini
+  {
+    id: "tool-023",
+    name: "Gemini",
+    url: "https://gemini.google.com/",
+    category: ["AI Assistant"],
+    description: "Google's AI assistant with deep workspace integration.",
+    keyFeatures: [
+      "Google integration",
+      "1M token context",
+      "Workspace sync",
+      "Research tools",
+      "Multimodal capabilities"
+    ],
+    subscription: ["Paid"],
+    account: "niko@rh-s.com",
+    lastUpdated: "2025-11-17",
+    whatsNew: "Valid until 12/3/2025 for 1 account.",
+    profession: ["Content Manager","Analyst","SEO Manager","Project Manager"],
+    responsibility: ["Write Content","Research Topics","Analyze Data","Create Presentations","Manage Information"],
+    department: ["Marketers","Managers","Developers","AI","Designers","Videograph"],
+    borderColor: "#d63384"
+  },
+
+  // 005 — InVideo AI
+  {
+    id: "tool-031",
+    name: "InVideo AI",
+    url: "https://invideo.io",
+    category: ["Video Generation / Video Tools"],
+    description: "Video creation tool for Videograph team.",
+    keyFeatures: ["AI video creation","User-friendly interface"],
+    subscription: ["Freemium"],
+    account: "unknown@rh-s.com",
+    lastUpdated: "2025-11-17",
+    whatsNew: "Subscription status: Freemium.",
+    profession: ["All Professionals"],
+    responsibility: ["Manage Information"],
+    department: ["Videograph"],
+    borderColor: "#808080"
+  },
+
+  // 006 — RunwayML
+  {
+    id: "tool-032",
+    name: "RunwayML",
+    url: "https://app.runwayml.com",
+    category: ["Video Generation / Video Tools"],
+    description: "Professional AI video editing and generation platform.",
+    keyFeatures: [
+      "Video editing",
+      "AI-powered effects",
+      "Video generation",
+      "Image-to-video",
+      "High-quality output"
+    ],
+    subscription: ["Paid"],
+    account: "admin@rh-s.com",
+    lastUpdated: "2025-11-17",
+    whatsNew: "Valid until 11/23/2025 for 1 account.",
+    profession: ["All Professionals"],
+    responsibility: ["Write Code","Manage Information","Generate Images"],
+    department: ["Designers"],
+    borderColor: "#28a745"
+  },
+
+  // 007 — Perplexity
+  {
+    id: "tool-029",
+    name: "Perplexity",
+    url: "https://www.perplexity.ai/",
+    category: ["Research & Search Engines"],
+    description: "AI-powered search engine with citations.",
+    keyFeatures: [
+      "Real-time search",
+      "Citations",
+      "Direct answers",
+      "Research mode",
+      "Multi-model support"
+    ],
+    subscription: ["Paid"],
+    account: "Multiple accounts: admin@rh-s.com, dev@rh-s.com, dd@rh-s.com, lg@rh-s.com, sales@rh-s.com, hr@remotemployees.com, niko@rh-s.com",
+    lastUpdated: "2025-11-17",
+    whatsNew: "Valid until 10/9/2025 for 7 accounts.",
+    profession: ["Back-end Developer","Content Manager","Analyst","Project Manager","Financial Manager"],
+    responsibility: ["Research Topics","Analyze Data","Write Content","Manage Information"],
+    department: ["Developers","Designers","Marketers","Managers","AI"],
+    borderColor: "#28a745"
+  },
+
+  // 008 — MidJourney
+  {
+    id: "tool-003",
+    name: "MidJourney",
+    url: "https://www.midjourney.com/",
+    category: ["Image Generation"],
+    description: "Leading AI image generation platform.",
+    keyFeatures: [
+      "Photorealistic rendering",
+      "Artistic styles",
+      "Commercial usage rights",
+      "Community gallery",
+      "Style references"
+    ],
+    subscription: ["Paid"],
+    account: "dd@rh-s.com",
+    lastUpdated: "2025-11-17",
+    whatsNew: "Valid until 11/15/2025 for 1 account.",
+    profession: ["UI/UX Designer","Content Manager","Social Media Manager"],
+    responsibility: ["Generate Images","Source Assets"],
+    department: ["Designers","Marketers"],
+    borderColor: "#6f42c1"
+  },
+// 009 — Claude (Web)
+{
+  id: "tool-024",
+  name: "Claude",
+  url: "https://claude.ai/",
+  category: ["AI Assistant"],
+  description: "Anthropic’s high-reasoning AI assistant with excellent coding and analysis abilities.",
+  keyFeatures: [
+    "Advanced reasoning",
+    "Extended thinking",
+    "Code analysis",
+    "Long context",
+    "Safety focus"
+  ],
+  subscription: ["Paid"],
+  account: "Multiple accounts: admin@rh-s.com, dev@rh-s.com, niko@rh-s.com, hr@remotemployees.com, sales@rh-s.com, lg@rh-s.com, hr@rem-s.com, dd@rh-s.com, bmselfie@gmail.com",
+  lastUpdated: "2025-11-17",
+  whatsNew: "Valid until 12/7/2025 for 9 accounts.",
+  profession: ["Back-end Developer", "Analyst", "Content Manager", "Project Manager"],
+  responsibility: ["Write Code", "Debug Software", "Analyze Data", "Research Topics"],
+  department: ["Developers", "Managers", "Marketers", "AI", "Recruiters", "Designers", "Videograph"],
+  borderColor: "#28a745"
+},
+
+
+  // 010 — Lovable
+  {
+    id: "tool-014",
+    name: "Lovable",
+    url: "https://lovable.dev/",
+    category: ["Web Development / Web Design"],
+    description: "AI-powered full-stack web builder with GitHub integration.",
+    keyFeatures: [
+      "Full-stack development",
+      "GitHub sync",
+      "Real-time rendering",
+      "Component library",
+      "One-click deployment"
+    ],
+    subscription: ["Paid"],
+    account: "Multiple accounts: admin@rh-s.com, dev@rh-s.com",
+    lastUpdated: "2025-11-17",
+    whatsNew: "Valid until 9/1/2025 for 2 accounts.",
+    profession: ["Full Stack Developer","Web Designer"],
+    responsibility: ["Write Code","Deploy Applications","Design Websites"],
+    department: ["Developers","Designers"],
+    borderColor: "#28a745"
+  },
+
+  // 011 — Replit
+  {
+    id: "tool-013",
+    name: "Replit",
+    url: "https://replit.com/",
+    category: ["Web Development / Coding"],
+    description: "Browser-based cloud IDE with AI coding tools.",
+    keyFeatures: [
+      "AI agents",
+      "Instant deployment",
+      "Realtime collaboration",
+      "Multiple frameworks",
+      "Cloud hosting"
+    ],
+    subscription: ["Freemium"],
+    account: "admin@rh-s.com",
+    lastUpdated: "2025-11-17",
+    whatsNew: "Valid until 9/30/2025 for 1 account.",
+    profession: ["Full Stack Developer","Front-end Developer","Back-end Developer"],
+    responsibility: ["Write Code","Debug Software","Deploy Applications","Design Websites"],
+    department: ["Developers"],
+    borderColor: "#28a745"
+  },
+
+  // 012 — Grok
+  {
+    id: "tool-025",
+    name: "Grok",
+    url: "https://x.ai/",
+    category: ["AI Assistant"],
+    description: "X's AI assistant with real-time data access.",
+    keyFeatures: [
+      "Real-time data",
+      "X platform integration",
+      "Unfiltered answers",
+      "Social insights",
+      "Current events"
+    ],
+    subscription: ["Freemium"],
+    account: "admin@rh-s.com",
+    lastUpdated: "2025-11-17",
+    whatsNew: "Valid until 10/26/2025 for 1 account.",
+    profession: ["Social Media Manager","Content Manager","PR Manager"],
+    responsibility: ["Write Content","Research Topics","Analyze Data"],
+    department: ["Marketers","AI"],
+    borderColor: "#d63384"
+  },
+
+  // 013 — Pollo.ai
+  {
+    id: "tool-033",
+    name: "Pollo.ai",
+    url: "https://pollo.ai/",
+    category: ["Developer Utilities"],
+    description: "Developer-focused AI tool.",
+    keyFeatures: ["AI features","Simple interface"],
+    subscription: ["Freemium"],
+    account: "admin@rh-s.com",
+    lastUpdated: "2025-11-17",
+    whatsNew: "Valid until 7/12/2025 for 1 account.",
+    profession: ["All Professionals"],
+    responsibility: ["Manage Information"],
+    department: ["Developers"],
+    borderColor: "#808080"
+  },
+
+  // 014 — Vectal Pro
+  {
+    id: "tool-034",
+    name: "Vectal Pro",
+    url: "https://www.vectal.ai/",
+    category: ["Developer Utilities"],
+    description: "AI tool for Developers team.",
+    keyFeatures: ["AI features","Simple interface"],
+    subscription: ["Freemium"],
+    account: "admin@rh-s.com",
+    lastUpdated: "2025-11-17",
+    whatsNew: "Freemium plan active.",
+    profession: ["All Professionals"],
+    responsibility: ["Manage Information"],
+    department: ["Developers"],
+    borderColor: "#808080"
+  },
+
+  // 015 — Supabase
+  {
+    id: "tool-035",
+    name: "supabase.com",
+    url: "https://supabase.com/",
+    category: ["Developer Utilities","Backend Tools"],
+    description: "Open-source backend and authentication platform.",
+    keyFeatures: ["Database hosting","Auth","Storage","APIs","Dashboard"],
+    subscription: ["Freemium"],
+    account: "admin@rh-s.com",
+    lastUpdated: "2025-11-17",
+    whatsNew: "Valid until 10/8/2025 for 1 account.",
+    profession: ["Developers"],
+    responsibility: ["Manage Information"],
+    department: ["Developers"],
+    borderColor: "#808080"
+  },
+
+  // 016 — HuggingFace
+  {
+    id: "tool-036",
+    name: "Huggingface",
+    url: "https://huggingface.co/",
+    category: ["AI Models / Developer Tools"],
+    description: "Hub for AI models, datasets, and pipelines.",
+    keyFeatures: ["Model hosting","Datasets","Inference APIs"],
+    subscription: ["Freemium"],
+    account: "admin@rh-s.com",
+    lastUpdated: "2025-11-17",
+    whatsNew: "Freemium status active.",
+    profession: ["Developers","AI Engineers"],
+    responsibility: ["Manage Information"],
+    department: ["Developers","AI"],
+    borderColor: "#808080"
+  },
+
+  // 017 — Genspark
+  {
+    id: "tool-017",
+    name: "Genspark",
+    url: "https://www.genspark.ai/",
+    category: ["Image Generation","Web Design","Research & Search Engines"],
+    description: "Super-agent workspace for websites, presentations, and research.",
+    keyFeatures: [
+      "Website builder",
+      "Presentations",
+      "Research tools",
+      "Multi-format creation"
+    ],
+    subscription: ["Freemium"],
+    account: "admin@rh-s.com",
+    lastUpdated: "2025-11-17",
+    whatsNew: "Freemium status active.",
+    profession: ["Content Manager","Project Manager","Web Designer"],
+    responsibility: ["Design Websites","Create Presentations","Research Topics","Generate Images"],
+    department: ["Marketers","Managers","Designers"],
+    borderColor: "#d63384"
+  },
+  // 018 — Gamma
+  {
+    id: "tool-002",
+    name: "Gamma",
+    url: "https://gamma.app/",
+    category: ["Web Design","Presentations"],
+    description: "AI-powered tool for presentations, micro-websites, and visuals generated from text prompts.",
+    keyFeatures: [
+      "AI presentation generation",
+      "Multi-format export",
+      "Website creation",
+      "Real-time collaboration",
+      "Template library"
+    ],
+    subscription: ["Paid"],
+    account: "admin@rh-s.com",
+    lastUpdated: "2025-11-17",
+    whatsNew: "Valid until 11/25/2025 for 1 account.",
+    profession: ["Project Manager","Product Manager","Content Manager","Sales Manager"],
+    responsibility: ["Create Presentations","Design Websites","Write Content"],
+    department: ["Managers","Marketers","Designers","AI"],
+    borderColor: "#dc3545"
+  },
+
+  // 019 — OpenRouter
+  {
+    id: "tool-037",
+    name: "OpenRouter",
+    url: "https://openrouter.ai/",
+    category: ["AI Models / Developer Tools"],
+    description: "Universal API for running multiple AI models from various providers.",
+    keyFeatures: [
+      "Multi-model access",
+      "Usage tracking",
+      "Flexible pricing",
+      "Unified API"
+    ],
+    subscription: ["Freemium"],
+    account: "admin@rh-s.com",
+    lastUpdated: "2025-11-17",
+    whatsNew: "Freemium plan active.",
+    profession: ["Developers","AI Engineers"],
+    responsibility: ["Manage Information","Run Models"],
+    department: ["Developers","AI"],
+    borderColor: "#808080"
+  },
+
+  // 020 — Loom
+  {
+    id: "tool-038",
+    name: "Loom",
+    url: "https://www.loom.com/",
+    category: ["Video Generation","Productivity"],
+    description: "Video messaging and screen recording platform for async communication.",
+    keyFeatures: [
+      "Screen recording",
+      "Instant sharing",
+      "Workspace collaboration",
+      "Camera + screen mode",
+      "Fast exporting"
+    ],
+    subscription: ["Paid"],
+    account: "admin@rh-s.com",
+    lastUpdated: "2025-11-17",
+    whatsNew: "Valid until 11/18/2025 for 1 account.",
+    profession: ["All Professionals"],
+    responsibility: ["Manage Information"],
+    department: ["AI","Developers","Marketers","Designers"],
+    borderColor: "#28a745"
+  },
+
+  // 021 — hailuoai.video
+  {
+    id: "tool-039",
+    name: "hailuoai.video",
+    url: "https://hailuoai.video/",
+    category: ["Video Generation"],
+    description: "Simple AI tool for creating short videos and assets.",
+    keyFeatures: ["Easy-to-use tools","Fast export"],
+    subscription: ["Freemium"],
+    account: "dd@rh-s.com",
+    lastUpdated: "2025-11-17",
+    whatsNew: "Valid until 6/21/2025.",
+    profession: ["All Professionals"],
+    responsibility: ["Manage Information"],
+    department: ["Developers"],
+    borderColor: "#808080"
+  },
+
+  // 022 — Hailo
+  {
+    id: "tool-040",
+    name: "Hailo",
+    url: "https://hailo.ai/",
+    category: ["Tools"],
+    description: "AI tool for Developers team.",
+    keyFeatures: ["AI-powered features","User-friendly interface"],
+    subscription: ["Freemium"],
+    account: "dd@rh-s.com",
+    lastUpdated: "2025-11-17",
+    whatsNew: "Valid until 6/21/2025.",
+    profession: ["All Professionals"],
+    responsibility: ["Manage Information"],
+    department: ["Developers"],
+    borderColor: "#808080"
+  },
+
+  // 023 — n8n
+  {
+    id: "tool-001",
+    name: "n8n",
+    url: "https://n8n.io/",
+    category: ["Automation","Developer Utilities"],
+    description: "Workflow automation platform with 400+ integrations.",
+    keyFeatures: [
+      "Visual workflow builder",
+      "400+ integrations",
+      "Self-hosted support",
+      "Custom functions"
+    ],
+    subscription: ["Paid"],
+    account: "admin@rh-s.com",
+    lastUpdated: "2025-11-17",
+    whatsNew: "Valid until 11/26/2025.",
+    profession: ["Backend Developer","SysAdmin","Project Manager"],
+    responsibility: ["Automate Workflows","Write Code","Manage Information"],
+    department: ["Developers","Managers"],
+    borderColor: "#28a745"
+  },
+
+  // 024 — Manus
+  {
+    id: "tool-041",
+    name: "Manus",
+    url: "https://manus.im/app",
+    category: ["AI Assistant"],
+    description: "Lightweight AI assistant for developers and teams.",
+    keyFeatures: ["AI-powered features","Team utilities"],
+    subscription: ["Freemium"],
+    account: "admin@rh-s.com",
+    lastUpdated: "2025-11-17",
+    whatsNew: "Valid until 9/25/2025.",
+    profession: ["All Professionals"],
+    responsibility: ["Manage Information"],
+    department: ["Developers"],
+    borderColor: "#808080"
+  },
+
+  // 025 — Hedra
+  {
+    id: "tool-042",
+    name: "Hedra",
+    url: "https://www.hedra.com/",
+    category: ["Video Generation","AI Assistant"],
+    description: "AI video platform with avatars and video editing tools.",
+    keyFeatures: [
+      "Video generation",
+      "AI-powered avatars",
+      "Editing features"
+    ],
+    subscription: ["Paid"],
+    account: "admin@rh-s.com",
+    lastUpdated: "2025-11-17",
+    whatsNew: "Valid until 11/8/2025.",
+    profession: ["All Professionals"],
+    responsibility: ["Manage Information"],
+    department: ["Videograph"],
+    borderColor: "#28a745"
+  },
+
+  // 026 — Vozo AI
+  {
+    id: "tool-043",
+    name: "Vozo AI",
+    url: "https://app.vozo.ai/",
+    category: ["Video Generation"],
+    description: "AI tool for video creators.",
+    keyFeatures: ["AI features","User-friendly interface"],
+    subscription: ["Freemium"],
+    account: "admin@rh-s.com",
+    lastUpdated: "2025-11-17",
+    whatsNew: "Valid until 10/26/2025.",
+    profession: ["Videograph"],
+    responsibility: ["Manage Information"],
+    department: ["Videograph"],
+    borderColor: "#808080"
+  },
+
+  // 027 — HeyGen
+  {
+    id: "tool-044",
+    name: "HeyGen",
+    url: "https://www.heygen.com/",
+    category: ["Video Generation","AI Assistant"],
+    description: "AI-powered video generator with avatars and voice cloning.",
+    keyFeatures: [
+      "AI avatars",
+      "Voice cloning",
+      "Multilingual support",
+      "Professional video generation"
+    ],
+    subscription: ["Paid"],
+    account: "admin@rh-s.com",
+    lastUpdated: "2025-11-17",
+    whatsNew: "Valid until 11/27/2025.",
+    profession: ["All Professionals"],
+    responsibility: ["Manage Information"],
+    department: ["Videograph"],
+    borderColor: "#28a745"
+  },
+
+  // 028 — Google Cloud 
+  {
+    id: "tool-045",
+    name: "Google Cloud (AI)",
+    url: "https://cloud.google.com/",
+    category: ["AI Models / Developer Tools"],
+    description: "Google’s cloud AI infrastructure and APIs.",
+    keyFeatures: ["AI APIs","Compute","ML tools"],
+    subscription: ["Freemium"],
+    account: "admin@rh-s.com",
+    lastUpdated: "2025-11-17",
+    whatsNew: "Valid until 10/21/2025.",
+    profession: ["Developers"],
+    responsibility: ["Manage Information"],
+    department: ["Developers"],
+    borderColor: "#808080"
+  },
+
+  // 029 — Wispr Flow
+  {
+    id: "tool-046",
+    name: "Wispr Flow",
+    url: "https://wisprflow.ai/",
+    category: ["Marketing / AI Assistant"],
+    description: "AI tool for marketing and productivity automation.",
+    keyFeatures: ["AI workflows","Marketing support"],
+    subscription: ["Paid"],
+    account: "Multiple accounts: admin@rh-s.com, niko@rh-s.com",
+    lastUpdated: "2025-11-17",
+    whatsNew: "Valid until 11/7/2025 for 2 accounts.",
+    profession: ["All Professionals"],
+    responsibility: ["Manage Information"],
+    department: ["Marketers","Managers","Developers","AI","Designers","Videograph"],
+    borderColor: "#808080"
+  },
+  // 030 — Dropbox Dash
+  {
+    id: "tool-011",
+    name: "Dropbox Dash",
+    url: "https://www.dropbox.com/products/dash",
+    category: ["Productivity","AI Assistant"],
+    description: "Universal AI search tool that connects and searches across all apps and files.",
+    keyFeatures: [
+      "Universal Search",
+      "AI Summaries",
+      "Third-party app connections",
+      "Smart organization",
+      "Fast file access"
+    ],
+    subscription: ["Paid"],
+    account: "Multiple accounts: dev@rh-s.com, admin@rh-s.com, lg@rh-s.com, niko@rh-s.com, content@rh-s.com, dd@rh-s.com",
+    lastUpdated: "2025-11-17",
+    whatsNew: "Valid until 12/4/2025 for 6 accounts.",
+    profession: ["All Professionals"],
+    responsibility: ["Manage Information","Research Topics","Summarize Documents"],
+    department: ["All Departments"],
+    borderColor: "#d63384"
+  },
+
+  // 031 — TurboScribe
+  {
+    id: "tool-047",
+    name: "TurboScribe",
+    url: "https://turboscribe.ai/",
+    category: ["Transcription","AI Assistant"],
+    description: "AI transcription tool for converting audio/video into clean text.",
+    keyFeatures: [
+      "Accurate transcription",
+      "Fast processing",
+      "Speaker detection",
+      "Export to multiple formats"
+    ],
+    subscription: ["Paid"],
+    account: "admin@rh-s.com",
+    lastUpdated: "2025-11-17",
+    whatsNew: "Valid until 12/4/2025.",
+    profession: ["All Professionals"],
+    responsibility: ["Manage Information","Summarize Documents"],
+    department: ["Videograph","Designers","Marketers"],
+    borderColor: "#808080"
+  },
+
+  // 032 — WHALESWING
+  {
+    id: "tool-048",
+    name: "WHALESWING",
+    url: "https://whaleswing.com/",
+    category: ["Developer Utilities"],
+    description: "AI-powered developer assistant for experiments and debugging.",
+    keyFeatures: [
+      "AI tools",
+      "Developer utilities",
+      "Fast deployment"
+    ],
+    subscription: ["Freemium"],
+    account: "admin@rh-s.com",
+    lastUpdated: "2025-11-17",
+    whatsNew: "Freemium plan active.",
+    profession: ["All Professionals"],
+    responsibility: ["Manage Information"],
+    department: ["Developers"],
+    borderColor: "#808080"
+  },
+
+  // 033 — Notion
+  {
+    id: "tool-028",
+    name: "Notion",
+    url: "https://www.notion.so/",
+    category: ["Productivity","AI Assistant"],
+    description: "All-in-one workspace with AI tools for content creation and organization.",
+    keyFeatures: [
+      "AI Writing Assistant",
+      "Databases",
+      "Templates",
+      "Team Collaboration",
+      "Custom Workflows"
+    ],
+    subscription: ["Paid"],
+    account: "admin@rh-s.com",
+    lastUpdated: "2025-11-17",
+    whatsNew: "Valid until 6/19/2026 for 1 account.",
+    profession: ["Managers","Marketers","Analysts","HR"],
+    responsibility: ["Manage Information","Write Content","Create Presentations","Analyze Data"],
+    department: ["Managers","Marketers","AI"],
+    borderColor: "#dc3545"
+  },
+
+  // 034 — Envato Elements AI
+  {
+    id: "tool-010",
+    name: "Envato Elements AI",
+    url: "https://elements.envato.com/ai",
+    category: ["Image Generation","Design"],
+    description: "AI tool for high-quality commercial images and creative assets.",
+    keyFeatures: [
+      "Commercial license",
+      "Large asset library",
+      "AI image generation",
+      "Style customization"
+    ],
+    subscription: ["Paid"],
+    account: "unknown@rh-s.com",
+    lastUpdated: "2025-11-17",
+    whatsNew: "Valid until 8/7/2026.",
+    profession: ["UI/UX Designer","Graphic Designer","Content Manager"],
+    responsibility: ["Generate Images","Source Assets"],
+    department: ["Designers","Marketers"],
+    borderColor: "#6f42c1"
+  },
+
+  // 035 — Freepik
+  {
+    id: "tool-049",
+    name: "Freepik",
+    url: "https://www.freepik.com/",
+    category: ["Design","Image Generation"],
+    description: "Creative marketplace and AI image generator for commercial assets.",
+    keyFeatures: ["AI-powered tools","Large resource library"],
+    subscription: ["Paid"],
+    account: "dd@rh-s.com",
+    lastUpdated: "2025-11-17",
+    whatsNew: "Valid until 8/8/2026.",
+    profession: ["Designers"],
+    responsibility: ["Manage Information"],
+    department: ["Designers"],
+    borderColor: "#808080"
+  },
+
+  // 036 — Suno
+  {
+    id: "tool-050",
+    name: "Suno",
+    url: "https://sunoai-music.com/",
+    category: ["Audio Generation"],
+    description: "AI music generator for creating full songs instantly.",
+    keyFeatures: [
+      "Full song generation",
+      "Lyrics + vocals",
+      "Genre control"
+    ],
+    subscription: ["Paid"],
+    account: "admin@rh-s.com",
+    lastUpdated: "2025-11-17",
+    whatsNew: "Valid until 11/29/2025.",
+    profession: ["Videograph","Designers","Creatives"],
+    responsibility: ["Generate Audio","Manage Information"],
+    department: ["Videograph"],
+    borderColor: "#808080"
+  },
+
+  // 037 — ElevenLabs
+  {
+    id: "tool-051",
+    name: "ElevenLabs",
+    url: "https://elevenlabs.io/",
+    category: ["Audio Generation","AI Assistant"],
+    description: "Industry-leading text-to-speech and voice cloning platform.",
+    keyFeatures: [
+      "Ultra-realistic voices",
+      "Voice cloning",
+      "Multilingual",
+      "Fast generation"
+    ],
+    subscription: ["Free"],
+    account: "dd@rh-s.com",
+    lastUpdated: "2025-11-17",
+    whatsNew: "Free plan active.",
+    profession: ["Video Editors","Content Creators","Designers"],
+    responsibility: ["Create Voiceovers","Generate Audio"],
+    department: ["Designers","Video Editors","Marketing"],
+    borderColor: "#28a745"
+  },
+
+  // 038 — Adobe Firefly
+  {
+    id: "tool-052",
+    name: "Adobe Firefly",
+    url: "https://firefly.adobe.com/",
+    category: ["Image Generation","Design"],
+    description: "Adobe's AI image generator for commercial design workflows.",
+    keyFeatures: [
+      "Commercial license",
+      "Generative fill",
+      "Vector generation",
+      "High-quality output"
+    ],
+    subscription: ["Paid"],
+    account: "admin@rh-s.com",
+    lastUpdated: "2025-11-17",
+    whatsNew: "Valid until 12/17/2025.",
+    profession: ["Designers","Content Creators"],
+    responsibility: ["Generate Images","Enhance Photos"],
+    department: ["Designers"],
+    borderColor: "#808080"
+  }
+];
+
 
     // ==================== DATA - ACCOUNTS ====================
     const accounts = [
